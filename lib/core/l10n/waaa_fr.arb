@@ -1,0 +1,14 @@
+{
+    "appName": "WAAA",
+    "login": "Connexion",
+    "signup": "Inscription",
+    "email": "Email",
+    "password": "Mot de passe",
+    "username": "Nom d'utilisateur",
+    "password_forget": "Mot de passe oublié",
+    "auth_or_connect_with": "Ou se connecter avec",
+    "google": "Google",
+    "facebook": "Facebook",
+    "login_terms_label": "En cochant cette case, vous acceptez nos conditions générales et notre Politique de confidentialité",
+    "or_connect_with" : "Où se connecter avec"
+}

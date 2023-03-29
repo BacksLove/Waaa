@@ -1,0 +1,14 @@
+{
+    "appName": "WAAA",
+    "login": "Login",
+    "signup": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "password_forget": "Mot de passe oublié",
+    "auth_or_connect_with": "Ou se connecter avec",
+    "google": "Google",
+    "facebook": "Facebook",
+    "login_terms_label": "checking that case, you'll accept all of our policy terms",
+    "or_connect_with" : "Or connect with"
+}

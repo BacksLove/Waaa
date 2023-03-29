@@ -1,0 +1,89 @@
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waaa/core/theme/theme.dart';
+import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
+import 'package:waaa/features/auth/presentation/manager/signup_bloc/signup_bloc.dart';
+import 'package:waaa/features/auth/presentation/pages/auth_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:waaa/features/home/presentation/pages/home_page.dart';
+
+import 'amplifyconfiguration.dart';
+import 'features/auth/presentation/manager/login_bloc/login_bloc.dart';
+import 'features/users/presentation/manager/register_bloc.dart';
+import 'injection_container.dart' as di;
+import 'package:waaa/core/route/routes.dart' as route;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _amplifyConfigured = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeApp();
+  }
+
+  Future<void> _configureAmplify() async {
+    await Amplify.addPlugins([
+      AmplifyAPI(),
+      AmplifyAuthCognito(),
+    ]);
+    await Amplify.configure(amplifyconfig);
+  }
+
+  Future<void> _initializeApp() async {
+    await _configureAmplify();
+
+    setState(() {
+      _amplifyConfigured = true;
+    });
+  }
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => di.sl<LoginBloc>()),
+        BlocProvider(create: (context) => di.sl<SignupBloc>()),
+        BlocProvider(create: (context) => di.sl<RegisterBloc>()),
+        BlocProvider(create: (context) => di.sl<AuthBloc>()),
+      ],
+      child: MaterialApp(
+        title: 'Waaa',
+        theme: CustomTheme.lightTheme,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        onGenerateRoute: route.controller,
+        home: _amplifyConfigured
+            ? BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) {
+              if (state is AuthUnauthenticatedState) {
+                return const AuthPage();
+              } else if (state is AuthAuthenticatedState) {
+                return const HomePage();
+              } else {
+                return const CircularProgressIndicator();
+              }
+            }
+        )
+            : const CircularProgressIndicator(),
+      ),
+    );
+  }
+}
