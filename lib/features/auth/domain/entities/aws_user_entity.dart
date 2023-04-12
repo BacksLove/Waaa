@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/enums/gender.dart';
+import '../../../../core/enums/gender_enum.dart';
 import '../../../hobbies/domain/entities/hobby.dart';
 
 class AwsUser extends Equatable {

@@ -1,21 +1,20 @@
-import '../models/event_topic_model.dart';
+import 'package:waaa/features/events/domain/entities/event_topic_entity.dart';
 
 abstract class EventTopicRemoteDatasource {
-  Future<EventTopicModel> getAllEventTopic();
-  Future<EventTopicModel> getEventTopicById(String id);
+  Future<EventTopic> getAllEventTopic();
+  Future<EventTopic> getEventTopicById(String id);
 }
 
 class EventTopicRemoteDatasourceImpl implements EventTopicRemoteDatasource {
   @override
-  Future<EventTopicModel> getAllEventTopic() {
+  Future<EventTopic> getAllEventTopic() {
     // TODO: implement getAllEventTopic
     throw UnimplementedError();
   }
 
   @override
-  Future<EventTopicModel> getEventTopicById(String id) {
+  Future<EventTopic> getEventTopicById(String id) {
     // TODO: implement getEventTopicById
     throw UnimplementedError();
   }
-
 }

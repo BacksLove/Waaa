@@ -1,9 +1,5 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:waaa/core/constants/constants.dart';
-import 'package:waaa/injection_container.dart' as di;
-
-import '../../domain/entities/aws_user_entity.dart';
 
 abstract class AuthRemoteDataSource {
   Future<bool> loginWithEmail(String email, String password);
@@ -11,7 +7,9 @@ abstract class AuthRemoteDataSource {
   Future<bool> confirmSignUp(String email, String code);
   Future<bool> loginWithFacebook();
   Future<bool> loginWithGoogle();
-  Future<String> fetchCurrentUserAttributes();
+  Future<AuthSession> getCurrentAuthSession();
+  Future<AuthUser> getCurrentAuthUser();
+
   Future<void> logOut();
 }
 
@@ -21,15 +19,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<bool> loginWithEmail(String email, String password) async {
     try {
-     final result = await Amplify.Auth.signIn(
-       username: email,
-       password: password,
-     );
-     return result.isSignedIn;
-   } on AuthException catch(e) {
+      final result = await Amplify.Auth.signIn(
+        username: email,
+        password: password,
+      );
+      return result.isSignedIn;
+    } on AuthException catch (e) {
       safePrint(e.message);
-     return false;
-   }
+      return false;
+    }
   }
 
   @override
@@ -54,9 +52,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<bool> confirmSignUp(String email, String code) async {
     try {
       final result = await Amplify.Auth.confirmSignUp(
-          username: email,
-          confirmationCode: code
-      );
+          username: email, confirmationCode: code);
       return result.isSignUpComplete;
     } on AuthException catch (e) {
       safePrint(e.message);
@@ -76,20 +72,27 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     throw UnimplementedError();
   }
 
+  @override
+  Future<AuthSession> getCurrentAuthSession() async {
+    try {
+      AuthSession authUser = await Amplify.Auth.fetchAuthSession(
+        options: CognitoSessionOptions(getAWSCredentials: true),
+      );
+      return authUser;
+    } on AuthException catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
 
   @override
-  Future<String> fetchCurrentUserAttributes() async {
+  Future<AuthUser> getCurrentAuthUser() async {
     try {
-      final result = await Amplify.Auth.fetchUserAttributes();
-      for (final element in result) {
-        if (element.userAttributeKey == idKey) {
-          return element.value;
-        }
-      }
-      return "No Id found";
+      AuthUser authUser = await Amplify.Auth.getCurrentUser();
+      return authUser;
     } on AuthException catch (e) {
-      print(e.message);
-      return "No user";
+      print(e);
+      rethrow;
     }
   }
 
@@ -101,6 +104,4 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       safePrint(e.message);
     }
   }
-
-
 }

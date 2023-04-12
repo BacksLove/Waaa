@@ -1,19 +1,15 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:waaa/core/platform/network_info.dart';
 
-import '../../../../core/constants/constants.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../data_sources/auth_remote_datasource.dart';
-import 'package:waaa/injection_container.dart' as di;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
 
-  AuthRepositoryImpl({
-    required this.remoteDataSource,
-    required this.networkInfo
-  });
+  AuthRepositoryImpl(
+      {required this.remoteDataSource, required this.networkInfo});
 
   @override
   Future<bool> loginWithEmail(String email, String password) async {
@@ -56,10 +52,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<String> fetchCurrentUserAttributes() async {
+  Future<AuthSession> getCurrentAuthSession() async {
     await networkInfo.isConnected;
-    var id = await remoteDataSource.fetchCurrentUserAttributes();
-    return id;
+    var session = await remoteDataSource.getCurrentAuthSession();
+    return session;
+  }
+
+  @override
+  Future<AuthUser> getCurrentAuthUser() async {
+    await networkInfo.isConnected;
+    var authUser = await remoteDataSource.getCurrentAuthUser();
+    return authUser;
   }
 
   @override
@@ -67,5 +70,4 @@ class AuthRepositoryImpl implements AuthRepository {
     await remoteDataSource.logOut();
     print("User logged out");
   }
-
 }

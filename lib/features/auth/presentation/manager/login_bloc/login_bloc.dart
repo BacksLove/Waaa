@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waaa/core/constants/constants.dart';
 import 'package:waaa/core/usecases/usecase.dart';
-import 'package:waaa/features/auth/domain/use_cases/fetch_current_user.dart';
+import 'package:waaa/features/auth/domain/use_cases/get_current_auth_session.dart';
+import 'package:waaa/features/auth/domain/use_cases/get_current_auth_user%20copy.dart';
 import 'package:waaa/features/auth/domain/use_cases/log_out.dart';
 import 'package:waaa/features/auth/domain/use_cases/login_with_email.dart';
 import 'package:waaa/features/auth/presentation/manager/login_bloc/login_event.dart';
@@ -19,31 +22,42 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(this.authBloc) : super(LoginInitialState()) {
     on<LoginButtonPressed>(_onLoginButtonPressed);
     on<LogOutButtonPressed>(_onLogOutButtonPressed);
+    on<FacebookButtonPressed>(_onFacebookButtonPressed);
+    on<GoogleButtonPressed>(_onGoogleButtonPressed);
   }
 
-  void _onLoginButtonPressed(LoginButtonPressed event, Emitter<LoginState> emit) async {
+  void _onLoginButtonPressed(
+      LoginButtonPressed event, Emitter<LoginState> emit) async {
     emit(LoginLoadingState());
     try {
-      var login = await di.sl<LoginWithEmail>().call(Params(email: event.email, password: event.password));
-      var id = await di.sl<FetchCurrentUserAttributes>().call(NoParams());
+      var login = await di
+          .sl<LoginWithEmail>()
+          .call(Params(email: event.email, password: event.password));
+      var id = await di.sl<GetCurrentAuthUser>().call(NoParams());
       if (login) {
-        await di.sl<SharedPreferences>().setString(userIdKey, id);
-        authBloc.add(LoggedIn(id: id));
+        await di.sl<SharedPreferences>().setString(userIdKey, id.userId);
+        authBloc.add(LoggedIn(id: id.userId));
         emit(LoginSucceedState());
       } else {
         emit(LoginFailedState(errorMessage: "Wrong credentials"));
       }
     } catch (e) {
-      print(e);
+      rethrow;
     }
   }
 
-  void _onLogOutButtonPressed(LogOutButtonPressed event, Emitter<LoginState> emit) async {
+  void _onLogOutButtonPressed(
+      LogOutButtonPressed event, Emitter<LoginState> emit) async {
     try {
-      await di.sl<LogOut>().call(NoParams());
-      emit(LoginInitialState());
+      authBloc.add(LoggedOut());
     } catch (e) {
-      print(e);
+      rethrow;
     }
   }
+
+  void _onGoogleButtonPressed(
+      GoogleButtonPressed event, Emitter<LoginState> emit) {}
+
+  void _onFacebookButtonPressed(
+      FacebookButtonPressed event, Emitter<LoginState> emit) {}
 }

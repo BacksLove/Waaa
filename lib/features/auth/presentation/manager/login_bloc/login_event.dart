@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 abstract class LoginEvent extends Equatable {
   @override
   List<Object?> get props => [];
-
 }
 
 class LoginEmailChanged extends LoginEvent {
@@ -30,5 +29,9 @@ class LoginButtonPressed extends LoginEvent {
 
   LoginButtonPressed(this.email, this.password) : super();
 }
+
+class FacebookButtonPressed extends LoginEvent {}
+
+class GoogleButtonPressed extends LoginEvent {}
 
 class LogOutButtonPressed extends LoginEvent {}

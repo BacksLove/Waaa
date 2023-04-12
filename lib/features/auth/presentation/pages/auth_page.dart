@@ -25,40 +25,44 @@ class AuthPage extends StatelessWidget {
           }
         },
         child: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/authBackground.jpeg"),
-            fit: BoxFit.cover,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/authBackground.jpeg"),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(50),
-            child: Column(
-              children: [
-                const SizedBox(height: 350),
-                Text(
-                  AppLocalizations.of(context)!.appName,
-                  style: const TextStyle(color: Colors.white, fontSize: 33),
-                ),
-                const SizedBox(height: 171),
-                ElevatedButton(
-                    style: secondaryButton,
-                    onPressed: () { BlocProvider.of<AuthBloc>(context).add(LoginFlow()); },
-                    child: Text(AppLocalizations.of(context)!.login)
-                ),
-                const SizedBox(height: 14,),
-                ElevatedButton(
-                    style: outlinedWhiteButton,
-                    onPressed: () { BlocProvider.of<AuthBloc>(context).add(SignupFlow()); },
-                    child: Text(AppLocalizations.of(context)!.signup)
-                ),
-              ],
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(50),
+              child: Column(
+                children: [
+                  const SizedBox(height: 350),
+                  Text(
+                    AppLocalizations.of(context)!.appName,
+                    style: const TextStyle(color: Colors.white, fontSize: 33),
+                  ),
+                  const SizedBox(height: 171),
+                  ElevatedButton(
+                      style: secondaryButton,
+                      onPressed: () {
+                        Navigator.pushNamed(context, route.loginPage);
+                      },
+                      child: Text(AppLocalizations.of(context)!.login)),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  ElevatedButton(
+                      style: outlinedWhiteButton,
+                      onPressed: () {
+                        Navigator.pushNamed(context, route.signupPage);
+                      },
+                      child: Text(AppLocalizations.of(context)!.signup)),
+                ],
+              ),
             ),
           ),
         ),
       ),
-),
     );
   }
 }

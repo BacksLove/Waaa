@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:waaa/component/app_bar.dart';
+import 'package:waaa/core/enums/authentication_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/events/presentation/pages/event_detail_page.dart';
@@ -9,6 +10,9 @@ import 'package:waaa/features/users/domain/entities/user_entity.dart';
 
 import '../../../../core/theme/common_widget/button.dart';
 import '../../../events/domain/entities/event_entity.dart';
+
+import 'package:waaa/core/route/routes.dart' as route;
+import 'package:waaa/injection_container.dart' as di;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,24 +23,61 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late AuthBloc authBloc;
-  
+
   final _userNear = [
-    const User(username: "Stanley", photoUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"),
-    const User(username: "Cédric", photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSya5dwz7sppH6NGJVip5KpNHbO6feSmMVJoQ&usqp=CAU"),
-    const User(username: "Ralph", photoUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3000&q=80"),
-    const User(username: "Jeremy", photoUrl: "https://images.unsplash.com/photo-1624561172888-ac93c696e10c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=989&q=80"),
-    const User(username: "Boubakar", photoUrl: "https://img1.freepng.fr/20180409/rhe/kisspng-karlovy-vary-computer-icons-avatar-health-care-man-icon-5acb932fc01531.0083656115232909277868.jpg"),
-    const User(username: "Stanley", photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSya5dwz7sppH6NGJVip5KpNHbO6feSmMVJoQ&usqp=CAU"),
-    const User(username: "Stanley", photoUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"),
-    const User(username: "Stanley", photoUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3000&q=80"),
-    const User(username: "Stanley", photoUrl: "https://images.unsplash.com/photo-1624561172888-ac93c696e10c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=989&q=80"),
+    const User(
+        username: "Stanley",
+        photo:
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"),
+    const User(
+        username: "Cédric",
+        photo:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSya5dwz7sppH6NGJVip5KpNHbO6feSmMVJoQ&usqp=CAU"),
+    const User(
+        username: "Ralph",
+        photo:
+            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3000&q=80"),
+    const User(
+        username: "Jeremy",
+        photo:
+            "https://images.unsplash.com/photo-1624561172888-ac93c696e10c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=989&q=80"),
+    const User(
+        username: "Boubakar",
+        photo:
+            "https://img1.freepng.fr/20180409/rhe/kisspng-karlovy-vary-computer-icons-avatar-health-care-man-icon-5acb932fc01531.0083656115232909277868.jpg"),
+    const User(
+        username: "Stanley",
+        photo:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSya5dwz7sppH6NGJVip5KpNHbO6feSmMVJoQ&usqp=CAU"),
+    const User(
+        username: "Stanley",
+        photo:
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"),
+    const User(
+        username: "Stanley",
+        photo:
+            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3000&q=80"),
+    const User(
+        username: "Stanley",
+        photo:
+            "https://images.unsplash.com/photo-1624561172888-ac93c696e10c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=989&q=80"),
   ];
 
   final _eventsWaaa = [
-    const Event(name: "Les prisons de Manille", participants: [], address: "address", country: "Philipinnes", city: "Manille", photoUrl: "https://www.travelandleisure.com/thmb/3lMG0Y3CgAoqF8Sv-bxNQ9xcUFE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Boracay-PHILIPPINES0717-d6a7597bd2414650a0f7d31778347af6.jpg"),
-    const Event(name: "Big ben visit", participants: [], address: "address", country: "Angleterre", city: "Londre", photoUrl: "https://www.guidesulysse.com/images/destinations/iStock_000061870898_Full.jpg"),
-    const Event(name: "La seine en folie", participants: [], address: "address", country: "France", city: "Paris", photoUrl: "https://cdn.getyourguide.com/img/location/5ffeb392eb81e.jpeg/75.jpg"),
-    const Event(name: "Douala tour", participants: [], address: "address", country: "Cameroun", city: "Douala", photoUrl: "https://images.radio-canada.ca/q_auto,w_960/v1/ici-info/16x9/cameroun-yaounde-canada-mediateur-facilitateur-conflit.JPG"),
+    Event(
+        name: "name",
+        address: "address",
+        country: "country",
+        city: "city",
+        begin: DateTime.now(),
+        end: DateTime.now(),
+        createdAt: DateTime.now(),
+        hourBegin: 12,
+        maxParticipants: 130,
+        minParticipants: 2,
+        isPublic: true,
+        mainPhoto:
+            "https://res.klook.com/image/upload/Mobile/City/swox6wjsl5ndvkv5jvum.jpg")
   ];
 
   @override
@@ -47,35 +88,54 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MainAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: ListView(
-          children: [
-            const Text(
-              "Voyageurs autour de vous",
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            const SizedBox(height: 35,),
-            UserListCarrousel(userNear: _userNear, withName: false,),
-            EventsWaaa(listEvents: _eventsWaaa),
-            const SizedBox(height: 35,),
-            EventsUser(listEvents: _eventsWaaa),
-            const SizedBox(height: 35,),
-            EventsUser(listEvents: _eventsWaaa),
-          ],
-        )
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.status == AuthenticationStatus.unauthenticated) {
+          Navigator.popAndPushNamed(context, route.authPage);
+        }
+      },
+      child: Scaffold(
+        appBar: MainAppBar(),
+        body: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: ListView(
+              children: [
+                const Text(
+                  "Voyageurs autour de vous",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                const SizedBox(
+                  height: 35,
+                ),
+                UserListCarrousel(
+                  userNear: _userNear,
+                  withName: false,
+                ),
+                EventsWaaa(listEvents: _eventsWaaa),
+                const SizedBox(
+                  height: 35,
+                ),
+                EventsUser(listEvents: _eventsWaaa),
+                const SizedBox(
+                  height: 35,
+                ),
+                EventsUser(listEvents: _eventsWaaa),
+              ],
+            )),
       ),
     );
   }
 }
 
 class UserItemList extends StatelessWidget {
-  const UserItemList({super.key, required user, required isOnline, required withName}) : _currentUser = user, _isOnline = isOnline, _withName = withName;
+  const UserItemList(
+      {super.key, required user, required isOnline, required withName})
+      : _currentUser = user,
+        _isOnline = isOnline,
+        _withName = withName;
 
   final User _currentUser;
   final bool _isOnline;
@@ -95,30 +155,32 @@ class UserItemList extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                      image: NetworkImage(_currentUser.photoUrl!),
-                      fit: BoxFit.fitWidth
-                  ),
+                      image: NetworkImage(_currentUser.photo!),
+                      fit: BoxFit.fitWidth),
                 ),
               ),
-              _isOnline ?
-              Container(
-                width: 65,
-                height: 65,
-                alignment: Alignment.bottomRight,
-                margin: const EdgeInsets.only(top: 5),
-                child: Container(
-                  width: 15,
-                  height: 15,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: onlineColor,
-                      border: Border.all(color: Colors.white, width: 1)),
-                  child: const Text("")
-                ),
-              ) : Container()
+              _isOnline
+                  ? Container(
+                      width: 65,
+                      height: 65,
+                      alignment: Alignment.bottomRight,
+                      margin: const EdgeInsets.only(top: 5),
+                      child: Container(
+                          width: 15,
+                          height: 15,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: onlineColor,
+                              border:
+                                  Border.all(color: Colors.white, width: 1)),
+                          child: const Text("")),
+                    )
+                  : Container()
             ],
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           if (_withName)
             Text(
               _currentUser.username,
@@ -133,7 +195,6 @@ class UserItemList extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class UserListCarrousel extends StatelessWidget {
@@ -141,7 +202,8 @@ class UserListCarrousel extends StatelessWidget {
     super.key,
     required List<User> userNear,
     required bool withName,
-  }) : _userNear = userNear, _withName = withName;
+  })  : _userNear = userNear,
+        _withName = withName;
 
   final List<User> _userNear;
   final bool _withName;
@@ -154,18 +216,20 @@ class UserListCarrousel extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: _userNear.length,
           itemBuilder: (BuildContext context, int index) {
-            return
-              _userNear[index].photoUrl != null ?
-                  UserItemList(user: _userNear[index], isOnline: true, withName: _withName,)
-                  : const Placeholder();
-          }
-      ),
+            return _userNear[index].photo != null
+                ? UserItemList(
+                    user: _userNear[index],
+                    isOnline: true,
+                    withName: _withName,
+                  )
+                : const Placeholder();
+          }),
     );
   }
 }
 
 class EventsWaaa extends StatelessWidget {
-  const EventsWaaa({super.key, required listEvents}) : _listEvents = listEvents ;
+  const EventsWaaa({super.key, required listEvents}) : _listEvents = listEvents;
 
   final List<Event> _listEvents;
 
@@ -176,24 +240,20 @@ class EventsWaaa extends StatelessWidget {
       children: [
         const Text(
           "Events WAAA",
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold
-          ),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10.0),
         if (_listEvents.isNotEmpty)
-           Card (
-             elevation: 0,
-            child: Container (
+          Card(
+            elevation: 0,
+            child: Container(
               height: 170,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                image:  DecorationImage(
-                    image: NetworkImage(_listEvents.first.photoUrl),
-                    fit:BoxFit.cover
-                ),
+                image: DecorationImage(
+                    image: NetworkImage(_listEvents.first.mainPhoto),
+                    fit: BoxFit.cover),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, top: 20),
@@ -203,19 +263,19 @@ class EventsWaaa extends StatelessWidget {
                     Text(
                       _listEvents.first.city,
                       style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.white
-                      ),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.white),
                     ),
-                    const SizedBox(height: 5,),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     Text(
                       _listEvents.first.country,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
-                          color: Colors.white
-                      ),
+                          color: Colors.white),
                     ),
                   ],
                 ),
@@ -229,18 +289,17 @@ class EventsWaaa extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Card (
+                  child: Card(
                     elevation: 0,
-                    child: Container (
+                    child: Container(
                       height: 170,
                       padding: const EdgeInsets.all(10),
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
-                            image: NetworkImage(_listEvents[1].photoUrl),
-                            fit:BoxFit.cover
-                        ),
+                            image: NetworkImage(_listEvents[1].mainPhoto),
+                            fit: BoxFit.cover),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 10),
@@ -253,8 +312,7 @@ class EventsWaaa extends StatelessWidget {
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
-                                  color: Colors.white
-                              ),
+                                  color: Colors.white),
                             ),
                           ],
                         ),
@@ -263,18 +321,17 @@ class EventsWaaa extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: Card (
+                  child: Card(
                     elevation: 0,
-                    child: Container (
+                    child: Container(
                       height: 170,
                       padding: const EdgeInsets.all(10),
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
-                            image: NetworkImage(_listEvents[2].photoUrl),
-                            fit:BoxFit.cover
-                        ),
+                            image: NetworkImage(_listEvents[2].mainPhoto),
+                            fit: BoxFit.cover),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 10),
@@ -287,8 +344,7 @@ class EventsWaaa extends StatelessWidget {
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
-                                  color: Colors.white
-                              ),
+                                  color: Colors.white),
                             ),
                           ],
                         ),
@@ -298,22 +354,22 @@ class EventsWaaa extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        const SizedBox(
+          height: 10,
         ),
-        const SizedBox(height: 10,),
         if (_listEvents.isNotEmpty)
           ElevatedButton(
               style: primaryButton,
               onPressed: () {},
-              child: const Text("Voir tout")
-          ),
+              child: const Text("Voir tout")),
       ],
     );
   }
-
 }
 
 class EventsUser extends StatelessWidget {
-  const EventsUser({super.key, required listEvents}) : _listEvents = listEvents ;
+  const EventsUser({super.key, required listEvents}) : _listEvents = listEvents;
 
   final List<Event> _listEvents;
 
@@ -324,10 +380,7 @@ class EventsUser extends StatelessWidget {
       children: [
         const Text(
           "Event(s)",
-          style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold
-          ),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10.0),
         SizedBox(
@@ -338,21 +391,23 @@ class EventsUser extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => EventDetailPage(currentEvent: _listEvents[index])));
+                    di.sl<AuthBloc>().add(LoggedOut());
+                    /*Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EventDetailPage(
+                                currentEvent: _listEvents[index])));*/
                   },
-                  child: Card (
+                  child: Card(
                     elevation: 0,
-                    child: Container (
+                    child: Container(
                       height: 170,
                       width: MediaQuery.of(context).size.width / 2,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
-                            image: NetworkImage(_listEvents[index].photoUrl),
-                            fit:BoxFit.cover
-                        ),
+                            image: NetworkImage(_listEvents[index].mainPhoto),
+                            fit: BoxFit.cover),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 10, left: 10),
@@ -365,8 +420,7 @@ class EventsUser extends StatelessWidget {
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
-                                  color: Colors.white
-                              ),
+                                  color: Colors.white),
                             ),
                           ],
                         ),
@@ -374,10 +428,11 @@ class EventsUser extends StatelessWidget {
                     ),
                   ),
                 );
-              }
-          ),
+              }),
         ),
-        const SizedBox(height: 15,),
+        const SizedBox(
+          height: 15,
+        ),
         SizedBox(
           height: 35,
           child: Row(
@@ -386,10 +441,11 @@ class EventsUser extends StatelessWidget {
                 child: ElevatedButton(
                     style: outlinedBlackButton,
                     onPressed: () {},
-                    child: const Text("Tout voir")
-                ),
+                    child: const Text("Tout voir")),
               ),
-              const SizedBox(width: 10,),
+              const SizedBox(
+                width: 10,
+              ),
               Expanded(
                 child: ElevatedButton.icon(
                   style: primaryButton,
@@ -404,5 +460,4 @@ class EventsUser extends StatelessWidget {
       ],
     );
   }
-
 }

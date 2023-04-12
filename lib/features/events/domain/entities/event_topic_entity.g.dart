@@ -1,17 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'hobby_model.dart';
+part of 'event_topic_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-HobbyModel _$HobbyModelFromJson(Map<String, dynamic> json) => HobbyModel(
+EventTopic _$EventTopicFromJson(Map<String, dynamic> json) => EventTopic(
       id: json['id'] as String,
       name: json['name'] as String,
     );
 
-Map<String, dynamic> _$HobbyModelToJson(HobbyModel instance) =>
+Map<String, dynamic> _$EventTopicToJson(EventTopic instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

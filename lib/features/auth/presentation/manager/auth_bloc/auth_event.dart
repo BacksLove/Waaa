@@ -9,20 +9,37 @@ abstract class AuthEvent extends Equatable {
 
 class AppStarted extends AuthEvent {}
 
-class LoginFlow extends AuthEvent {}
+class AuthStateChangedEvent extends AuthEvent {
+  final AuthUser user;
+
+  const AuthStateChangedEvent({required this.user});
+}
 
 class LoggedIn extends AuthEvent {
   final String id;
 
   const LoggedIn({required this.id});
-}
 
-class SignupFlow extends AuthEvent {}
+  @override
+  List<Object?> get props => [id];
+}
 
 class SignedUp extends AuthEvent {
   final String id;
 
   const SignedUp({required this.id});
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class Registered extends AuthEvent {
+  final User user;
+
+  const Registered({required this.user});
+
+  @override
+  List<Object?> get props => [user];
 }
 
 class LoggedOut extends AuthEvent {}

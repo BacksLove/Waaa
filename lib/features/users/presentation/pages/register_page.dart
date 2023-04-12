@@ -7,7 +7,7 @@ import 'package:group_button/group_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
 
-import '../../../../core/enums/gender.dart';
+import '../../../../core/enums/gender_enum.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/common_widget/button.dart';
 import '../../../../core/theme/common_widget/group_button_style.dart';

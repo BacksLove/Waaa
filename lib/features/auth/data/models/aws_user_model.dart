@@ -1,4 +1,4 @@
-import '../../../../core/enums/gender.dart';
+import '../../../../core/enums/gender_enum.dart';
 import '../../../hobbies/domain/entities/hobby.dart';
 import '../../domain/entities/aws_user_entity.dart';
 

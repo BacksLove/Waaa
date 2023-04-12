@@ -8,11 +8,18 @@ import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart
 import 'package:waaa/features/auth/presentation/manager/signup_bloc/signup_bloc.dart';
 import 'package:waaa/features/auth/presentation/pages/auth_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:waaa/features/auth/presentation/pages/login_page.dart';
+import 'package:waaa/features/auth/presentation/pages/signup_page.dart';
+import 'package:waaa/features/events/presentation/pages/event_detail_page.dart';
 import 'package:waaa/features/home/presentation/pages/home_page.dart';
+import 'package:waaa/features/splashpage.dart';
 
 import 'amplifyconfiguration.dart';
+import 'core/enums/authentication_enum.dart';
 import 'features/auth/presentation/manager/login_bloc/login_bloc.dart';
+import 'features/events/domain/entities/event_entity.dart';
 import 'features/users/presentation/manager/register_bloc.dart';
+import 'features/users/presentation/pages/register_page.dart';
 import 'injection_container.dart' as di;
 import 'package:waaa/core/route/routes.dart' as route;
 
@@ -62,7 +69,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => di.sl<LoginBloc>()),
         BlocProvider(create: (context) => di.sl<SignupBloc>()),
         BlocProvider(create: (context) => di.sl<RegisterBloc>()),
-        BlocProvider(create: (context) => di.sl<AuthBloc>()),
+        BlocProvider(create: (context) => di.sl<AuthBloc>()..add(AppStarted())),
       ],
       child: MaterialApp(
         title: 'Waaa',
@@ -71,19 +78,64 @@ class _MyAppState extends State<MyApp> {
         supportedLocales: AppLocalizations.supportedLocales,
         onGenerateRoute: route.controller,
         home: _amplifyConfigured
-            ? BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
-              if (state is AuthUnauthenticatedState) {
-                return const AuthPage();
-              } else if (state is AuthAuthenticatedState) {
-                return const HomePage();
-              } else {
-                return const CircularProgressIndicator();
-              }
-            }
-        )
-            : const CircularProgressIndicator(),
+            ? const SplashPage()
+            : Scaffold(
+                body: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "WAAAAAAAAAAAAAA",
+                        style: TextStyle(
+                          fontSize: 35,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      CircularProgressIndicator()
+                    ],
+                  ),
+                ),
+              ),
       ),
     );
   }
 }
+
+
+/*
+
+BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+                switch (state.status) {
+                  case AuthenticationStatus.unknown:
+                    {
+                      var currentEvent = Event(
+                          name: "name",
+                          address: "address",
+                          country: "country",
+                          city: "city",
+                          begin: DateTime.now(),
+                          end: DateTime.now(),
+                          createdAt: DateTime.now(),
+                          hourBegin: 12,
+                          maxParticipants: 130,
+                          minParticipants: 2,
+                          isPublic: true,
+                          mainPhoto:
+                              "https://res.klook.com/image/upload/Mobile/City/swox6wjsl5ndvkv5jvum.jpg");
+                      return EventDetailPage(currentEvent: currentEvent);
+                      //di.sl<AuthBloc>().add(AppStarted());
+                      //return const CircularProgressIndicator();
+                    }
+                  case AuthenticationStatus.authenticated:
+                    return const HomePage();
+                  case AuthenticationStatus.unauthenticated:
+                    return const AuthPage();
+                  case AuthenticationStatus.register:
+                    return const RegisterPage();
+                }
+              })
+
+*/
