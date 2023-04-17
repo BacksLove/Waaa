@@ -1,12 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-
 class LoginState extends Equatable {
-
-  /*LoginState copyWith(String email, String password) {
-    return LoginState(email: email ?? this.email, password: password ?? this.password);
-  }*/
-
   @override
   List<Object?> get props => [];
 }

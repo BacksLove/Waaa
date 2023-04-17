@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waaa/component/snack_bar.dart';
+import 'package:waaa/core/enums/authentication_enum.dart';
+import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/common_widget/button.dart';
 import 'package:waaa/core/util/localized.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
@@ -13,7 +15,6 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 import 'package:waaa/injection_container.dart' as di;
 import 'package:waaa/core/route/routes.dart' as route;
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -29,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    loginBloc = BlocProvider.of<LoginBloc>(context);
+    loginBloc = di.sl<LoginBloc>();
     super.initState();
   }
 
@@ -41,92 +42,118 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(FeatherIcons.chevronLeft, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(FeatherIcons.chevronLeft, color: Colors.black),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
         ),
-      ),
-      body: BlocListener<LoginBloc, LoginState>(
-        listener: (context, state) {
-          if (state is LoginSucceedState) {
-            Navigator.pushNamed(context, route.homePage);
-          }
-          if (state is LoginFailedState) {
-            showSnackBar(context, state.errorMessage);
-          }
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Center(
-              child: Column(
+        body: BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state.status == AuthenticationStatus.registered) {
+              print("Ca passe ici");
+              Navigator.popAndPushNamed(context, route.registerPage);
+            }
+          },
+          child:
+              BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
+            if (state is LoginSucceedState) {
+              Navigator.popAndPushNamed(context, route.homePage);
+            }
+            if (state is LoginFailedState) {
+              showSnackBar(context, state.errorMessage);
+            }
+          }, builder: (context, state) {
+            return Padding(
+              padding: const EdgeInsets.all(20),
+              child: Center(
+                  child: Column(
                 children: [
                   // Title
-                  const SizedBox(height: 56,),
+                  const SizedBox(
+                    height: 56,
+                  ),
                   Text(
                     localized(context).login,
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24
-                    ),
+                        fontWeight: FontWeight.bold, fontSize: 24),
                   ),
-                  const SizedBox(height: 95,),
+                  const SizedBox(
+                    height: 95,
+                  ),
                   // TextFields
                   TextField(
                     controller: _emailField,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
                         hintText: localized(context).email,
                         enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                        )
-                    ),
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor))),
                   ),
-                  const SizedBox(height: 35,),
+                  const SizedBox(
+                    height: 35,
+                  ),
                   TextField(
                     controller: _passwordField,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
                       hintText: localized(context).password,
+                      iconColor: primaryColor,
                       enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor)),
+                      suffixIcon: IconButton(
+                        icon: loginBloc.isPasswordShowed
+                            ? const Icon(FeatherIcons.eye)
+                            : const Icon(FeatherIcons.eyeOff),
+                        onPressed: () => loginBloc.showPassword(),
                       ),
-                      suffixIcon: const Icon(FeatherIcons.eye),
                     ),
-                    obscureText: true,
+                    obscureText: loginBloc.isPasswordShowed,
                   ),
-                  const SizedBox(height: 15,),
-                  Text(
-                    localized(context).password_forget,
-                    textAlign: TextAlign.right,
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      localized(context).forgot_password,
+                      textAlign: TextAlign.right,
+                    ),
                   ),
                   // Buttons
-                  const SizedBox(height: 65,),
+                  const SizedBox(
+                    height: 65,
+                  ),
+                  /*if (state is LoginLoadingState)
+                          const CircularProgressIndicator(),*/
                   ElevatedButton(
                       style: primaryButton,
                       onPressed: () {
-                        loginBloc.add(LoginButtonPressed(_emailField.text, _passwordField.text));
-                        _emailField.clear();
+                        loginBloc.add(LoginButtonPressed(
+                            _emailField.text, _passwordField.text));
                         _passwordField.clear();
                       },
-                      child: Text(localized(context).login)
+                      child: Text(localized(context).login)),
+                  const SizedBox(
+                    height: 25,
                   ),
-                  const SizedBox(height: 25,),
-                  const Text("Or connect with"),
-                  const SizedBox(height: 25,),
+                  Text(
+                    localized(context).or_connect_with,
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
                   Row(
-                    children:  [
+                    children: [
                       Expanded(
                         child: ElevatedButton.icon(
-                          style: primaryButton,
+                          style: facebookButton,
                           onPressed: () {
                             loginBloc.add(LogOutButtonPressed());
                           },
@@ -134,26 +161,27 @@ class _LoginPageState extends State<LoginPage> {
                           icon: const Icon(FeatherIcons.facebook),
                         ),
                       ),
-                      const SizedBox(width: 15,),
+                      const SizedBox(
+                        width: 15,
+                      ),
                       Expanded(
-                        child: ElevatedButton(
-                            style: secondaryButton,
-                            onPressed: () {},
-                            child: Text(localized(context).google)
+                        child: ElevatedButton.icon(
+                          style: googleButton,
+                          onPressed: () {},
+                          label: Text(localized(context).google),
+                          icon: const Icon(FeatherIcons.twitter),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 50),
                   Text(
-                    localized(context).login_terms_label,
+                    localized(context).term_and_policy,
                   )
                 ],
-              )
-          ),
-        )
-      )
-    );
+              )),
+            );
+          }),
+        ));
   }
 }
-

@@ -5,7 +5,8 @@ import 'package:waaa/features/events/presentation/pages/event_detail_page.dart';
 import 'package:waaa/features/users/presentation/pages/register_page.dart';
 
 import '../../features/auth/presentation/pages/login_page.dart';
-import '../../features/home/presentation/pages/home_page.dart';
+import '../../features/events/domain/entities/event_entity.dart';
+import '../../features/home/presentation/pages/main_page.dart';
 import '../../features/home/presentation/pages/settings_page.dart';
 
 // Route Names
@@ -35,9 +36,17 @@ Route<dynamic> controller(RouteSettings settings) {
     case registerPage:
       return MaterialPageRoute(builder: (context) => const RegisterPage());
     case homePage:
-      return MaterialPageRoute(builder: (context) => const HomePage());
+      return MaterialPageRoute(builder: (context) => const MainPage());
     case settingsPage:
       return MaterialPageRoute(builder: (context) => const SettingPage());
+    case eventDetailPage:
+      {
+        final Event event = settings.arguments as Event;
+
+        return MaterialPageRoute(
+            builder: (context) => EventDetailPage(currentEvent: event));
+      }
+
     default:
       throw ('This route name does not exit');
   }

@@ -1,7 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../../core/enums/gender_enum.dart';
+import '../../../events/domain/entities/event_entity.dart';
 import '../../../hobbies/domain/entities/hobby.dart';
 
 part 'user_entity.g.dart';
@@ -18,6 +20,7 @@ class User extends Equatable {
   final String? nativeLanguage;
   final List<String>? languagesSpeak;
   final List<Hobby>? hobbies;
+  final List<Event>? events;
   final bool suspended = false;
   final DateTime? suspendedUntil;
   final int? reporting;
@@ -37,6 +40,7 @@ class User extends Equatable {
       this.nativeLanguage,
       this.languagesSpeak,
       this.hobbies,
+      this.events,
       this.suspendedUntil,
       this.reporting,
       this.openDiscussion,
@@ -45,10 +49,17 @@ class User extends Equatable {
       this.createdAt})
       : super();
 
-  @override
-  List<Object?> get props => [];
-
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  @override
+  List<Object> get props {
+    return [
+      username,
+    ];
+  }
+
+  @override
+  bool get stringify => true;
 }

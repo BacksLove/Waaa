@@ -10,11 +10,11 @@ class GenderConverter implements JsonConverter<Gender, String> {
   Gender fromJson(String json) {
     switch (json) {
       case 'male':
-        return Gender.male;
+        return Gender.MALE;
       case 'female':
-        return Gender.female;
+        return Gender.FEMALE;
       case 'other':
-        return Gender.other;
+        return Gender.OTHER;
       default:
         throw ArgumentError('Invalid value $json for Gender enum.');
     }
@@ -23,11 +23,11 @@ class GenderConverter implements JsonConverter<Gender, String> {
   @override
   String toJson(Gender object) {
     switch (object) {
-      case Gender.male:
+      case Gender.MALE:
         return 'male';
-      case Gender.female:
+      case Gender.FEMALE:
         return 'female';
-      case Gender.other:
+      case Gender.OTHER:
         return 'other';
       default:
         throw ArgumentError('Invalid value $object for Gender enum.');

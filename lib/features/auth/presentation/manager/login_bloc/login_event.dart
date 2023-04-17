@@ -30,6 +30,8 @@ class LoginButtonPressed extends LoginEvent {
   LoginButtonPressed(this.email, this.password) : super();
 }
 
+class ShowPasswordPressed extends LoginEvent {}
+
 class FacebookButtonPressed extends LoginEvent {}
 
 class GoogleButtonPressed extends LoginEvent {}

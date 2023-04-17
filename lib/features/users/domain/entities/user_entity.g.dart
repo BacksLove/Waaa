@@ -20,8 +20,11 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       languagesSpeak: (json['languagesSpeak'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      hobbies: (json['hobbies'] as List<dynamic>?)
+      hobbies: (json['hobbies']['items'] as List<dynamic>?)
           ?.map((e) => Hobby.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      events: (json['events']['items'] as List<dynamic>?)
+          ?.map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
       suspendedUntil: json['suspendedUntil'] == null
           ? null
@@ -29,7 +32,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       reporting: json['reporting'] as int?,
       openDiscussion: json['openDiscussion'] as bool?,
       privacy: json['privacy'] as bool?,
-      photo: json['photoUrl'] as String?,
+      photo: json['photo'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -46,16 +49,17 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'nativeLanguage': instance.nativeLanguage,
       'languagesSpeak': instance.languagesSpeak,
       'hobbies': instance.hobbies?.map((e) => e.toJson()).toList(),
+      'events': instance.events?.map((e) => e.toJson()).toList(),
       'suspendedUntil': instance.suspendedUntil?.toIso8601String(),
       'reporting': instance.reporting,
       'openDiscussion': instance.openDiscussion,
       'privacy': instance.privacy,
-      'photoUrl': instance.photo,
+      'photo': instance.photo,
       'createdAt': instance.createdAt?.toIso8601String(),
     };
 
 const _$GenderEnumMap = {
-  Gender.male: 'male',
-  Gender.female: 'female',
-  Gender.other: 'other',
+  Gender.MALE: 'MALE',
+  Gender.FEMALE: 'FEMALE',
+  Gender.OTHER: 'OTHER',
 };

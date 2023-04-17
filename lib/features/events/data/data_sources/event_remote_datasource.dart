@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:amplify_flutter/amplify_flutter.dart';
+
 import '../../domain/entities/event_entity.dart';
 
 abstract class EventRemoteDatasource {
@@ -10,15 +14,93 @@ abstract class EventRemoteDatasource {
 
 class EventRemoteDatasourceImpl implements EventRemoteDatasource {
   @override
-  Future<List<Event>> getEventsByUserId(String id) {
-    // TODO: implement getEventsByUserId
-    throw UnimplementedError();
+  Future<List<Event>> getEventsByUserId(String id) async {
+    List<Event> eventList = [];
+    try {
+      const doc = '''query MyQuery {
+  listEvents(filter: {userEventsId: {eq: "03fe759a-d30a-4b33-a2b8-8e2e205f0d49"}}) {
+    items {
+      address
+      begin
+      city
+      country
+      createdAt
+      description
+      end
+      hourBegin
+      id
+      hourEnd
+      isPublic
+      language
+      mainPhoto
+      maxParticipants
+      minAgeRestriction
+      minParticipants
+      name
+      photos
+      userEventsId
+    }
+  }
+}''';
+      var operation =
+          Amplify.API.query(request: GraphQLRequest<String>(document: doc));
+      var result = await operation.response;
+
+      if (result.data != null) {
+        var eventsJSON = json.decode(result.data!)["listEvents"]["items"];
+        eventList = (eventsJSON).map<Event>((e) => Event.fromJson(e)).toList();
+      }
+      print(eventList);
+      return eventList;
+    } on AuthException catch (e) {
+      safePrint(e.message);
+      return eventList;
+    }
   }
 
   @override
-  Future<List<Event>> getWaaEvents() {
-    // TODO: implement getWaaEvents
-    throw UnimplementedError();
+  Future<List<Event>> getWaaEvents() async {
+    List<Event> eventList = [];
+    try {
+      const doc = '''query MyQuery {
+  listEvents {
+    items {
+      address
+      begin
+      city
+      country
+      createdAt
+      description
+      end
+      hourBegin
+      id
+      hourEnd
+      isPublic
+      language
+      mainPhoto
+      maxParticipants
+      minAgeRestriction
+      minParticipants
+      name
+      photos
+      userEventsId
+    }
+  }
+}''';
+      var operation =
+          Amplify.API.query(request: GraphQLRequest<String>(document: doc));
+      var result = await operation.response;
+
+      if (result.data != null) {
+        var eventsJSON = json.decode(result.data!)["listEvents"]["items"];
+        eventList = (eventsJSON).map<Event>((e) => Event.fromJson(e)).toList();
+      }
+      print(eventList);
+      return eventList;
+    } on AuthException catch (e) {
+      safePrint(e.message);
+      return eventList;
+    }
   }
 
   @override
@@ -38,7 +120,4 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
     // TODO: implement updateEvent
     throw UnimplementedError();
   }
-
-
-
 }

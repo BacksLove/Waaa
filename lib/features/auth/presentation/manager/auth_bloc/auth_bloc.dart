@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -8,7 +6,6 @@ import 'package:waaa/core/constants/constants.dart';
 import 'package:waaa/core/enums/authentication_enum.dart';
 import 'package:waaa/core/usecases/usecase.dart';
 import 'package:waaa/features/auth/domain/use_cases/get_current_auth_session.dart';
-import 'package:waaa/features/auth/domain/use_cases/get_current_auth_user%20copy.dart';
 import 'package:waaa/features/users/domain/use_cases/get_user_by_id.dart';
 
 import 'package:waaa/injection_container.dart' as di;
@@ -36,36 +33,43 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _onAppStart(AppStarted event, Emitter<AuthState> emit) async {
     try {
-      late String? token;
       late User? user;
-      emit(const AuthState.unauthenticated());
-      final AuthSession session =
-          await di.sl<GetCurrentAuthSession>().call(NoParams());
-      if (session.isSignedIn) {
-        print("User loggé");
-        token = di.sl<SharedPreferences>().getString(userIdKey);
-        user = await di.sl<GetUserById>().call(GetUserByIdParams(id: token!));
-        if (user.username.isNotEmpty) {
-          print("C'est complet");
-          emit(AuthState.authenticated(user));
+      emit(const AuthState.unknown());
+      var token = di.sl<SharedPreferences>().getString(userIdKey);
+      if (token != null) {
+        final AuthSession session =
+            await di.sl<GetCurrentAuthSession>().call(NoParams());
+        if (session.isSignedIn) {
+          user = await di.sl<GetUserById>().call(GetUserByIdParams(id: token));
+          if (user != null) {
+            print("C'est good my man");
+            emit(AuthState.authenticated(user));
+          } else {
+            print("C'est dead , va t'enregistrer");
+            emit(const AuthState.registered());
+          }
         } else {
-          print("C'est incomplet frerot");
-          emit(const AuthState.registered());
+          emit(const AuthState.unauthenticated());
         }
       } else {
-        print("Pas d'utilisateur loggé");
         emit(const AuthState.unauthenticated());
       }
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
 
   void _onLogIn(LoggedIn event, Emitter<AuthState> emit) async {
+    print("Les choses sérieuses");
     User? user =
         await di.sl<GetUserById>().call(GetUserByIdParams(id: event.id));
-    emit(AuthState.authenticated(user));
+    if (user != null) {
+      print("C'est good my man");
+      emit(AuthState.authenticated(user));
+    } else {
+      print("C'est dead , va t'enregistrer");
+      emit(const AuthState.registered());
+    }
   }
 
   void _onSignUp(SignedUp event, Emitter<AuthState> emit) async {

@@ -10,7 +10,7 @@ class ConfirmSignUp extends UseCase<bool, ConfirmSignUpParams> {
 
   @override
   Future<bool> call(ConfirmSignUpParams params) async {
-    return await repository.loginWithEmail(params.email, params.code);
+    return await repository.confirmSignUp(params.email, params.code);
   }
 }
 

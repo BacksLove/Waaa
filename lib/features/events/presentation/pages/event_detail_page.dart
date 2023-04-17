@@ -6,17 +6,11 @@ import 'package:waaa/features/home/presentation/pages/home_page.dart';
 
 import '../../../users/domain/entities/user_entity.dart';
 
-class EventDetailPage extends StatefulWidget {
-  const EventDetailPage({Key? key, required this.currentEvent})
-      : super(key: key);
+class EventDetailPage extends StatelessWidget {
+  EventDetailPage({Key? key, required this.currentEvent}) : super(key: key);
 
   final Event currentEvent;
 
-  @override
-  State<EventDetailPage> createState() => _EventDetailPageState();
-}
-
-class _EventDetailPageState extends State<EventDetailPage> {
   final _organisateur = [
     const User(
         username: "Stanley",
@@ -73,13 +67,17 @@ class _EventDetailPageState extends State<EventDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: CustomScrollView(slivers: [
-      EventDetailAppBar(widget: widget),
+      EventDetailAppBar(
+        currentEvent: currentEvent,
+      ),
       SliverPadding(
         padding: const EdgeInsets.all(15),
         sliver: SliverList(
             delegate: SliverChildListDelegate([
           Text(
-            "Evenement public", // TODO: event['public']
+            currentEvent.isPublic
+                ? "Evenement public"
+                : "Evenement privé", // TODO: event['public']
             style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -89,7 +87,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
             height: 15,
           ),
           Text(
-            widget.currentEvent.name,
+            currentEvent.name,
             style: const TextStyle(
                 fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
           ),
@@ -225,20 +223,20 @@ class _EventDetailPageState extends State<EventDetailPage> {
               icon: FeatherIcons.checkCircle,
               tileKey: "Thème",
               tileValue: "festif"),
-          const EventDetailTile(
+          EventDetailTile(
               icon: FeatherIcons.penTool,
               tileKey: "Description",
-              tileValue:
-                  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat"),
-          const EventDetailTile(
+              tileValue: currentEvent.description ?? ""),
+          EventDetailTile(
               icon: FeatherIcons.mapPin,
               tileKey: "Lieu",
-              tileValue: "Rio, Brésil - Café A"),
-          const EventDetailTile(
+              tileValue:
+                  "${currentEvent.city}, ${currentEvent.country} - ${currentEvent.address}"),
+          EventDetailTile(
               icon: FeatherIcons.calendar,
               tileKey: "Date et heure",
               tileValue:
-                  "Début : 08/08/2020 à 20h00\nFin : 09/08/2020 à 20h00"),
+                  "Début : ${currentEvent.begin} à ${currentEvent.hourBegin}\nFin : ${currentEvent.end} à ${currentEvent.hourEnd}"),
           const SizedBox(
             height: 20,
           ),
@@ -385,10 +383,10 @@ class _EventDetailPageState extends State<EventDetailPage> {
 class EventDetailAppBar extends StatelessWidget {
   const EventDetailAppBar({
     super.key,
-    required this.widget,
+    required this.currentEvent,
   });
 
-  final EventDetailPage widget;
+  final Event currentEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -399,7 +397,7 @@ class EventDetailAppBar extends StatelessWidget {
       elevation: 0,
       flexibleSpace: FlexibleSpaceBar(
         background: Image.network(
-          widget.currentEvent.mainPhoto,
+          currentEvent.mainPhoto,
           fit: BoxFit.cover,
         ),
       ),

@@ -28,15 +28,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<List<User>> getEventUsers(String id) {
-    networkInfo.isConnected;
-    final remote = remoteDataSource.getEventUsers(id);
-
-    return remote;
-  }
-
-  @override
-  Future<User> getUserById(String id) {
+  Future<User?> getUserById(String id) {
     networkInfo.isConnected;
     final remote = remoteDataSource.getUserById(id);
 
@@ -44,7 +36,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<List<User>> getUsersByCity(String city) {
+  Future<List<User>?> getUsersByCity(String city) {
     networkInfo.isConnected;
     final remote = remoteDataSource.getUsersByCity(city);
 

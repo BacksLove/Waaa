@@ -19,27 +19,4 @@ class AuthState extends Equatable {
 
   @override
   List<Object?> get props => [status, user];
-
-  /*factory AuthState.initial() {
-    return const AuthState(
-        status: AuthenticationStatus.unknown, userId: "", user: null);
-  }
-
-  @override
-  List<Object?> get props => [status, userId, user];
-
-  AuthState copyWith({
-    AuthenticationStatus? status,
-    String? userId,
-    User? user,
-  }) {
-    return AuthState(
-      status: status ?? this.status,
-      userId: userId ?? this.userId,
-      user: user ?? this.user,
-    );
-  }
-
-  @override
-  bool get stringify => true;*/
 }

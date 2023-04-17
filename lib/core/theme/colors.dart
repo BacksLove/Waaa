@@ -9,3 +9,5 @@ Color yellowColor = const Color(0XFFFFDA00);
 Color lightGrayColor = const Color(0XFFACACAC);
 Color veryLightGrayColor = const Color(0XFFEEEEEE);
 Color onlineColor = const Color(0XFF2EECAB);
+Color facebookColor = const Color(0XFF3B5998);
+Color googleColor = const Color(0XFF0057E7);

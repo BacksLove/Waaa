@@ -4,13 +4,13 @@ import '../../../../core/usecases/usecase.dart';
 import '../entities/user_entity.dart';
 import '../repositories/user_repository.dart';
 
-class GetUserById extends UseCase<User, GetUserByIdParams> {
+class GetUserById extends UseCase<User?, GetUserByIdParams> {
   final UserRepository repository;
 
   GetUserById(this.repository);
 
   @override
-  Future<User> call(GetUserByIdParams params) async {
+  Future<User?> call(GetUserByIdParams params) async {
     return await repository.getUserById(params.id);
   }
 }

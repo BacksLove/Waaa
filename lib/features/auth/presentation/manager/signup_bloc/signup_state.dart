@@ -18,6 +18,8 @@ class SignupPasswordErrorState extends SignupState {
       "Le mot de passe entré ne respecte pas les conditions de validation.\nIl doit contenir au moins 8 caractères";
 }
 
+class SignupErrorState extends SignupState {}
+
 // Confirm Code field
 class SignupConfirmCodeState extends SignupState {}
 

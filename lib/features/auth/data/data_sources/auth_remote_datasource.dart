@@ -41,7 +41,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         password: password,
         options: CognitoSignUpOptions(userAttributes: userAttributes),
       );
-      return result.isSignUpComplete;
+      print(
+          "Enregistrement : ${result.isSignUpComplete}\nProchaine étape : ${result.nextStep}");
+      return true;
     } on AuthException catch (e) {
       safePrint(e.message);
       return false;
@@ -75,6 +77,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<AuthSession> getCurrentAuthSession() async {
     try {
+      await Amplify.Auth.fetchAuthSession();
       AuthSession authUser = await Amplify.Auth.fetchAuthSession(
         options: CognitoSessionOptions(getAWSCredentials: true),
       );

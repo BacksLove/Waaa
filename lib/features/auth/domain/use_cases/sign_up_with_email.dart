@@ -12,9 +12,6 @@ class SignUpWithEmail extends UseCase<bool, SignUpParams> {
   Future<bool> call(SignUpParams params) async {
     var result =
         await repository.signUpWithEmail(params.email, params.password);
-    if (result) {
-      await repository.getCurrentAuthSession();
-    }
     return result;
   }
 }

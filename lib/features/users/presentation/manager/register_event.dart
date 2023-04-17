@@ -13,18 +13,32 @@ class ValidateUsernameButtonPressed extends RegisterEvent {
   const ValidateUsernameButtonPressed({required this.username});
 }
 
-class ValidateCountriesButtonPressed extends RegisterEvent {
-  final String nationalityCountry;
-  final String residenceCountry;
+class ValidateCountriesButtonPressed extends RegisterEvent {}
 
-  const ValidateCountriesButtonPressed({required this.nationalityCountry, required this.residenceCountry});
+class ValidateLanguagesButtonPressed extends RegisterEvent {}
+
+class NationalityCountrySelected extends RegisterEvent {
+  final String nationalityCountry;
+
+  const NationalityCountrySelected({required this.nationalityCountry});
 }
 
-class ValidateLanguagesButtonPressed extends RegisterEvent {
-  final String nativeLanguage;
-  final List<String> otherSpeakLanguages;
+class ResidenceCountrySelected extends RegisterEvent {
+  final String residenceCountry;
 
-  const ValidateLanguagesButtonPressed({required this.nativeLanguage, required this.otherSpeakLanguages});
+  const ResidenceCountrySelected({required this.residenceCountry});
+}
+
+class NativeLanguageSelected extends RegisterEvent {
+  final String nativeLanguage;
+
+  const NativeLanguageSelected({required this.nativeLanguage});
+}
+
+class SpeakLanguagesSelected extends RegisterEvent {
+  final List<String> speakLanguages;
+
+  const SpeakLanguagesSelected({required this.speakLanguages});
 }
 
 class ValidateHobbiesButtonPressed extends RegisterEvent {
@@ -51,15 +65,4 @@ class ProvideImagePath extends RegisterEvent {
   const ProvideImagePath({required this.picturePath});
 }
 
-class RegisterCompleteEvent extends RegisterEvent {
-  final String username;
-  final String nationality;
-  final String residence;
-  final String nativeLanguage;
-  final List<String> spokenLanguages;
-  final List<int> selectedHobbies;
-  final String photoUrl;
-
-  const RegisterCompleteEvent({required this.username, required this.nationality, required this.residence, required this.nativeLanguage, required this.spokenLanguages, required this.selectedHobbies, required this.photoUrl});
-
-}
+class RegisterCompleteEvent extends RegisterEvent {}

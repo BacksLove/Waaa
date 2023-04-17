@@ -4,13 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waaa/core/constants/constants.dart';
 import 'package:waaa/core/usecases/usecase.dart';
-import 'package:waaa/features/auth/domain/use_cases/get_current_auth_session.dart';
-import 'package:waaa/features/auth/domain/use_cases/get_current_auth_user%20copy.dart';
-import 'package:waaa/features/auth/domain/use_cases/log_out.dart';
+import 'package:waaa/features/auth/domain/use_cases/get_current_auth_user.dart';
 import 'package:waaa/features/auth/domain/use_cases/login_with_email.dart';
 import 'package:waaa/features/auth/presentation/manager/login_bloc/login_event.dart';
 import 'package:waaa/features/auth/presentation/manager/login_bloc/login_state.dart';
-import '../../../domain/repositories/auth_repository.dart';
 
 import 'package:waaa/injection_container.dart' as di;
 
@@ -18,6 +15,7 @@ import '../auth_bloc/auth_bloc.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthBloc authBloc;
+  bool isPasswordShowed = false;
 
   LoginBloc(this.authBloc) : super(LoginInitialState()) {
     on<LoginButtonPressed>(_onLoginButtonPressed);
@@ -30,12 +28,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginButtonPressed event, Emitter<LoginState> emit) async {
     emit(LoginLoadingState());
     try {
+      print("On essaie");
       var login = await di
           .sl<LoginWithEmail>()
           .call(Params(email: event.email, password: event.password));
       var id = await di.sl<GetCurrentAuthUser>().call(NoParams());
       if (login) {
+        print("Tu es loggé");
         await di.sl<SharedPreferences>().setString(userIdKey, id.userId);
+        print(id.userId);
         authBloc.add(LoggedIn(id: id.userId));
         emit(LoginSucceedState());
       } else {
@@ -60,4 +61,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   void _onFacebookButtonPressed(
       FacebookButtonPressed event, Emitter<LoginState> emit) {}
+
+  bool showPassword() {
+    print("Fonction appelé = $isPasswordShowed");
+    isPasswordShowed = !isPasswordShowed;
+    return isPasswordShowed;
+  }
 }

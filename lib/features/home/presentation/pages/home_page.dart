@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:waaa/component/app_bar.dart';
 import 'package:waaa/core/enums/authentication_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
-import 'package:waaa/features/events/presentation/pages/event_detail_page.dart';
+import 'package:waaa/features/home/presentation/manager/home_bloc/home_bloc.dart';
 import 'package:waaa/features/users/domain/entities/user_entity.dart';
 
 import '../../../../core/theme/common_widget/button.dart';
@@ -22,7 +21,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late AuthBloc authBloc;
+  late HomeBloc homeBloc;
 
   final _userNear = [
     const User(
@@ -83,49 +82,52 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    authBloc = BlocProvider.of<AuthBloc>(context);
+    homeBloc = di.sl<HomeBloc>();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state.status == AuthenticationStatus.unauthenticated) {
-          Navigator.popAndPushNamed(context, route.authPage);
+    return BlocProvider(
+      create: (context) => homeBloc,
+      child: BlocConsumer<HomeBloc, HomeState>(listener: (context, state) {
+        if (state is HomeToEventDetailState) {
+          Navigator.pushNamed(context, route.eventDetailPage,
+              arguments: state.event);
         }
-      },
-      child: Scaffold(
-        appBar: MainAppBar(),
-        body: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: ListView(
-              children: [
-                const Text(
-                  "Voyageurs autour de vous",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.normal,
+      }, builder: (context, state) {
+        if (state is HomeLoadedState) {
+          return Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: ListView(
+                children: [
+                  const Text(
+                    "Voyageurs autour de vous",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 35,
-                ),
-                UserListCarrousel(
-                  userNear: _userNear,
-                  withName: false,
-                ),
-                EventsWaaa(listEvents: _eventsWaaa),
-                const SizedBox(
-                  height: 35,
-                ),
-                EventsUser(listEvents: _eventsWaaa),
-                const SizedBox(
-                  height: 35,
-                ),
-                EventsUser(listEvents: _eventsWaaa),
-              ],
-            )),
-      ),
+                  const SizedBox(
+                    height: 35,
+                  ),
+                  UserListCarrousel(
+                    userNear: _userNear,
+                    withName: false,
+                  ),
+                  EventsWaaa(listEvents: state.waaaEvents),
+                  const SizedBox(
+                    height: 35,
+                  ),
+                  EventsUser(listEvents: state.userEvents),
+                  const SizedBox(
+                    height: 35,
+                  ),
+                ],
+              ));
+        } else {
+          return Container();
+        }
+      }),
     );
   }
 }
@@ -391,12 +393,9 @@ class EventsUser extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () {
-                    di.sl<AuthBloc>().add(LoggedOut());
-                    /*Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EventDetailPage(
-                                currentEvent: _listEvents[index])));*/
+                    di
+                        .sl<HomeBloc>()
+                        .add(HomeEventPressed(event: _listEvents[index]));
                   },
                   child: Card(
                     elevation: 0,

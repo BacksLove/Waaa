@@ -31,7 +31,6 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> confirmSignUp(String email, String code) async {
     await networkInfo.isConnected;
     final remoteLogin = await remoteDataSource.confirmSignUp(email, code);
-    // C'est ici pour mettre les données en cache si besoin
     return remoteLogin;
   }
 

@@ -15,6 +15,10 @@ class AuthStateChangedEvent extends AuthEvent {
   const AuthStateChangedEvent({required this.user});
 }
 
+class GoToLoginScreen extends AuthEvent {}
+
+class GoToSignupScreen extends AuthEvent {}
+
 class LoggedIn extends AuthEvent {
   final String id;
 
