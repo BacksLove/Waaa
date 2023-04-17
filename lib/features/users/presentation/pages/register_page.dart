@@ -42,7 +42,9 @@ class _RegisterPageState extends State<RegisterPage> {
     return BlocListener<RegisterBloc, RegisterState>(
       listener: (context, state) {
         if (state.errorMessage != null) {
-          showSnackBar(context, state.errorMessage!);
+          if (state.errorMessage!.isNotEmpty) {
+            showSnackBar(context, state.errorMessage!);
+          }
         }
         if (state.status == RegisterStatus.complete) {
           Navigator.popAndPushNamed(context, route.homePage);

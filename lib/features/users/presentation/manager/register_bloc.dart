@@ -46,7 +46,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     try {
       if (event.username.isNotEmpty) {
         emit(state.copyWith(
-            status: RegisterStatus.countryStep, username: event.username));
+          status: RegisterStatus.countryStep,
+          username: event.username,
+          errorMessage: "",
+        ));
       } else {
         emit(state.copyWith(errorMessage: "username shouldn't be empty"));
       }
@@ -67,7 +70,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         emit(state.copyWith(
             errorMessage: "You have to select a country for residence"));
       } else {
-        emit(state.copyWith(status: RegisterStatus.languagesStep));
+        emit(state.copyWith(
+          status: RegisterStatus.languagesStep,
+          errorMessage: "",
+        ));
       }
     } catch (e) {
       emit(state.copyWith(errorMessage: e.toString()));
@@ -81,7 +87,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(state.copyWith(status: RegisterStatus.loading, errorMessage: ""));
       var hobbiesList = await di.sl<GetHobbies>().call(NoParams());
       emit(state.copyWith(
-          status: RegisterStatus.hobbiesStep, hobbies: hobbiesList));
+        status: RegisterStatus.hobbiesStep,
+        hobbies: hobbiesList,
+        errorMessage: "",
+      ));
     } catch (e) {
       emit(state.copyWith(errorMessage: e.toString()));
       rethrow;
@@ -92,9 +101,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       ValidateHobbiesButtonPressed event, Emitter<RegisterState> emit) async {
     try {
       emit(state.copyWith(
-          status: RegisterStatus.photoStep,
-          selectedHobbiesIndexes: event.hobbiesIndexes,
-          errorMessage: ""));
+        status: RegisterStatus.photoStep,
+        selectedHobbiesIndexes: event.hobbiesIndexes,
+        errorMessage: "",
+      ));
     } catch (e) {
       emit(state.copyWith(errorMessage: e.toString()));
       rethrow;
@@ -106,7 +116,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     try {
       emit(state.copyWith(errorMessage: ""));
       if (event.photoUrl.isNotEmpty) {
-        emit(state.copyWith(status: RegisterStatus.createUser));
+        emit(state.copyWith(
+          status: RegisterStatus.createUser,
+          errorMessage: "",
+        ));
       } else {
         emit(state.copyWith(errorMessage: "You have to choose a photo"));
       }
@@ -143,7 +156,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       NationalityCountrySelected event, Emitter<RegisterState> emit) {
     emit(state.copyWith(errorMessage: ""));
     if (event.nationalityCountry.isNotEmpty) {
-      emit(state.copyWith(nationality: event.nationalityCountry));
+      emit(state.copyWith(
+        nationality: event.nationalityCountry,
+        errorMessage: "",
+      ));
     } else {
       emit(state.copyWith(
           errorMessage: "An error occured when selecting the nationality"));
@@ -154,7 +170,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       ResidenceCountrySelected event, Emitter<RegisterState> emit) {
     emit(state.copyWith(errorMessage: ""));
     if (event.residenceCountry.isNotEmpty) {
-      emit(state.copyWith(residency: event.residenceCountry));
+      emit(state.copyWith(
+        residency: event.residenceCountry,
+        errorMessage: "",
+      ));
     } else {
       emit(state.copyWith(
           errorMessage: "An error occured when selecting the residence"));
@@ -165,7 +184,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       NativeLanguageSelected event, Emitter<RegisterState> emit) {
     emit(state.copyWith(errorMessage: ""));
     if (event.nativeLanguage.isNotEmpty) {
-      emit(state.copyWith(nativeLanguage: event.nativeLanguage));
+      emit(state.copyWith(
+        nativeLanguage: event.nativeLanguage,
+        errorMessage: "",
+      ));
     } else {
       emit(state.copyWith(
           errorMessage: "An error occured when selecting the native language"));
@@ -173,5 +195,26 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   void _onSpeakLanguagesSelected(
-      SpeakLanguagesSelected event, Emitter<RegisterState> emit) {}
+      SpeakLanguagesSelected event, Emitter<RegisterState> emit) {
+    try {
+      if (event.speakLanguage.isNotEmpty) {
+        List<String> speaks = List.from(state.spokenLanguages);
+        if (speaks.contains(event.speakLanguage)) {
+          emit(state.copyWith(errorMessage: "Country already selected"));
+        } else {
+          speaks.add(event.speakLanguage);
+          emit(state.copyWith(
+            spokenLanguages: speaks,
+            errorMessage: "",
+          ));
+        }
+      } else {
+        emit(state.copyWith(
+            errorMessage: "An error occured when selecting a spoken language"));
+      }
+    } catch (e) {
+      emit(state.copyWith(errorMessage: e.toString()));
+      rethrow;
+    }
+  }
 }

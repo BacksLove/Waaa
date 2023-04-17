@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
+import 'package:waaa/features/users/presentation/widgets/show_country_selected.dart';
 
 import 'package:waaa/injection_container.dart' as di;
 
@@ -37,40 +38,21 @@ class LanguageScreenWidget extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                (state.nationality.isNotEmpty)
-                    ? Column(
-                        children: [
-                          SvgPicture.asset(
-                            checkImageSvg,
-                            width: 35,
-                            height: 35,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            state.nationality,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 14),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                        ],
-                      )
-                    : Container(),
+                if (state.nativeLanguage.isNotEmpty)
+                  ShowCountrySelected(
+                    country: state.nativeLanguage,
+                  ),
                 CountryPicker(
-                    textButton: localized(context).select_a_residency,
+                    textButton: localized(context).select_your_native_language,
                     callback: (value) => {
-                          registerBloc.add(NationalityCountrySelected(
-                              nationalityCountry: value))
+                          registerBloc.add(
+                              NativeLanguageSelected(nativeLanguage: value))
                         }),
                 const SizedBox(
                   height: 60,
                 ),
                 Text(
-                  localized(context).select_a_residency,
+                  localized(context).select_other_spoken_languages,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 24),
@@ -78,34 +60,18 @@ class LanguageScreenWidget extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                (state.residency.isNotEmpty)
-                    ? Column(
-                        children: [
-                          SvgPicture.asset(
-                            checkImageSvg,
-                            width: 35,
-                            height: 35,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            state.residency,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 14),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                        ],
-                      )
-                    : Container(),
+                if (state.spokenLanguages.isNotEmpty)
+                  ShowCountryItemSelected(
+                      spokenLanguages: state.spokenLanguages),
+                const SizedBox(
+                  height: 20,
+                ),
                 CountryPicker(
-                    textButton: localized(context).select_a_residency,
+                    textButton:
+                        localized(context).select_other_spoken_languages,
                     callback: (value) => {
-                          registerBloc.add(
-                              ResidenceCountrySelected(residenceCountry: value))
+                          registerBloc
+                              .add(SpeakLanguagesSelected(speakLanguage: value))
                         }),
                 const SizedBox(
                   height: 100,
@@ -114,7 +80,7 @@ class LanguageScreenWidget extends StatelessWidget {
                     style: primaryButton,
                     onPressed: () {
                       BlocProvider.of<RegisterBloc>(context)
-                          .add(ValidateCountriesButtonPressed());
+                          .add(ValidateLanguagesButtonPressed());
                     },
                     child: Text(localized(context).next))
               ],

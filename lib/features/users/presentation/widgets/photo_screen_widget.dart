@@ -1,5 +1,6 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
 
 import 'package:waaa/injection_container.dart' as di;
@@ -53,10 +54,10 @@ class PhotoScreenWidget extends StatelessWidget {
                       style: BorderStyle.solid,
                     ),
                   ),
-                  child: Padding(
+                  child: Container(
                     padding: const EdgeInsets.all(80),
-                    child: CircleAvatar(
-                      child: Image.asset("assets/images/logoWaaa.png"),
+                    child: const CircleAvatar(
+                      child: Icon(FeatherIcons.image),
                     ),
                   ),
                 ),
@@ -77,6 +78,9 @@ class PhotoScreenWidget extends StatelessWidget {
               style: outlinedBlackButton,
               onPressed: () {},
               child: Text(localized(context).browse_from_media)),
+          const SizedBox(
+            height: 30,
+          ),
           ElevatedButton(
               style: primaryButton,
               onPressed: () {

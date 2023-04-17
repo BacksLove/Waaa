@@ -36,9 +36,9 @@ class NativeLanguageSelected extends RegisterEvent {
 }
 
 class SpeakLanguagesSelected extends RegisterEvent {
-  final List<String> speakLanguages;
+  final String speakLanguage;
 
-  const SpeakLanguagesSelected({required this.speakLanguages});
+  const SpeakLanguagesSelected({required this.speakLanguage});
 }
 
 class ValidateHobbiesButtonPressed extends RegisterEvent {

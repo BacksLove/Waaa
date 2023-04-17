@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:waaa/component/country_picker.dart';
-import 'package:waaa/core/constants/image_constants.dart';
 import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
+import 'package:waaa/features/users/presentation/widgets/show_country_selected.dart';
 
 import '../../../../core/theme/common_widget/button.dart';
 import '../../../../core/util/localized.dart';
@@ -37,29 +36,8 @@ class CountryScreenWidget extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                (state.nationality.isNotEmpty)
-                    ? Column(
-                        children: [
-                          SvgPicture.asset(
-                            checkImageSvg,
-                            width: 35,
-                            height: 35,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            state.nationality,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 14),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                        ],
-                      )
-                    : Container(),
+                if (state.nationality.isNotEmpty)
+                  ShowCountrySelected(country: state.nationality),
                 CountryPicker(
                     textButton: localized(context).select_a_residency,
                     callback: (value) => {
@@ -78,29 +56,8 @@ class CountryScreenWidget extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                (state.residency.isNotEmpty)
-                    ? Column(
-                        children: [
-                          SvgPicture.asset(
-                            checkImageSvg,
-                            width: 35,
-                            height: 35,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            state.residency,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 14),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                        ],
-                      )
-                    : Container(),
+                if (state.residency.isNotEmpty)
+                  ShowCountrySelected(country: state.residency),
                 CountryPicker(
                     textButton: localized(context).select_a_residency,
                     callback: (value) => {
