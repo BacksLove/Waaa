@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:waaa/core/util/json_to_graphql.dart';
 import '../../domain/entities/user_entity.dart';
 
 abstract class UserRemoteDatasource {
@@ -9,24 +11,39 @@ abstract class UserRemoteDatasource {
   Future<bool> createUser(User user);
   Future<bool> updateUser(User user);
   Future<bool> deleteUser(String id);
+  Future<String?> uploadUserPhoto(XFile file, String userId);
 }
 
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   @override
-  Future<bool> createUser(User user) {
-    // TODO: implement createUser
-    throw UnimplementedError();
+  Future<bool> createUser(User user) async {
+    try {
+      //var userJSon = user.toJson();
+      var userEncoded = json.encode(user);
+      var userGood = jsonToGraphql(userEncoded);
+      var doc = '''
+      mutation Mutation {
+          createUser(input: $userGood}) {
+            id,
+    username
+          }
+        } 
+    ''';
+      var operation =
+          Amplify.API.mutate(request: GraphQLRequest<String>(document: doc));
+      var result = await operation.response;
+      if (result.data != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      safePrint(e);
+      return false;
+    }
   }
 
   @override
   Future<bool> deleteUser(String id) {
-    // TODO: implement deletetUser
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<User>> getEventUsers(String id) {
-    // TODO: implement getEventUser
     throw UnimplementedError();
   }
 
@@ -92,24 +109,18 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
     }
   }
 }''';
-      print("Dans remote avant d'executer");
       var operation =
           Amplify.API.query(request: GraphQLRequest<String>(document: doc));
       var result = await operation.response;
-      print("Execution passée");
       if (result.data != null) {
-        print("On entre quand meme");
         var userJSON = json.decode(result.data!)["getUser"];
         if (userJSON != null) {
           var user = User.fromJson(userJSON);
-          print("Current User = ${user.username}");
           return user;
         }
       }
-      print("Loupé , pas trouvé en base");
       return null;
     } catch (e) {
-      print("Tchieeeee");
       safePrint(e);
       rethrow;
     }
@@ -117,13 +128,28 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
 
   @override
   Future<bool> updateUser(User user) {
-    // TODO: implement updateUser
     throw UnimplementedError();
   }
 
   @override
   Future<List<User>?> getUsersByCity(String city) async {
-    // TODO: implement getUsersByCity
     throw UnimplementedError();
+  }
+
+  @override
+  Future<String?> uploadUserPhoto(XFile file, String userId) async {
+    return "";
+    /*try {
+      final awsFile = AWSFilePlatform.fromFile(File(file.path));
+      final uploadResult = await Amplify.Storage.uploadFile(
+        local: awsFile,
+        key: 'profilePhotos/$userId.png',
+      ).result;
+      safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
+      return uploadResult.uploadedItem.key;
+    } on StorageException catch (e) {
+      safePrint('Error uploading file: ${e.message}');
+      rethrow;
+    }*/
   }
 }

@@ -10,7 +10,6 @@ import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/common_widget/button.dart';
 import 'package:waaa/core/util/localized.dart';
 
-import 'package:waaa/injection_container.dart' as di;
 import 'package:waaa/core/route/routes.dart' as route;
 
 import '../manager/signup_bloc/signup_bloc.dart';

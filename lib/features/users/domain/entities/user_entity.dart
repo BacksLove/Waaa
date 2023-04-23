@@ -8,9 +8,10 @@ import '../../../hobbies/domain/entities/hobby.dart';
 
 part 'user_entity.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, includeIfNull: false)
 class User extends Equatable {
   final String? id;
+  final String? cognitoUserPoolId;
   final String? role;
   final Gender? gender;
   final Gender? lookingFor;
@@ -31,6 +32,7 @@ class User extends Equatable {
 
   const User(
       {this.id,
+      this.cognitoUserPoolId,
       this.role,
       this.gender,
       this.lookingFor,

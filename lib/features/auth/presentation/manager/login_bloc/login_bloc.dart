@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waaa/core/constants/constants.dart';
@@ -28,17 +26,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginButtonPressed event, Emitter<LoginState> emit) async {
     emit(LoginLoadingState());
     try {
-      print("On essaie");
       var login = await di
           .sl<LoginWithEmail>()
           .call(Params(email: event.email, password: event.password));
       var id = await di.sl<GetCurrentAuthUser>().call(NoParams());
       if (login) {
-        print("Tu es loggé");
         await di.sl<SharedPreferences>().setString(userIdKey, id.userId);
-        print(id.userId);
-        authBloc.add(LoggedIn(id: id.userId));
         emit(LoginSucceedState());
+        authBloc.add(LoggedIn(id: id.userId));
       } else {
         emit(LoginFailedState(errorMessage: "Wrong credentials"));
       }
@@ -63,7 +58,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       FacebookButtonPressed event, Emitter<LoginState> emit) {}
 
   bool showPassword() {
-    print("Fonction appelé = $isPasswordShowed");
     isPasswordShowed = !isPasswordShowed;
     return isPasswordShowed;
   }

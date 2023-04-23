@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 CustomTheme currentTheme = CustomTheme();
 
@@ -15,29 +14,17 @@ class CustomTheme with ChangeNotifier {
   static ThemeData get lightTheme {
     return ThemeData(
       primaryColor: Colors.deepPurple,
-      backgroundColor: Colors.white,
       scaffoldBackgroundColor: Colors.white,
       fontFamily: 'Poppins',
-      textTheme: const TextTheme(
-        headline1: TextStyle(color: Colors.black),
-        headline2: TextStyle(color: Colors.black),
-        bodyText1: TextStyle(color: Colors.black),
-        bodyText2: TextStyle(color: Colors.black),
-      ),
+      textTheme: const TextTheme(),
     );
   }
 
   static ThemeData get darkTheme {
     return ThemeData(
       primaryColor: Colors.deepPurple,
-      backgroundColor: Colors.white,
       scaffoldBackgroundColor: Colors.white,
-      textTheme: const TextTheme(
-        headline1: TextStyle(color: Colors.black),
-        headline2: TextStyle(color: Colors.black),
-        bodyText1: TextStyle(color: Colors.black),
-        bodyText2: TextStyle(color: Colors.black),
-      ),
+      textTheme: const TextTheme(),
     );
   }
 }

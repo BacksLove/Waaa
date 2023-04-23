@@ -7,9 +7,6 @@ import 'package:waaa/core/theme/theme.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/auth/presentation/manager/signup_bloc/signup_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:waaa/features/auth/presentation/pages/login_page.dart';
-import 'package:waaa/features/home/presentation/pages/home_page.dart';
-import 'package:waaa/features/home/presentation/pages/main_page.dart';
 import 'package:waaa/splashpage.dart';
 
 import 'amplifyconfiguration.dart';
@@ -44,6 +41,7 @@ class _MyAppState extends State<MyApp> {
     await Amplify.addPlugins([
       AmplifyAPI(),
       AmplifyAuthCognito(),
+      //AmplifyStorageS3(),
     ]);
     await Amplify.configure(amplifyconfig);
   }

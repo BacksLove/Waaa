@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-class DropdownWidget<T> extends StatefulWidget {
+import '../core/theme/colors.dart';
+
+class WaaaDropdownWidget<T> extends StatefulWidget {
   final String labelText;
   final List<T> items;
   final T selectedItem;
   final void Function(T) onChanged;
 
-  DropdownWidget({
+  const WaaaDropdownWidget({
     Key? key,
     required this.labelText,
     required this.items,
@@ -15,10 +17,10 @@ class DropdownWidget<T> extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _DropdownWidgetState<T> createState() => _DropdownWidgetState<T>();
+  DropdownWidgetState<T> createState() => DropdownWidgetState<T>();
 }
 
-class _DropdownWidgetState<T> extends State<DropdownWidget<T>> {
+class DropdownWidgetState<T> extends State<WaaaDropdownWidget<T>> {
   late T _selectedItem;
 
   @override
@@ -29,13 +31,35 @@ class _DropdownWidgetState<T> extends State<DropdownWidget<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<T>(
+    return DropdownButtonFormField<T>(
+      decoration: InputDecoration(
+        labelText: widget.labelText,
+        labelStyle: TextStyle(
+          color: lightGrayColor,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: lightGrayColor,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: lightGrayColor,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+      ),
       value: _selectedItem,
       onChanged: (value) {
-        setState(() {
-          _selectedItem = value!;
-        });
-        widget.onChanged(value!);
+        if (value != null) {
+          setState(() {
+            _selectedItem = value;
+          });
+          widget.onChanged(value);
+        }
       },
       items: widget.items.map((item) {
         return DropdownMenuItem<T>(

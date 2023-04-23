@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:waaa/core/enums/authentication_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
-import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
+import 'package:waaa/core/util/localized.dart';
 import 'package:waaa/features/home/presentation/manager/home_bloc/home_bloc.dart';
 import 'package:waaa/features/users/domain/entities/user_entity.dart';
 
@@ -62,47 +61,33 @@ class _HomePageState extends State<HomePage> {
             "https://images.unsplash.com/photo-1624561172888-ac93c696e10c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=989&q=80"),
   ];
 
-  final _eventsWaaa = [
-    Event(
-        name: "name",
-        address: "address",
-        country: "country",
-        city: "city",
-        begin: DateTime.now(),
-        end: DateTime.now(),
-        createdAt: DateTime.now(),
-        hourBegin: 12,
-        maxParticipants: 130,
-        minParticipants: 2,
-        isPublic: true,
-        mainPhoto:
-            "https://res.klook.com/image/upload/Mobile/City/swox6wjsl5ndvkv5jvum.jpg")
-  ];
-
   @override
   void initState() {
-    super.initState();
     homeBloc = di.sl<HomeBloc>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    homeBloc.close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => homeBloc,
-      child: BlocConsumer<HomeBloc, HomeState>(listener: (context, state) {
-        if (state is HomeToEventDetailState) {
-          Navigator.pushNamed(context, route.eventDetailPage,
-              arguments: state.event);
-        }
-      }, builder: (context, state) {
-        if (state is HomeLoadedState) {
+      child: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+        if (state is HomeLoadingState) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is HomeLoadedState) {
           return Padding(
               padding: const EdgeInsets.all(15.0),
               child: ListView(
                 children: [
-                  const Text(
-                    "Voyageurs autour de vous",
-                    style: TextStyle(
+                  Text(
+                    localized(context).travelers_around_you,
+                    style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.normal,
                     ),
@@ -246,40 +231,46 @@ class EventsWaaa extends StatelessWidget {
         ),
         const SizedBox(height: 10.0),
         if (_listEvents.isNotEmpty)
-          Card(
-            elevation: 0,
-            child: Container(
-              height: 170,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(
-                    image: NetworkImage(_listEvents.first.mainPhoto),
-                    fit: BoxFit.cover),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, top: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _listEvents.first.city,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.white),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      _listEvents.first.country,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: Colors.white),
-                    ),
-                  ],
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, route.eventDetailPage,
+                  arguments: _listEvents[0]);
+            },
+            child: Card(
+              elevation: 0,
+              child: Container(
+                height: 170,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                      image: NetworkImage(_listEvents.first.mainPhoto),
+                      fit: BoxFit.cover),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20, top: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _listEvents.first.city,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.white),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        _listEvents.first.country,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -291,64 +282,76 @@ class EventsWaaa extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Card(
-                    elevation: 0,
-                    child: Container(
-                      height: 170,
-                      padding: const EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                            image: NetworkImage(_listEvents[1].mainPhoto),
-                            fit: BoxFit.cover),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              _listEvents[1].country,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color: Colors.white),
-                            ),
-                          ],
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, route.eventDetailPage,
+                          arguments: _listEvents[1]);
+                    },
+                    child: Card(
+                      elevation: 0,
+                      child: Container(
+                        height: 170,
+                        padding: const EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          image: DecorationImage(
+                              image: NetworkImage(_listEvents[1].mainPhoto),
+                              fit: BoxFit.cover),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                _listEvents[1].country,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.white),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
                 Expanded(
-                  child: Card(
-                    elevation: 0,
-                    child: Container(
-                      height: 170,
-                      padding: const EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                            image: NetworkImage(_listEvents[2].mainPhoto),
-                            fit: BoxFit.cover),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              _listEvents[2].country,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color: Colors.white),
-                            ),
-                          ],
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, route.eventDetailPage,
+                          arguments: _listEvents[2]);
+                    },
+                    child: Card(
+                      elevation: 0,
+                      child: Container(
+                        height: 170,
+                        padding: const EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          image: DecorationImage(
+                              image: NetworkImage(_listEvents[2].mainPhoto),
+                              fit: BoxFit.cover),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                _listEvents[2].country,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.white),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -385,50 +388,52 @@ class EventsUser extends StatelessWidget {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10.0),
-        SizedBox(
-          height: 170,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _listEvents.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () {
-                    di
-                        .sl<HomeBloc>()
-                        .add(HomeEventPressed(event: _listEvents[index]));
-                  },
-                  child: Card(
-                    elevation: 0,
-                    child: Container(
-                      height: 170,
-                      width: MediaQuery.of(context).size.width / 2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                            image: NetworkImage(_listEvents[index].mainPhoto),
-                            fit: BoxFit.cover),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10, left: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _listEvents[index].name,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color: Colors.white),
-                            ),
-                          ],
+        if (_listEvents.isEmpty)
+          const Text("There's no event, create one")
+        else
+          SizedBox(
+            height: 170,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _listEvents.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, route.eventDetailPage,
+                          arguments: _listEvents[index]);
+                    },
+                    child: Card(
+                      elevation: 0,
+                      child: Container(
+                        height: 170,
+                        width: MediaQuery.of(context).size.width / 2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          image: DecorationImage(
+                              image: NetworkImage(_listEvents[index].mainPhoto),
+                              fit: BoxFit.cover),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 10, left: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _listEvents[index].name,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.white),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              }),
-        ),
+                  );
+                }),
+          ),
         const SizedBox(
           height: 15,
         ),
@@ -448,8 +453,10 @@ class EventsUser extends StatelessWidget {
               Expanded(
                 child: ElevatedButton.icon(
                   style: primaryButton,
-                  onPressed: () {},
-                  label: const Text("Créer un event"),
+                  onPressed: () {
+                    Navigator.pushNamed(context, route.createEventPage);
+                  },
+                  label: Text(localized(context).create_an_event),
                   icon: const Icon(FeatherIcons.plusCircle),
                 ),
               )

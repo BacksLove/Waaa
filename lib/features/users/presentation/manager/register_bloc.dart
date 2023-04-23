@@ -1,15 +1,15 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:waaa/core/constants/constants.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/users/domain/entities/user_entity.dart';
 import 'package:waaa/features/users/domain/use_cases/create_user.dart';
+import 'package:waaa/features/users/domain/use_cases/upload_user_photo.dart';
 
 import '../../../../core/enums/register_enum.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../../../../core/util/list_from_indices.dart';
 import '../../../hobbies/domain/entities/hobby.dart';
 
 import 'package:waaa/injection_container.dart' as di;
@@ -22,6 +22,8 @@ part 'register_state.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   AuthBloc authBloc;
 
+  final ImagePicker imagePicker = ImagePicker();
+
   RegisterBloc(this.authBloc) : super(RegisterState.initial()) {
     on<ValidateUsernameButtonPressed>(_onValidateUsernameButtonPressed);
     on<ValidateCountriesButtonPressed>(_onValidateCountriesButtonPressed);
@@ -33,12 +35,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<ValidateHobbiesButtonPressed>(_onValidateHobbiesButtonPressed);
     on<ValidatePhotoButtonPressed>(_onValidatePhotoButtonPressed);
     on<RegisterCompleteEvent>(_onRegisterUser);
+    on<OpenImagePicker>(_onOpenImagePicker);
   }
 
   @override
   void onTransition(Transition<RegisterEvent, RegisterState> transition) {
     super.onTransition(transition);
-    print(transition);
+    //print(transition);
   }
 
   void _onValidateUsernameButtonPressed(
@@ -132,19 +135,19 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   void _onRegisterUser(
       RegisterCompleteEvent event, Emitter<RegisterState> emit) async {
     emit(state.copyWith(status: RegisterStatus.loading, errorMessage: ""));
-    var selectedHobbies =
-        getListFromIndices(state.selectedHobbiesIndexes, state.hobbies);
-
+    //var selectedHobbies = getListFromIndices(state.selectedHobbiesIndexes, state.hobbies);
+    var userId = di.sl<SharedPreferences>().getString(userIdKey);
     User user = User(
-      // TODO : Add nationality and residence
-      nativeLanguage: state.nativeLanguage,
-      username: state.username,
-      languagesSpeak: state.spokenLanguages,
-      hobbies: selectedHobbies,
-      photo: state.photoUrl,
-    );
+        cognitoUserPoolId: userId,
+        nativeLanguage: state.nativeLanguage,
+        username: state.username,
+        languagesSpeak: state.spokenLanguages);
     try {
-      await di.sl<CreateUser>().call(CreateUserParams(user: user));
+      final bool creation =
+          await di.sl<CreateUser>().call(CreateUserParams(user: user));
+      if (creation) {
+      } else {}
+
       emit(state.copyWith(status: RegisterStatus.complete));
       authBloc.add(Registered(user: user));
     } catch (e) {
@@ -215,6 +218,22 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     } catch (e) {
       emit(state.copyWith(errorMessage: e.toString()));
       rethrow;
+    }
+  }
+
+  void _onOpenImagePicker(
+      OpenImagePicker event, Emitter<RegisterState> emit) async {
+    final pickedFile = await imagePicker.pickImage(source: event.source);
+    final userId = di.sl<SharedPreferences>().getString(userIdKey);
+    if (pickedFile != null && userId != null) {
+      await di
+          .sl<UploadUserPhoto>()
+          .call(UploadUserPhotoParams(file: pickedFile, userId: userId));
+
+      emit(state.copyWith(photoUrl: pickedFile.path));
+    } else {
+      emit(state.copyWith(
+          errorMessage: "Something went wrong when choosing image"));
     }
   }
 }

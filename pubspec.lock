@@ -97,6 +97,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.12"
+  amplify_storage_s3:
+    dependency: "direct main"
+    description:
+      name: amplify_storage_s3
+      sha256: e910ab26b75514cde29314377c2228d96b933d60c04236106d2f62f7e7a67dc4
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.12"
+  amplify_storage_s3_android:
+    dependency: transitive
+    description:
+      name: amplify_storage_s3_android
+      sha256: "6556d5b021147724d04044b0b2f895fcbe99382730c0f7720376f268549a86ee"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.12"
+  amplify_storage_s3_ios:
+    dependency: transitive
+    description:
+      name: amplify_storage_s3_ios
+      sha256: b0a25e8c27fe0355b846134d4707d3ec23edd0309ec59b04a602267228a534fb
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.12"
   analyzer:
     dependency: transitive
     description:
@@ -122,7 +146,7 @@ packages:
     source: hosted
     version: "2.10.0"
   aws_common:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: aws_common
       sha256: b5f48304feacc833241d0d812ab68e5fec80d5440c991d5ca27eaaf23d5c8da5
@@ -130,7 +154,7 @@ packages:
     source: hosted
     version: "0.1.1"
   bloc:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: bloc
       sha256: "658a5ae59edcf1e58aac98b000a71c762ad8f46f1394c34a52050cafb3e11a80"
@@ -350,6 +374,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.1.2"
+  flutter_datetime_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_datetime_picker
+      sha256: "8e695c63c769350e541951227c2775190ec73ceda774a315b1dc9a99d5facfe5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.1"
   flutter_feather_icons:
     dependency: "direct main"
     description:
@@ -397,22 +429,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  freezed:
-    dependency: "direct main"
-    description:
-      name: freezed
-      sha256: e819441678f1679b719008ff2ff0ef045d66eed9f9ec81166ca0d9b02a187454
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.2"
-  freezed_annotation:
-    dependency: "direct main"
-    description:
-      name: freezed_annotation
-      sha256: aeac15850ef1b38ee368d4c53ba9a847e900bb2c53a4db3f6881cbb3cb684338
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -781,6 +797,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.2"
+  scroll_date_picker:
+    dependency: "direct main"
+    description:
+      name: scroll_date_picker
+      sha256: "98cb444d44abc5925e4265382acab28fac69bf64e7ac4718f65d37519ab8dab0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.7.0"
   shared_preferences:
     dependency: "direct main"
     description:

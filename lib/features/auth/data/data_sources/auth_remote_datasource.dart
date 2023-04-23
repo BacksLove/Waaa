@@ -36,13 +36,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final userAttributes = <CognitoUserAttributeKey, String>{
         CognitoUserAttributeKey.email: email,
       };
-      final result = await Amplify.Auth.signUp(
+      await Amplify.Auth.signUp(
         username: email,
         password: password,
         options: CognitoSignUpOptions(userAttributes: userAttributes),
       );
-      print(
-          "Enregistrement : ${result.isSignUpComplete}\nProchaine étape : ${result.nextStep}");
+      //print("Enregistrement : ${result.isSignUpComplete}\nProchaine étape : ${result.nextStep}");
       return true;
     } on AuthException catch (e) {
       safePrint(e.message);
@@ -64,13 +63,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<bool> loginWithFacebook() {
-    // TODO: implement loginWithFacebook
     throw UnimplementedError();
   }
 
   @override
   Future<bool> loginWithGoogle() {
-    // TODO: implement loginWithGoogle
     throw UnimplementedError();
   }
 
@@ -83,7 +80,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
       return authUser;
     } on AuthException catch (e) {
-      print(e);
+      safePrint(e);
       rethrow;
     }
   }
@@ -94,7 +91,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       AuthUser authUser = await Amplify.Auth.getCurrentUser();
       return authUser;
     } on AuthException catch (e) {
-      print(e);
+      safePrint(e);
       rethrow;
     }
   }

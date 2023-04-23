@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:waaa/features/users/data/data_sources/user_remote_datasource.dart';
 import 'package:waaa/features/users/domain/entities/user_entity.dart';
 import 'package:waaa/features/users/domain/repositories/user_repository.dart';
@@ -47,6 +48,14 @@ class UserRepositoryImpl implements UserRepository {
   Future<bool> updateUser(User user) {
     networkInfo.isConnected;
     final remote = remoteDataSource.updateUser(user);
+
+    return remote;
+  }
+
+  @override
+  Future<String?> uploadUserPhoto(XFile file, String userId) async {
+    await networkInfo.isConnected;
+    final remote = remoteDataSource.uploadUserPhoto(file, userId);
 
     return remote;
   }

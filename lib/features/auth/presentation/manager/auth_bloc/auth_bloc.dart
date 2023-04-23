@@ -1,6 +1,6 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waaa/core/constants/constants.dart';
 import 'package:waaa/core/enums/authentication_enum.dart';
@@ -28,7 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   @override
   void onTransition(Transition<AuthEvent, AuthState> transition) {
     super.onTransition(transition);
-    print(transition);
+    //print(transition);
   }
 
   void _onAppStart(AppStarted event, Emitter<AuthState> emit) async {
@@ -42,10 +42,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (session.isSignedIn) {
           user = await di.sl<GetUserById>().call(GetUserByIdParams(id: token));
           if (user != null) {
-            print("C'est good my man");
             emit(AuthState.authenticated(user));
           } else {
-            print("C'est dead , va t'enregistrer");
             emit(const AuthState.registered());
           }
         } else {
@@ -60,14 +58,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onLogIn(LoggedIn event, Emitter<AuthState> emit) async {
-    print("Les choses sérieuses");
     User? user =
         await di.sl<GetUserById>().call(GetUserByIdParams(id: event.id));
     if (user != null) {
-      print("C'est good my man");
       emit(AuthState.authenticated(user));
     } else {
-      print("C'est dead , va t'enregistrer");
       emit(const AuthState.registered());
     }
   }

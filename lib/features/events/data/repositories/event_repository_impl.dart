@@ -12,13 +12,11 @@ class EventRepositoryImpl implements EventRepository {
 
   @override
   Future<bool> createEvent(Event event) {
-    // TODO: implement createEvent
     throw UnimplementedError();
   }
 
   @override
   Future<bool> deleteEvent(String id) {
-    // TODO: implement deleteEvent
     throw UnimplementedError();
   }
 
@@ -40,7 +38,6 @@ class EventRepositoryImpl implements EventRepository {
 
   @override
   Future<bool> updateEvent(Event event) {
-    // TODO: implement updateEvent
     throw UnimplementedError();
   }
 }

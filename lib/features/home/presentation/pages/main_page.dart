@@ -31,74 +31,77 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => navigationCubit,
-      child: Scaffold(
-        appBar: MainAppBar(),
-        body: BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
-          bloc: navigationCubit,
-          builder: (context, state) {
-            switch (state.currentPage) {
-              case 0:
-                return const HomePage();
-              case 1:
-                return const SearchPage();
-              case 2:
-                return Container();
-              case 3:
-                return const NotificationsPage();
-              case 4:
-                return const ProfilPage();
-              default:
-                return Container();
-            }
-          },
-        ),
-        bottomNavigationBar:
-            BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
-          builder: (context, state) {
-            return BottomNavigationBar(
-              items: [
-                BottomNavigationBarItem(
-                  icon: const Icon(
-                    FeatherIcons.home,
-                    color: Colors.black,
+      child: WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+          appBar: MainAppBar(),
+          body: BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
+            bloc: navigationCubit,
+            builder: (context, state) {
+              switch (state.currentPage) {
+                case 0:
+                  return const HomePage();
+                case 1:
+                  return const SearchPage();
+                case 2:
+                  return Container();
+                case 3:
+                  return const NotificationsPage();
+                case 4:
+                  return const ProfilPage();
+                default:
+                  return Container();
+              }
+            },
+          ),
+          bottomNavigationBar:
+              BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
+            builder: (context, state) {
+              return BottomNavigationBar(
+                items: [
+                  BottomNavigationBarItem(
+                    icon: const Icon(
+                      FeatherIcons.home,
+                      color: Colors.black,
+                    ),
+                    label: localized(context).home,
                   ),
-                  label: localized(context).home,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(
-                    FeatherIcons.search,
-                    color: Colors.black,
+                  BottomNavigationBarItem(
+                    icon: const Icon(
+                      FeatherIcons.search,
+                      color: Colors.black,
+                    ),
+                    label: localized(context).search,
                   ),
-                  label: localized(context).search,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(
-                    FeatherIcons.plusCircle,
-                    color: Colors.black,
+                  BottomNavigationBarItem(
+                    icon: const Icon(
+                      FeatherIcons.plusCircle,
+                      color: Colors.black,
+                    ),
+                    label: localized(context).add_trip,
                   ),
-                  label: localized(context).add_trip,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(
-                    FeatherIcons.send,
-                    color: Colors.black,
+                  BottomNavigationBarItem(
+                    icon: const Icon(
+                      FeatherIcons.send,
+                      color: Colors.black,
+                    ),
+                    label: localized(context).notifications,
                   ),
-                  label: localized(context).notifications,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(
-                    FeatherIcons.user,
-                    color: Colors.black,
+                  BottomNavigationBarItem(
+                    icon: const Icon(
+                      FeatherIcons.user,
+                      color: Colors.black,
+                    ),
+                    label: localized(context).profil,
                   ),
-                  label: localized(context).profil,
-                ),
-              ],
-              currentIndex: navigationCubit.state.currentPage,
-              onTap: (index) => {navigationCubit.moveToTab(index)},
-              backgroundColor: Colors.red,
-              selectedItemColor: Colors.purple,
-            );
-          },
+                ],
+                currentIndex: navigationCubit.state.currentPage,
+                onTap: (index) => {navigationCubit.moveToTab(index)},
+                backgroundColor: Colors.red,
+                selectedItemColor: Colors.purple,
+              );
+            },
+          ),
         ),
       ),
     );

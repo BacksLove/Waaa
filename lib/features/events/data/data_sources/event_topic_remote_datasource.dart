@@ -8,13 +8,12 @@ abstract class EventTopicRemoteDatasource {
 class EventTopicRemoteDatasourceImpl implements EventTopicRemoteDatasource {
   @override
   Future<EventTopic> getAllEventTopic() {
-    // TODO: implement getAllEventTopic
+    //
     throw UnimplementedError();
   }
 
   @override
   Future<EventTopic> getEventTopicById(String id) {
-    // TODO: implement getEventTopicById
     throw UnimplementedError();
   }
 }

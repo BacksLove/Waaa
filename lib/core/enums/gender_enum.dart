@@ -1,3 +1,2 @@
-import 'package:json_annotation/json_annotation.dart';
-
+// ignore: constant_identifier_names
 enum Gender { MALE, FEMALE, OTHER }

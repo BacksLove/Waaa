@@ -52,5 +52,10 @@
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
     }
+  },
+  "storage": {
+    "waaaContent": {
+      "dependsOn": []
+    }
   }
 }

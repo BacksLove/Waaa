@@ -27,9 +27,3 @@ class HomeLoadingFailedState extends HomeState {
 
   const HomeLoadingFailedState({required this.errorMessage});
 }
-
-class HomeToEventDetailState extends HomeState {
-  final Event event;
-
-  const HomeToEventDetailState({required this.event});
-}

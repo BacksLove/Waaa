@@ -14,7 +14,7 @@ class SignupTextfieldWidget extends StatelessWidget {
       textAlign: TextAlign.center,
       style: const TextStyle(fontWeight: FontWeight.bold),
       decoration: InputDecoration(
-          hintText: hintText,
+          labelText: hintText,
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Theme.of(context).primaryColor),
           ),

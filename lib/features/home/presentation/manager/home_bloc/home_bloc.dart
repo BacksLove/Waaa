@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:waaa/core/usecases/usecase.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
-import 'package:waaa/features/events/domain/use_cases/get_events_by_user_id.dart';
 import 'package:waaa/features/events/domain/use_cases/get_waaa_events.dart';
 
 import '../../../../events/domain/entities/event_entity.dart';
@@ -21,12 +18,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(this.authBloc) : super(HomeInitial()) {
     on<LoadData>(_onLoadData);
 
-    on<HomeEventPressed>(_onHomeEventPressed);
-
     add(LoadData());
   }
 
+  @override
+  void onTransition(Transition<HomeEvent, HomeState> transition) {
+    super.onTransition(transition);
+    //print(transition);
+  }
+
   void _onLoadData(LoadData event, Emitter<HomeState> emit) async {
+    emit(HomeLoadingState());
     late List<User> usersNear;
     late List<Event> commonEvents;
     late List<Event> userEvents;
@@ -46,9 +48,5 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } else {
       emit(const HomeLoadingFailedState(errorMessage: "User not found"));
     }
-  }
-
-  void _onHomeEventPressed(HomeEventPressed event, Emitter<HomeState> emit) {
-    emit(HomeToEventDetailState(event: event.event));
   }
 }

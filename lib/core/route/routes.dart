@@ -6,6 +6,7 @@ import 'package:waaa/features/users/presentation/pages/register_page.dart';
 
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/events/domain/entities/event_entity.dart';
+import '../../features/events/presentation/pages/create_event_page.dart';
 import '../../features/home/presentation/pages/main_page.dart';
 import '../../features/home/presentation/pages/settings_page.dart';
 
@@ -23,6 +24,7 @@ const String settingsPage = "settings";
 
 // Event
 const String eventDetailPage = 'eventDetails';
+const String createEventPage = "createEvent";
 
 // Control our page route flow
 Route<dynamic> controller(RouteSettings settings) {
@@ -46,7 +48,8 @@ Route<dynamic> controller(RouteSettings settings) {
         return MaterialPageRoute(
             builder: (context) => EventDetailPage(currentEvent: event));
       }
-
+    case createEventPage:
+      return MaterialPageRoute(builder: (context) => const CreateEventPage());
     default:
       throw ('This route name does not exit');
   }

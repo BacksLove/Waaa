@@ -1,22 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:waaa/core/theme/colors.dart';
 
-class ToggleButton extends StatefulWidget {
+class WaaaToggleButton extends StatefulWidget {
   final String trueText;
   final String falseText;
   final Function(bool) onChanged;
 
-  ToggleButton({required this.trueText, required this.falseText, required this.onChanged});
+  const WaaaToggleButton(
+      {super.key,
+      required this.trueText,
+      required this.falseText,
+      required this.onChanged});
 
   @override
-  _ToggleButtonState createState() => _ToggleButtonState();
+  ToggleButtonState createState() => ToggleButtonState();
 }
 
-class _ToggleButtonState extends State<ToggleButton> {
+class ToggleButtonState extends State<WaaaToggleButton> {
   bool _value = false;
+  final List<bool> _isSelected = [true, false];
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return ToggleButtons(
+      isSelected: _isSelected,
+      onPressed: (int index) {
+        setState(() {
+          for (int buttonIndex = 0;
+              buttonIndex < _isSelected.length;
+              buttonIndex++) {
+            if (buttonIndex == index) {
+              _isSelected[buttonIndex] = true;
+            } else {
+              _isSelected[buttonIndex] = false;
+            }
+          }
+        });
+        widget.onChanged(_isSelected[index]);
+      },
+      color: Colors.black,
+      selectedColor: Colors.white,
+      fillColor: primaryColor,
+      borderColor: lightGrayColor,
+      borderRadius: BorderRadius.circular(50.0),
+      children: <Widget>[
+        SizedBox(
+          width: MediaQuery.of(context).size.width / 2.2,
+          child: Text(
+            widget.trueText,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width / 2.2,
+          child: Text(
+            widget.falseText,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    );
+
+    /*GestureDetector(
       onTap: () {
         setState(() {
           _value = !_value;
@@ -37,6 +82,6 @@ class _ToggleButtonState extends State<ToggleButton> {
           ),
         ),
       ),
-    );
+    );*/
   }
 }

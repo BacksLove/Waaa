@@ -1,4 +1,3 @@
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
@@ -15,7 +14,7 @@ class PhotoScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final RegisterBloc registerBloc = di.sl<RegisterBloc>();
-    final String photo_url;
+    //final String photo_url;
 
     return Padding(
       padding: const EdgeInsets.all(20.0),

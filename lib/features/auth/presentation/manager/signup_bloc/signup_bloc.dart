@@ -25,7 +25,6 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   @override
   void onTransition(Transition<SignupEvent, SignupState> transition) {
     super.onTransition(transition);
-    print(transition);
   }
 
   void _onValidateEmailButtonPressed(

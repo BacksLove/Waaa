@@ -39,6 +39,16 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
       name
       photos
       userEventsId
+      participants {
+        items {
+          user {
+            id
+            languagesSpeak
+            photo
+            username
+          }
+        }
+      }
     }
   }
 }''';
@@ -50,7 +60,6 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
         var eventsJSON = json.decode(result.data!)["listEvents"]["items"];
         eventList = (eventsJSON).map<Event>((e) => Event.fromJson(e)).toList();
       }
-      print(eventList);
       return eventList;
     } on AuthException catch (e) {
       safePrint(e.message);
@@ -95,7 +104,6 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
         var eventsJSON = json.decode(result.data!)["listEvents"]["items"];
         eventList = (eventsJSON).map<Event>((e) => Event.fromJson(e)).toList();
       }
-      print(eventList);
       return eventList;
     } on AuthException catch (e) {
       safePrint(e.message);
@@ -105,19 +113,16 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
 
   @override
   Future<bool> createEvent(Event event) {
-    // TODO: implement createEvent
     throw UnimplementedError();
   }
 
   @override
   Future<bool> deleteEvent(String id) {
-    // TODO: implement deleteEvent
     throw UnimplementedError();
   }
 
   @override
   Future<bool> updateEvent(Event event) {
-    // TODO: implement updateEvent
     throw UnimplementedError();
   }
 }

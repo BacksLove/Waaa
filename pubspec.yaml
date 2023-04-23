@@ -18,6 +18,7 @@ dependencies:
 
 
   flutter_bloc:
+  bloc:
   hive: ^2.2.3
   flutter_svg: ^2.0.4
 
@@ -29,6 +30,8 @@ dependencies:
   pin_code_fields: ^7.4.0
   country_picker: ^2.0.20
   group_button: ^5.2.2
+  scroll_date_picker: ^3.7.0
+  flutter_datetime_picker: ^1.5.1
   image_picker: ^0.8.7
   path_provider: ^2.0.13
 
@@ -42,9 +45,6 @@ dependencies:
   json_annotation: ^4.8.0
   build_runner: ^2.3.3
 
-  freezed: ^2.3.2
-  freezed_annotation: ^2.2.0
-
   get_it: ^7.2.0
   shared_preferences: ^2.0.18
 
@@ -52,9 +52,13 @@ dependencies:
   amplify_flutter: ^0.6.4
   amplify_auth_cognito: ^0.6.4
   amplify_api: ^0.6.0
+  amplify_storage_s3: ^0.6.0
 
   # Internet
   internet_connection_checker: ^1.0.0+1
+  aws_common: ^0.1.1
+
+
 
 dev_dependencies:
   flutter_test:

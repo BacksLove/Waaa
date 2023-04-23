@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waaa/component/snack_bar.dart';
@@ -52,16 +50,14 @@ class _LoginPageState extends State<LoginPage> {
         ),
         body: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state.status == AuthenticationStatus.registered) {
-              print("Ca passe ici");
+            if (state.status == AuthenticationStatus.authenticated) {
+              Navigator.popAndPushNamed(context, route.homePage);
+            } else if (state.status == AuthenticationStatus.registered) {
               Navigator.popAndPushNamed(context, route.registerPage);
             }
           },
           child:
               BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
-            if (state is LoginSucceedState) {
-              Navigator.popAndPushNamed(context, route.homePage);
-            }
             if (state is LoginFailedState) {
               showSnackBar(context, state.errorMessage);
             }
@@ -89,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
-                        hintText: localized(context).email,
+                        labelText: localized(context).email,
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).primaryColor))),
@@ -102,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
-                      hintText: localized(context).password,
+                      labelText: localized(context).password,
                       iconColor: primaryColor,
                       enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(

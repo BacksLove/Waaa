@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
 import 'package:waaa/features/users/presentation/widgets/show_country_selected.dart';
 
 import 'package:waaa/injection_container.dart' as di;
 
 import '../../../../component/country_picker.dart';
-import '../../../../core/constants/image_constants.dart';
 import '../../../../core/theme/common_widget/button.dart';
 import '../../../../core/util/localized.dart';
 

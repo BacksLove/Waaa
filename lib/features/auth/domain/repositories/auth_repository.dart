@@ -1,7 +1,5 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
-import '../entities/aws_user_entity.dart';
-
 abstract class AuthRepository {
   Future<bool> loginWithEmail(String email, String password);
   Future<bool> signUpWithEmail(String email, String password);

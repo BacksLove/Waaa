@@ -1,4 +1,5 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:aws_common/aws_common.dart';
 import 'package:waaa/core/platform/network_info.dart';
 
 import '../../domain/repositories/auth_repository.dart';
@@ -67,6 +68,6 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> logOut() async {
     await remoteDataSource.logOut();
-    print("User logged out");
+    safePrint("User logged out");
   }
 }

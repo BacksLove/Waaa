@@ -38,25 +38,34 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
           : DateTime.parse(json['createdAt'] as String),
     );
 
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-      'id': instance.id,
-      'role': instance.role,
-      'gender': _$GenderEnumMap[instance.gender],
-      'lookingFor': _$GenderEnumMap[instance.lookingFor],
-      'birthday': instance.birthday?.toIso8601String(),
-      'username': instance.username,
-      'bio': instance.bio,
-      'nativeLanguage': instance.nativeLanguage,
-      'languagesSpeak': instance.languagesSpeak,
-      'hobbies': instance.hobbies?.map((e) => e.toJson()).toList(),
-      'events': instance.events?.map((e) => e.toJson()).toList(),
-      'suspendedUntil': instance.suspendedUntil?.toIso8601String(),
-      'reporting': instance.reporting,
-      'openDiscussion': instance.openDiscussion,
-      'privacy': instance.privacy,
-      'photo': instance.photo,
-      'createdAt': instance.createdAt?.toIso8601String(),
-    };
+Map<String, dynamic> _$UserToJson(User instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('role', instance.role);
+  writeNotNull('gender', _$GenderEnumMap[instance.gender]);
+  writeNotNull('lookingFor', _$GenderEnumMap[instance.lookingFor]);
+  writeNotNull('birthday', instance.birthday?.toIso8601String());
+  val['username'] = instance.username;
+  writeNotNull('bio', instance.bio);
+  writeNotNull('nativeLanguage', instance.nativeLanguage);
+  writeNotNull('languagesSpeak', instance.languagesSpeak);
+  writeNotNull('hobbies', instance.hobbies?.map((e) => e.toJson()).toList());
+  writeNotNull('events', instance.events?.map((e) => e.toJson()).toList());
+  writeNotNull('suspendedUntil', instance.suspendedUntil?.toIso8601String());
+  writeNotNull('reporting', instance.reporting);
+  writeNotNull('openDiscussion', instance.openDiscussion);
+  writeNotNull('privacy', instance.privacy);
+  writeNotNull('photo', instance.photo);
+  writeNotNull('createdAt', instance.createdAt?.toIso8601String());
+  return val;
+}
 
 const _$GenderEnumMap = {
   Gender.MALE: 'MALE',
