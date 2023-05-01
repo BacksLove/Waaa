@@ -41,9 +41,9 @@ final sl = GetIt.instance;
 Future<void> init() async {
   //! Features - Authentication
   // Bloc
-  sl.registerFactory<LoginBloc>(() => LoginBloc(sl()));
-  sl.registerFactory<SignupBloc>(() => SignupBloc(sl()));
-  sl.registerFactory<RegisterBloc>(() => RegisterBloc(sl()));
+  sl.registerLazySingleton<LoginBloc>(() => LoginBloc(sl()));
+  sl.registerLazySingleton<SignupBloc>(() => SignupBloc(sl()));
+  sl.registerLazySingleton<RegisterBloc>(() => RegisterBloc(sl()));
   sl.registerLazySingleton<AuthBloc>(() => AuthBloc());
 
   // Use cases

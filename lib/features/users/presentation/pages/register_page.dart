@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:waaa/core/enums/register_enum.dart';
+import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
 import 'package:waaa/features/users/presentation/pages/welcome_page.dart';
 import 'package:waaa/features/users/presentation/widgets/country_screen_widget.dart';
@@ -50,39 +50,41 @@ class _RegisterPageState extends State<RegisterPage> {
           Navigator.popAndPushNamed(context, route.homePage);
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(FeatherIcons.chevronLeft, color: Colors.black),
-            onPressed: () => Navigator.of(context).pop(),
+      child: WillPopScope(
+        onWillPop: () async {
+          return false;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: transparentColor,
+            elevation: 0,
+            leading: null,
           ),
-        ),
-        body: BlocBuilder<RegisterBloc, RegisterState>(
-          builder: (context, state) {
-            switch (state.status) {
-              case RegisterStatus.loading:
-                return const CircularProgressIndicator();
-              case RegisterStatus.usernameStep:
-                return const UsernameScreenWidget();
-              case RegisterStatus.countryStep:
-                return const CountryScreenWidget();
-              case RegisterStatus.languagesStep:
-                return const LanguageScreenWidget();
-              case RegisterStatus.hobbiesStep:
-                return HobbiesScreenWidget(hobbies: state.hobbies);
-              case RegisterStatus.photoStep:
-                return const PhotoScreenWidget();
-              case RegisterStatus.createUser:
-                {
-                  registerBloc.add(RegisterCompleteEvent());
+          body: BlocBuilder<RegisterBloc, RegisterState>(
+            builder: (context, state) {
+              switch (state.status) {
+                case RegisterStatus.loading:
                   return const CircularProgressIndicator();
-                }
-              case RegisterStatus.complete:
-                return const WelcomePage();
-            }
-          },
+                case RegisterStatus.usernameStep:
+                  return const UsernameScreenWidget();
+                case RegisterStatus.countryStep:
+                  return const CountryScreenWidget();
+                case RegisterStatus.languagesStep:
+                  return const LanguageScreenWidget();
+                case RegisterStatus.hobbiesStep:
+                  return HobbiesScreenWidget(hobbies: state.hobbies);
+                case RegisterStatus.photoStep:
+                  return const PhotoScreenWidget();
+                case RegisterStatus.createUser:
+                  {
+                    registerBloc.add(RegisterCompleteEvent());
+                    return const CircularProgressIndicator();
+                  }
+                case RegisterStatus.complete:
+                  return const WelcomePage();
+              }
+            },
+          ),
         ),
       ),
     );

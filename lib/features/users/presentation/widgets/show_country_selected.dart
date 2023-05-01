@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/colors.dart';
+import 'package:waaa/core/theme/text_styles.dart';
 
 import '../../../../core/constants/image_constants.dart';
 
@@ -58,15 +60,10 @@ class ShowCountryItemSelected extends StatelessWidget {
                 FeatherIcons.check,
                 color: primaryColor,
               ),
-              const SizedBox(
-                width: 12,
-              ),
+              vSpace15,
               Text(
                 language,
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 12,
-                ),
+                style: regularTextStyle12,
               ),
             ],
           )

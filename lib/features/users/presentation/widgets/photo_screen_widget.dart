@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:waaa/core/constants/spacer.dart';
+import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
 
 import 'package:waaa/injection_container.dart' as di;
@@ -20,17 +22,13 @@ class PhotoScreenWidget extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
-          const SizedBox(
-            height: 50,
-          ),
+          vSpace50,
           Text(
             localized(context).upload_your_photo,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            style: boldTextStyle22,
           ),
-          const SizedBox(
-            height: 20,
-          ),
+          vSpace20,
           Center(
             child: Container(
               width: MediaQuery.of(context).size.width,
@@ -63,29 +61,32 @@ class PhotoScreenWidget extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(
-            height: 30,
-          ),
+          vSpace30,
           ElevatedButton(
               style: primaryButton,
               onPressed: () {},
-              child: Text(localized(context).take_a_photo)),
-          const SizedBox(
-            height: 15,
-          ),
+              child: Text(
+                localized(context).take_a_photo,
+                style: boldTextStyle12,
+              )),
+          vSpace15,
           ElevatedButton(
               style: outlinedBlackButton,
               onPressed: () {},
-              child: Text(localized(context).browse_from_media)),
-          const SizedBox(
-            height: 30,
-          ),
+              child: Text(
+                localized(context).browse_from_media,
+                style: boldTextStyle12,
+              )),
+          vSpace30,
           ElevatedButton(
               style: primaryButton,
               onPressed: () {
                 registerBloc.add(RegisterCompleteEvent());
               },
-              child: const Text("Ok, Cool"))
+              child: const Text(
+                "Ok, Cool",
+                style: boldTextStyle12,
+              ))
         ],
       ),
     );

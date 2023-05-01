@@ -17,7 +17,6 @@ class WaaaToggleButton extends StatefulWidget {
 }
 
 class ToggleButtonState extends State<WaaaToggleButton> {
-  bool _value = false;
   final List<bool> _isSelected = [true, false];
 
   @override

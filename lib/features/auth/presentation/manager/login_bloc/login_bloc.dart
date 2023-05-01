@@ -9,22 +9,30 @@ import 'package:waaa/features/auth/presentation/manager/login_bloc/login_state.d
 
 import 'package:waaa/injection_container.dart' as di;
 
+import '../../../../../core/enums/login_enum.dart';
 import '../auth_bloc/auth_bloc.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthBloc authBloc;
   bool isPasswordShowed = false;
 
-  LoginBloc(this.authBloc) : super(LoginInitialState()) {
+  LoginBloc(this.authBloc)
+      : super(const LoginState(status: LoginStatus.initial)) {
     on<LoginButtonPressed>(_onLoginButtonPressed);
     on<LogOutButtonPressed>(_onLogOutButtonPressed);
     on<FacebookButtonPressed>(_onFacebookButtonPressed);
     on<GoogleButtonPressed>(_onGoogleButtonPressed);
+    on<ShowPasswordPressed>(_onShowPasswordPressed);
+  }
+
+  @override
+  void onTransition(Transition<LoginEvent, LoginState> transition) {
+    super.onTransition(transition);
   }
 
   void _onLoginButtonPressed(
       LoginButtonPressed event, Emitter<LoginState> emit) async {
-    emit(LoginLoadingState());
+    emit(state.copyWith(status: LoginStatus.loading));
     try {
       var login = await di
           .sl<LoginWithEmail>()
@@ -32,10 +40,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       var id = await di.sl<GetCurrentAuthUser>().call(NoParams());
       if (login) {
         await di.sl<SharedPreferences>().setString(userIdKey, id.userId);
-        emit(LoginSucceedState());
+        emit(state.copyWith(status: LoginStatus.succeed));
         authBloc.add(LoggedIn(id: id.userId));
       } else {
-        emit(LoginFailedState(errorMessage: "Wrong credentials"));
+        emit(state.copyWith(
+            status: LoginStatus.error, errorMesssage: "Wrong Crédentials"));
       }
     } catch (e) {
       rethrow;
@@ -57,8 +66,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   void _onFacebookButtonPressed(
       FacebookButtonPressed event, Emitter<LoginState> emit) {}
 
-  bool showPassword() {
+  void _onShowPasswordPressed(
+      ShowPasswordPressed event, Emitter<LoginState> emit) {
     isPasswordShowed = !isPasswordShowed;
-    return isPasswordShowed;
+    emit(state.copyWith(
+        status: state.status, isPassworHidden: isPasswordShowed));
   }
 }

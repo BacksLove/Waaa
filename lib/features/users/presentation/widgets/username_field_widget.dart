@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waaa/component/signup_textfield.dart';
+import 'package:waaa/core/constants/spacer.dart';
+import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
 
 import '../../../../core/theme/common_widget/button.dart';
@@ -24,39 +26,33 @@ class UsernameScreenWidget extends StatelessWidget {
             padding: const EdgeInsets.all(30),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 65,
-                ),
+                vSpace60,
                 Text(
                   localized(context).choose_a_nickname,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 24),
+                  style: boldTextStyle24,
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
+                vSpace40,
                 SignupTextfieldWidget(
                     controller: usernameController,
                     hintText: localized(context).nickname),
-                const SizedBox(
-                  height: 15,
-                ),
+                vSpace15,
                 /*SizedBox(
                     width: double.infinity,
                     child: Text(
                       localized(context).nickname_already_taken,
                       textAlign: TextAlign.left,
                     )),*/
-                const SizedBox(
-                  height: 20,
-                ),
+                vSpace20,
                 ElevatedButton(
                     style: primaryButton,
                     onPressed: () {
                       registerBloc.add(ValidateUsernameButtonPressed(
                           username: usernameController.text));
                     },
-                    child: Text(localized(context).next))
+                    child: Text(
+                      localized(context).next,
+                      style: boldTextStyle12,
+                    ))
               ],
             ),
           ),

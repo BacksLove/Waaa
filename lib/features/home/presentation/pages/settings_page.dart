@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:waaa/core/constants/image_constants.dart';
+import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/enums/authentication_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
+import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
 
 import 'package:waaa/injection_container.dart' as di;
@@ -25,7 +28,7 @@ class SettingPage extends StatelessWidget {
           },
         ),
         title: Image.asset(
-          "assets/images/logoWaaa.png",
+          appBarImage,
         ),
         backgroundColor: transparentColor,
         elevation: 0,
@@ -41,15 +44,10 @@ class SettingPage extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15.0, top: 20.0),
             child: const Text(
               "Parametres du profil",
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                  color: Colors.black),
+              style: semiBoldTextStyle16,
             ),
           ),
-          const SizedBox(
-            height: 15,
-          ),
+          vSpace15,
           SettingsTile(title: localized(context).about_us),
           SettingsTile(title: localized(context).our_history),
           SettingsTile(
@@ -84,17 +82,12 @@ class SettingsTile extends StatelessWidget {
     return ListTile(
       title: Text(
         title,
-        style: const TextStyle(
-            fontWeight: FontWeight.w500, fontSize: 15, color: Colors.black),
+        style: semiBoldTextStyle16,
       ),
       subtitle: subtitle != null
           ? Text(
               subtitle!,
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 9,
-                color: lightGrayColor,
-              ),
+              style: settingSubtitleTextStyle,
             )
           : null,
       trailing: function != null
@@ -102,7 +95,7 @@ class SettingsTile extends StatelessWidget {
               onPressed: function as void Function()?,
               child: Text(
                 localized(context).modify,
-                style: const TextStyle(color: Colors.black),
+                style: boldTextStyle12,
               ),
             )
           : null,

@@ -29,7 +29,6 @@ class HobbiesRemoteDataSourceImpl implements HobbiesRemoteDataSource {
         hobbiesList =
             (hobbiesJSON).map<Hobby>((e) => Hobby.fromJson(e)).toList();
       }
-      print(hobbiesList);
       return hobbiesList;
     } on AuthException catch (e) {
       safePrint(e.message);

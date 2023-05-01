@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:waaa/core/theme/colors.dart';
 
 CustomTheme currentTheme = CustomTheme();
 
@@ -13,7 +14,8 @@ class CustomTheme with ChangeNotifier {
 
   static ThemeData get lightTheme {
     return ThemeData(
-      primaryColor: Colors.deepPurple,
+      colorScheme: const ColorScheme.light(),
+      primaryColor: primaryColor,
       scaffoldBackgroundColor: Colors.white,
       fontFamily: 'Poppins',
       textTheme: const TextTheme(),
@@ -22,8 +24,9 @@ class CustomTheme with ChangeNotifier {
 
   static ThemeData get darkTheme {
     return ThemeData(
-      primaryColor: Colors.deepPurple,
-      scaffoldBackgroundColor: Colors.white,
+      colorScheme: const ColorScheme.dark(),
+      primaryColor: primaryColor,
+      scaffoldBackgroundColor: Colors.grey.shade900,
       textTheme: const TextTheme(),
     );
   }

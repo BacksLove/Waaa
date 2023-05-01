@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:waaa/component/app_bar.dart';
+import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/util/localized.dart';
 import 'package:waaa/features/home/presentation/manager/navigation_cubit/bottom_navigation_cubit.dart';
 import 'package:waaa/features/home/presentation/pages/home_page.dart';
@@ -60,45 +61,44 @@ class _MainPageState extends State<MainPage> {
               return BottomNavigationBar(
                 items: [
                   BottomNavigationBarItem(
-                    icon: const Icon(
+                    icon: Icon(
                       FeatherIcons.home,
-                      color: Colors.black,
+                      color: blackColor,
                     ),
                     label: localized(context).home,
                   ),
                   BottomNavigationBarItem(
-                    icon: const Icon(
+                    icon: Icon(
                       FeatherIcons.search,
-                      color: Colors.black,
+                      color: blackColor,
                     ),
                     label: localized(context).search,
                   ),
                   BottomNavigationBarItem(
-                    icon: const Icon(
+                    icon: Icon(
                       FeatherIcons.plusCircle,
-                      color: Colors.black,
+                      color: blackColor,
                     ),
                     label: localized(context).add_trip,
                   ),
                   BottomNavigationBarItem(
-                    icon: const Icon(
+                    icon: Icon(
                       FeatherIcons.send,
-                      color: Colors.black,
+                      color: blackColor,
                     ),
                     label: localized(context).notifications,
                   ),
                   BottomNavigationBarItem(
-                    icon: const Icon(
+                    icon: Icon(
                       FeatherIcons.user,
-                      color: Colors.black,
+                      color: blackColor,
                     ),
                     label: localized(context).profil,
                   ),
                 ],
                 currentIndex: navigationCubit.state.currentPage,
                 onTap: (index) => {navigationCubit.moveToTab(index)},
-                backgroundColor: Colors.red,
-                selectedItemColor: Colors.purple,
+                selectedItemColor: lightPrimaryColor,
               );
             },
           ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waaa/component/country_picker.dart';
+import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
 import 'package:waaa/features/users/presentation/widgets/show_country_selected.dart';
 
+import '../../../../core/constants/spacer.dart';
 import '../../../../core/theme/common_widget/button.dart';
 import '../../../../core/util/localized.dart';
 
@@ -24,18 +26,13 @@ class CountryScreenWidget extends StatelessWidget {
             padding: const EdgeInsets.all(30),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 60,
-                ),
+                vSpace60,
                 Text(
                   localized(context).select_a_nationality,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 24),
+                  style: boldTextStyle24,
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
+                vSpace40,
                 if (state.nationality.isNotEmpty)
                   ShowCountrySelected(country: state.nationality),
                 CountryPicker(
@@ -44,18 +41,13 @@ class CountryScreenWidget extends StatelessWidget {
                           registerBloc.add(NationalityCountrySelected(
                               nationalityCountry: value))
                         }),
-                const SizedBox(
-                  height: 60,
-                ),
+                vSpace60,
                 Text(
                   localized(context).select_a_residency,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 24),
+                  style: boldTextStyle24,
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
+                vSpace40,
                 if (state.residency.isNotEmpty)
                   ShowCountrySelected(country: state.residency),
                 CountryPicker(
@@ -64,16 +56,17 @@ class CountryScreenWidget extends StatelessWidget {
                           registerBloc.add(
                               ResidenceCountrySelected(residenceCountry: value))
                         }),
-                const SizedBox(
-                  height: 100,
-                ),
+                vSpace100,
                 ElevatedButton(
                     style: primaryButton,
                     onPressed: () {
                       BlocProvider.of<RegisterBloc>(context)
                           .add(ValidateCountriesButtonPressed());
                     },
-                    child: Text(localized(context).next))
+                    child: Text(
+                      localized(context).next,
+                      style: boldTextStyle12,
+                    ))
               ],
             ),
           ),

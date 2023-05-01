@@ -7,6 +7,7 @@ Color transparentColor = const Color(0X00000000);
 Color grayColor = const Color(0XFF707070);
 Color yellowColor = const Color(0XFFFFDA00);
 Color lightGrayColor = const Color(0XFFACACAC);
+Color blackColor = const Color(0X00000000);
 Color veryLightGrayColor = const Color(0XFFEEEEEE);
 Color onlineColor = const Color(0XFF2EECAB);
 Color facebookColor = const Color(0XFF3B5998);

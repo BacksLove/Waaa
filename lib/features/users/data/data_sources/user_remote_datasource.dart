@@ -19,8 +19,9 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   Future<bool> createUser(User user) async {
     try {
       //var userJSon = user.toJson();
-      var userEncoded = json.encode(user);
-      var userGood = jsonToGraphql(userEncoded);
+      var userEncoded = user.toJson().toString();
+      var userGood = doubleQuotesAroundValues(userEncoded);
+      print("USER = $userGood");
       var doc = '''
       mutation Mutation {
           createUser(input: $userGood}) {

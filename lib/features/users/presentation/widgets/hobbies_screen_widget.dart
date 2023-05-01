@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
+import 'package:waaa/core/constants/spacer.dart';
+import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/features/hobbies/domain/entities/hobby.dart';
 import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
 
@@ -25,16 +27,12 @@ class HobbiesScreenWidget extends StatelessWidget {
         padding: const EdgeInsets.all(30),
         child: Column(
           children: [
-            const SizedBox(
-              height: 60,
-            ),
+            vSpace60,
             Text(
               localized(context).hobbies,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              style: boldTextStyle24,
             ),
-            const SizedBox(
-              height: 120,
-            ),
+            vSpace150,
             Column(
               children: [
                 GroupButton(
@@ -47,9 +45,7 @@ class HobbiesScreenWidget extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 100,
-            ),
+            vSpace100,
             ElevatedButton(
                 style: primaryButton,
                 onPressed: () {
@@ -57,11 +53,12 @@ class HobbiesScreenWidget extends StatelessWidget {
                       hobbiesIndexes:
                           hobbiesController.selectedIndexes.toList()));
                 },
-                child: const Text("Next")),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text("Skip for now")
+                child: Text(
+                  localized(context).next,
+                  style: boldTextStyle12,
+                )),
+            vSpace20,
+            Text(localized(context).skip)
           ],
         ),
       ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/colors.dart';
+import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
 import 'package:waaa/features/home/presentation/manager/home_bloc/home_bloc.dart';
 import 'package:waaa/features/users/domain/entities/user_entity.dart';
@@ -87,26 +89,17 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     localized(context).travelers_around_you,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal,
-                    ),
+                    style: regularTextStyle16,
                   ),
-                  const SizedBox(
-                    height: 35,
-                  ),
+                  vSpace35,
                   UserListCarrousel(
                     userNear: _userNear,
                     withName: false,
                   ),
                   EventsWaaa(listEvents: state.waaaEvents),
-                  const SizedBox(
-                    height: 35,
-                  ),
+                  vSpace35,
                   EventsUser(listEvents: state.userEvents),
-                  const SizedBox(
-                    height: 35,
-                  ),
+                  vSpace35,
                 ],
               ));
         } else {
@@ -159,24 +152,18 @@ class UserItemList extends StatelessWidget {
                               shape: BoxShape.circle,
                               color: onlineColor,
                               border:
-                                  Border.all(color: Colors.white, width: 1)),
+                                  Border.all(color: secondaryColor, width: 1)),
                           child: const Text("")),
                     )
                   : Container()
             ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          vSpace10,
           if (_withName)
             Text(
               _currentUser.username,
               textAlign: TextAlign.left,
-              style: const TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 12,
-                color: Colors.black,
-              ),
+              style: regularTextStyle12,
             ),
         ],
       ),
@@ -227,9 +214,9 @@ class EventsWaaa extends StatelessWidget {
       children: [
         const Text(
           "Events WAAA",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: boldTextStyle24,
         ),
-        const SizedBox(height: 10.0),
+        vSpace10,
         if (_listEvents.isNotEmpty)
           GestureDetector(
             onTap: () {
@@ -254,20 +241,12 @@ class EventsWaaa extends StatelessWidget {
                     children: [
                       Text(
                         _listEvents.first.city,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white),
+                        style: boldWhiteTextStyle20,
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      vSpace5,
                       Text(
                         _listEvents.first.country,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                            color: Colors.white),
+                        style: boldWhiteTextStyle12,
                       ),
                     ],
                   ),
@@ -307,10 +286,7 @@ class EventsWaaa extends StatelessWidget {
                             children: [
                               Text(
                                 _listEvents[1].country,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: Colors.white),
+                                style: boldWhiteTextStyle20,
                               ),
                             ],
                           ),
@@ -345,10 +321,7 @@ class EventsWaaa extends StatelessWidget {
                             children: [
                               Text(
                                 _listEvents[2].country,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: Colors.white),
+                                style: boldWhiteTextStyle20,
                               ),
                             ],
                           ),
@@ -360,14 +333,15 @@ class EventsWaaa extends StatelessWidget {
               ],
             ),
           ),
-        const SizedBox(
-          height: 10,
-        ),
+        vSpace10,
         if (_listEvents.isNotEmpty)
           ElevatedButton(
               style: primaryButton,
               onPressed: () {},
-              child: const Text("Voir tout")),
+              child: Text(
+                localized(context).see_all,
+                style: regularTextStyle16,
+              )),
       ],
     );
   }
@@ -383,13 +357,16 @@ class EventsUser extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Event(s)",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        Text(
+          localized(context).events,
+          style: boldTextStyle24,
         ),
-        const SizedBox(height: 10.0),
+        vSpace10,
         if (_listEvents.isEmpty)
-          const Text("There's no event, create one")
+          const Text(
+            "There's no event, create one",
+            style: regularTextStyle16,
+          )
         else
           SizedBox(
             height: 170,
@@ -421,10 +398,7 @@ class EventsUser extends StatelessWidget {
                             children: [
                               Text(
                                 _listEvents[index].name,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: Colors.white),
+                                style: boldWhiteTextStyle20,
                               ),
                             ],
                           ),
@@ -434,29 +408,32 @@ class EventsUser extends StatelessWidget {
                   );
                 }),
           ),
-        const SizedBox(
-          height: 15,
-        ),
+        vSpace15,
         SizedBox(
           height: 35,
           child: Row(
             children: [
               Expanded(
                 child: ElevatedButton(
-                    style: outlinedBlackButton,
-                    onPressed: () {},
-                    child: const Text("Tout voir")),
+                  style: outlinedBlackButton,
+                  onPressed: () {},
+                  child: Text(
+                    localized(context).see_all,
+                    style: regularTextStyle16,
+                  ),
+                ),
               ),
-              const SizedBox(
-                width: 10,
-              ),
+              hSpace10,
               Expanded(
                 child: ElevatedButton.icon(
                   style: primaryButton,
                   onPressed: () {
                     Navigator.pushNamed(context, route.createEventPage);
                   },
-                  label: Text(localized(context).create_an_event),
+                  label: Text(
+                    localized(context).create_an_event,
+                    style: regularTextStyle16,
+                  ),
                   icon: const Icon(FeatherIcons.plusCircle),
                 ),
               )

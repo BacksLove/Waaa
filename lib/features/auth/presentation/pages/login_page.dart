@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waaa/component/snack_bar.dart';
+import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/enums/authentication_enum.dart';
+import 'package:waaa/core/enums/login_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/common_widget/button.dart';
 import 'package:waaa/core/util/localized.dart';
@@ -34,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
+    loginBloc.close();
     super.dispose();
   }
 
@@ -44,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(FeatherIcons.chevronLeft, color: Colors.black),
+            icon: Icon(FeatherIcons.chevronLeft, color: blackColor),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -58,8 +61,10 @@ class _LoginPageState extends State<LoginPage> {
           },
           child:
               BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
-            if (state is LoginFailedState) {
-              showSnackBar(context, state.errorMessage);
+            if (state.status == LoginStatus.error) {
+              if (state.errorMesssage != null) {
+                showSnackBar(context, state.errorMesssage!);
+              }
             }
           }, builder: (context, state) {
             return Padding(
@@ -67,19 +72,13 @@ class _LoginPageState extends State<LoginPage> {
               child: Center(
                   child: Column(
                 children: [
-                  // Title
-                  const SizedBox(
-                    height: 56,
-                  ),
+                  vSpace60,
                   Text(
                     localized(context).login,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 24),
                   ),
-                  const SizedBox(
-                    height: 95,
-                  ),
-                  // TextFields
+                  vSpace100,
                   TextField(
                     controller: _emailField,
                     textAlign: TextAlign.center,
@@ -90,9 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                             borderSide: BorderSide(
                                 color: Theme.of(context).primaryColor))),
                   ),
-                  const SizedBox(
-                    height: 35,
-                  ),
+                  vSpace35,
                   TextField(
                     controller: _passwordField,
                     textAlign: TextAlign.center,
@@ -104,17 +101,15 @@ class _LoginPageState extends State<LoginPage> {
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor)),
                       suffixIcon: IconButton(
-                        icon: loginBloc.isPasswordShowed
+                        icon: state.isPassworHidden
                             ? const Icon(FeatherIcons.eye)
                             : const Icon(FeatherIcons.eyeOff),
-                        onPressed: () => loginBloc.showPassword(),
+                        onPressed: () => loginBloc.add(ShowPasswordPressed()),
                       ),
                     ),
-                    obscureText: loginBloc.isPasswordShowed,
+                    obscureText: state.isPassworHidden,
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
+                  vSpace15,
                   SizedBox(
                     width: double.infinity,
                     child: Text(
@@ -123,9 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   // Buttons
-                  const SizedBox(
-                    height: 65,
-                  ),
+                  vSpace60,
                   /*if (state is LoginLoadingState)
                           const CircularProgressIndicator(),*/
                   ElevatedButton(
@@ -136,15 +129,11 @@ class _LoginPageState extends State<LoginPage> {
                         _passwordField.clear();
                       },
                       child: Text(localized(context).login)),
-                  const SizedBox(
-                    height: 25,
-                  ),
+                  vSpace25,
                   Text(
                     localized(context).or_connect_with,
                   ),
-                  const SizedBox(
-                    height: 25,
-                  ),
+                  vSpace25,
                   Row(
                     children: [
                       Expanded(
@@ -157,9 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                           icon: const Icon(FeatherIcons.facebook),
                         ),
                       ),
-                      const SizedBox(
-                        width: 15,
-                      ),
+                      vSpace15,
                       Expanded(
                         child: ElevatedButton.icon(
                           style: googleButton,
@@ -170,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 50),
+                  vSpace50,
                   Text(
                     localized(context).term_and_policy,
                   )

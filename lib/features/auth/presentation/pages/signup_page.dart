@@ -6,8 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:waaa/component/signup_textfield.dart';
+import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/common_widget/button.dart';
+import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
 
 import 'package:waaa/core/route/routes.dart' as route;
@@ -35,7 +37,6 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void dispose() {
     super.dispose();
-    //BlocProvider.of<SignupBloc>(context).add(event)
   }
 
   @override
@@ -48,10 +49,10 @@ class _SignUpPageState extends State<SignUpPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: transparentColor,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(FeatherIcons.chevronLeft, color: Colors.black),
+            icon: Icon(FeatherIcons.chevronLeft, color: blackColor),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -84,28 +85,20 @@ Widget emailScreen(
       padding: const EdgeInsets.all(30),
       child: Column(
         children: [
-          const SizedBox(
-            height: 65,
-          ),
+          vSpace60,
           Text(
             localized(context).create_an_account,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
-          const SizedBox(
-            height: 40,
-          ),
+          vSpace50,
           SignupTextfieldWidget(
               controller: emailController, hintText: localized(context).email),
-          const SizedBox(
-            height: 80,
-          ),
+          vSpace80,
           Text(
             localized(context).term_and_policy,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(
-            height: 35,
-          ),
+          vSpace35,
           ElevatedButton(
               style: primaryButton,
               onPressed: () {
@@ -129,28 +122,20 @@ Widget passwordScreen(
       padding: const EdgeInsets.all(30.0),
       child: Column(
         children: [
-          const SizedBox(
-            height: 65,
+          vSpace60,
+          Text(
+            localized(context).create_your_password,
+            style: boldTextStyle24,
           ),
-          const Text(
-            "Create a password",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-          ),
-          const SizedBox(
-            height: 40,
-          ),
+          vSpace40,
           SignupTextfieldWidget(
               controller: passwordController,
               hintText: localized(context).password),
-          const SizedBox(
-            height: 35,
-          ),
+          vSpace35,
           SignupTextfieldWidget(
               controller: confirmPasswordController,
               hintText: localized(context).password),
-          const SizedBox(
-            height: 80,
-          ),
+          vSpace80,
           ElevatedButton(
               style: primaryButton,
               onPressed: () {
@@ -179,29 +164,20 @@ Widget confirmCodeScreen(
           padding: const EdgeInsets.all(30),
           child: Column(
             children: [
-              const SizedBox(
-                height: 65,
+              vSpace60,
+              Text(
+                localized(context).verify_account,
+                style: boldTextStyle24,
               ),
-              const Text(
-                "Verify account",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               Text(
                 "Thank you! We sent you an email at\n\n ${emailController.text}.\n\nPlease confirm your registration",
                 textAlign: TextAlign.center,
-                style:
-                    const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+                style: semiBoldTextStyle12,
               ),
-              const SizedBox(
-                height: 45,
-              ),
+              vSpace40,
               signupConfirmCodeField(context, confirmCodeController),
-              const SizedBox(
-                height: 100,
-              ),
+              vSpace100,
               if (state is SignupLoadingState)
                 const CircularProgressIndicator()
               else
@@ -214,16 +190,14 @@ Widget confirmCodeScreen(
                               password: passwordController.text,
                               code: confirmCodeController.text));
                     },
-                    child: const Text(
-                      "Next",
-                      style: TextStyle(fontSize: 12),
+                    child: Text(
+                      localized(context).next,
+                      style: regularTextStyle12,
                     )),
-              const SizedBox(
-                height: 25,
-              ),
-              const Text(
-                "Renvoyer l'email",
-                style: TextStyle(fontSize: 12),
+              vSpace25,
+              Text(
+                localized(context).resend_email,
+                style: regularTextStyle12,
               ),
             ],
           ),
@@ -238,7 +212,7 @@ Widget signupConfirmCodeField(
   return PinCodeTextField(
     controller: controller,
     enableActiveFill: true,
-    cursorColor: Colors.black,
+    cursorColor: blackColor,
     appContext: context,
     length: 6,
     onChanged: (String value) {},
@@ -247,11 +221,11 @@ Widget signupConfirmCodeField(
       fieldHeight: 50,
       fieldWidth: 40,
       activeColor: primaryColor,
-      activeFillColor: Colors.white,
+      activeFillColor: secondaryColor,
       selectedColor: primaryColor,
-      selectedFillColor: Colors.white,
+      selectedFillColor: secondaryColor,
       inactiveColor: primaryColor,
-      inactiveFillColor: Colors.white,
+      inactiveFillColor: secondaryColor,
     ),
   );
 }
@@ -265,16 +239,16 @@ Widget signupCountryPicker(
           context: context,
           countryListTheme: CountryListThemeData(
             flagSize: 25,
-            backgroundColor: Colors.white,
-            textStyle: const TextStyle(fontSize: 16, color: Colors.black),
+            backgroundColor: secondaryColor,
+            textStyle: regularTextStyle16,
             bottomSheetHeight: 500, // Optional. Country list modal height
             borderRadius: const BorderRadius.all(
               Radius.circular(20.0),
             ),
             //Optional. Styles the search field.
             inputDecoration: InputDecoration(
-              labelText: 'Search',
-              hintText: 'Start typing to search',
+              labelText: localized(context).search,
+              hintText: localized(context).search__1,
               prefixIcon: const Icon(FeatherIcons.search),
               suffixIcon: const Icon(FeatherIcons.chevronDown),
               border: OutlineInputBorder(

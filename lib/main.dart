@@ -7,6 +7,7 @@ import 'package:waaa/core/theme/theme.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/auth/presentation/manager/signup_bloc/signup_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:waaa/features/events/presentation/pages/create_event_part_two_page.dart';
 import 'package:waaa/splashpage.dart';
 
 import 'amplifyconfiguration.dart';
@@ -72,7 +73,7 @@ class _MyAppState extends State<MyApp> {
         supportedLocales: AppLocalizations.supportedLocales,
         onGenerateRoute: route.controller,
         home: _amplifyConfigured
-            ? const SplashPage()
+            ? const CreateEventPageTwo()
             : Scaffold(
                 body: Center(
                   child: Center(

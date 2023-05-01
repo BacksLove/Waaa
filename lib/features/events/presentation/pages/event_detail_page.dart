@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:waaa/core/theme/colors.dart';
+import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/input_converter.dart';
 import 'package:waaa/core/util/localized.dart';
 import 'package:waaa/features/events/domain/entities/event_entity.dart';
@@ -11,6 +11,7 @@ import '../../../../component/date_picker.dart';
 import '../../../../component/dropdown.dart';
 import '../../../../component/form_textfield.dart';
 import '../../../../component/toggle_button.dart';
+import '../../../../core/constants/spacer.dart';
 
 class EventDetailPage extends StatelessWidget {
   EventDetailPage({Key? key, required this.currentEvent}) : super(key: key);
@@ -72,67 +73,37 @@ class EditEvent extends StatelessWidget {
                 label: localized(context).name_of_the_event,
                 isColored: true,
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               WaaaToggleButton(
                   trueText: localized(context).public_event,
                   falseText: localized(context).private_event,
                   onChanged: (value) {}),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               WaaaDropdownWidget(
-                labelText: "Theme",
+                labelText: localized(context).theme,
                 items: dropdownMock,
                 selectedItem: dropdownMock.first,
                 onChanged: (value) {},
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               WaaaTextField(
                 controller: titleController,
                 label: localized(context).name_of_the_event,
                 icondata: FeatherIcons.mapPin,
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               WaaaDatePicker(
                 controller: debutDateController,
                 label: localized(context).start_date_and_time,
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextButton(
-                  onPressed: () {
-                    DatePicker.showDateTimePicker(context,
-                        showTitleActions: true,
-                        minTime: DateTime(2018, 3, 5),
-                        maxTime: DateTime(2019, 6, 7),
-                        onChanged: (date) {},
-                        onConfirm: (date) {},
-                        currentTime: DateTime.now(),
-                        locale: LocaleType.fr);
-                  },
-                  child: const Text(
-                    'show date time picker',
-                    style: TextStyle(color: Colors.blue),
-                  )),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               WaaaDropdownWidget(
                 labelText: "Theme",
                 items: dropdownMock,
                 selectedItem: dropdownMock.first,
                 onChanged: (value) {},
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
             ],
           ),
         ));
@@ -154,23 +125,17 @@ class ShowEventDetails extends StatelessWidget {
       sliver: SliverList(
           delegate: SliverChildListDelegate([
         Text(
-          currentEvent.isPublic ? "Evenement public" : "Evenement privé",
-          style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: lightPrimaryColor),
+          currentEvent.isPublic
+              ? localized(context).public_event
+              : localized(context).private_event,
+          style: lightPrimarySemiBoldTextStyle12,
         ),
-        const SizedBox(
-          height: 15,
-        ),
+        vSpace15,
         Text(
           currentEvent.name,
-          style: const TextStyle(
-              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+          style: boldTextStyle24,
         ),
-        const SizedBox(
-          height: 25,
-        ),
+        vSpace25,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -191,15 +156,10 @@ class ShowEventDetails extends StatelessWidget {
                       color: primaryColor,
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const Text(
-                    "Interessée",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                        color: Colors.black),
+                  vSpace5,
+                  Text(
+                    localized(context).interested,
+                    style: semiBoldTextStyle16,
                   )
                 ],
               ),
@@ -220,15 +180,10 @@ class ShowEventDetails extends StatelessWidget {
                       color: primaryColor,
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const Text(
-                    "Participe",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                        color: Colors.black),
+                  vSpace5,
+                  Text(
+                    localized(context).participate,
+                    style: semiBoldTextStyle16,
                   )
                 ],
               ),
@@ -249,15 +204,10 @@ class ShowEventDetails extends StatelessWidget {
                       color: primaryColor,
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const Text(
-                    "Partager",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                        color: Colors.black),
+                  vSpace5,
+                  Text(
+                    localized(context).share,
+                    style: semiBoldTextStyle16,
                   )
                 ],
               ),
@@ -278,45 +228,36 @@ class ShowEventDetails extends StatelessWidget {
                       color: primaryColor,
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const Text(
-                    "Plus",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                        color: Colors.black),
+                  vSpace5,
+                  Text(
+                    localized(context).plus,
+                    style: semiBoldTextStyle16,
                   )
                 ],
               ),
             ),
           ],
         ),
-        const SizedBox(
-          height: 15,
-        ),
-        const EventDetailTile(
+        vSpace15,
+        EventDetailTile(
             icon: FeatherIcons.checkCircle,
-            tileKey: "Thème",
+            tileKey: localized(context).theme,
             tileValue: "festif"),
         EventDetailTile(
             icon: FeatherIcons.penTool,
-            tileKey: "Description",
+            tileKey: localized(context).description,
             tileValue: currentEvent.description ?? ""),
         EventDetailTile(
             icon: FeatherIcons.mapPin,
-            tileKey: "Lieu",
+            tileKey: localized(context).place,
             tileValue:
                 "${currentEvent.city}, ${currentEvent.country} - ${currentEvent.address}"),
         EventDetailTile(
             icon: FeatherIcons.calendar,
-            tileKey: "Date et heure",
+            tileKey: localized(context).start_date_and_time,
             tileValue:
                 "Début : ${currentEvent.begin} à ${currentEvent.hourBegin}\nFin : ${currentEvent.end} à ${currentEvent.hourEnd}"),
-        const SizedBox(
-          height: 20,
-        ),
+        vSpace20,
         // Infos
         Container(
           decoration: BoxDecoration(
@@ -333,17 +274,11 @@ class ShowEventDetails extends StatelessWidget {
                     children: [
                       Text(
                         "56",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: lightPrimaryColor),
+                        style: lightPrimaryBoldTextStyle18,
                       ),
-                      const Text(
-                        "participants",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15,
-                            color: Colors.black),
+                      Text(
+                        localized(context).participate,
+                        style: regularTextStyle16,
                       )
                     ],
                   ),
@@ -358,12 +293,9 @@ class ShowEventDetails extends StatelessWidget {
                             fontSize: 18,
                             color: lightPrimaryColor),
                       ),
-                      const Text(
-                        "interessé(é)s",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15,
-                            color: Colors.black),
+                      Text(
+                        localized(context).interested,
+                        style: regularTextStyle16,
                       )
                     ],
                   ),
@@ -378,12 +310,9 @@ class ShowEventDetails extends StatelessWidget {
                             fontSize: 18,
                             color: lightPrimaryColor),
                       ),
-                      const Text(
-                        "partages",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15,
-                            color: Colors.black),
+                      Text(
+                        localized(context).shares,
+                        style: regularTextStyle16,
                       )
                     ],
                   ),
@@ -398,10 +327,9 @@ class ShowEventDetails extends StatelessWidget {
             FeatherIcons.user,
             color: primaryColor,
           ),
-          title: const Text(
-            "Co-organisateur(s)",
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+          title: Text(
+            localized(context).coorganizers,
+            style: boldTextStyle18,
           ),
         ),
         const UserListCarrousel(userNear: [], withName: true),
@@ -411,10 +339,9 @@ class ShowEventDetails extends StatelessWidget {
             FeatherIcons.user,
             color: primaryColor,
           ),
-          title: const Text(
-            "Les convive(s)",
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+          title: Text(
+            localized(context).guests,
+            style: boldTextStyle18,
           ),
         ),
         UserListCarrousel(
@@ -426,7 +353,7 @@ class ShowEventDetails extends StatelessWidget {
           children: [
             const Text(
               "Audience de l'evenenement",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+              style: semiBoldTextStyle16,
             ),
             IconButton(
                 onPressed: () {},

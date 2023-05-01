@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:waaa/core/constants/image_constants.dart';
 import 'package:waaa/core/route/routes.dart' as route;
 import 'package:waaa/core/theme/common_widget/button.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
+
+import '../../../../core/constants/spacer.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -14,7 +18,7 @@ class AuthPage extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/authBackground.jpeg"),
+            image: AssetImage(backgroundImage),
             fit: BoxFit.cover,
           ),
         ),
@@ -23,27 +27,31 @@ class AuthPage extends StatelessWidget {
             padding: const EdgeInsets.all(50),
             child: Column(
               children: [
-                const SizedBox(height: 350),
+                vSpace350,
                 Text(
                   AppLocalizations.of(context)!.appName,
-                  style: const TextStyle(color: Colors.white, fontSize: 33),
+                  style: appNameTextStyle,
                 ),
-                const SizedBox(height: 171),
+                vSpace150,
                 ElevatedButton(
                     style: secondaryButton,
                     onPressed: () {
                       Navigator.pushNamed(context, route.loginPage);
                     },
-                    child: Text(AppLocalizations.of(context)!.login)),
-                const SizedBox(
-                  height: 14,
-                ),
+                    child: Text(
+                      AppLocalizations.of(context)!.login,
+                      style: boldTextStyle12,
+                    )),
+                vSpace15,
                 ElevatedButton(
                     style: outlinedWhiteButton,
                     onPressed: () {
                       Navigator.pushNamed(context, route.signupPage);
                     },
-                    child: Text(localized(context).signup)),
+                    child: Text(
+                      localized(context).signup,
+                      style: boldWhiteTextStyle12,
+                    )),
               ],
             ),
           ),

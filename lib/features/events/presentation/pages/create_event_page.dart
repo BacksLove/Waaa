@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:waaa/component/date_picker.dart';
+import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/colors.dart';
+import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
 
 import '../../../../component/dropdown.dart';
@@ -37,11 +39,11 @@ class CreateEventPage extends StatelessWidget {
           centerTitle: true,
           title: Text(
             localized(context).create_an_event,
-            style: const TextStyle(color: Colors.black),
+            style: boldTextStyle18,
           ),
           leading: IconButton(
             icon: const Icon(FeatherIcons.x),
-            color: Colors.black,
+            color: blackColor,
             onPressed: () => Navigator.pop(context),
           ),
           backgroundColor: transparentColor,
@@ -58,62 +60,46 @@ class CreateEventPage extends StatelessWidget {
                 label: localized(context).name_of_the_event,
                 isColored: true,
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               const Placeholder(
                 fallbackHeight: 140,
                 fallbackWidth: double.infinity,
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               WaaaToggleButton(
                 trueText: localized(context).private_event,
                 falseText: localized(context).public_event,
                 onChanged: (value) {},
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               WaaaDropdownWidget(
                 labelText: localized(context).theme,
                 items: dropdownMock,
                 onChanged: (value) {},
                 selectedItem: null,
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               WaaaTextField(
                 controller: adressController,
                 label: localized(context).event_adress,
                 icondata: FeatherIcons.mapPin,
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               WaaaDatePicker(
                   controller: startDateController,
                   label: localized(context).start_date_and_time),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               WaaaDatePicker(
                   controller: endDateController,
                   label: localized(context).end_date_and_time),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               WaaaDropdownWidget(
                 labelText: localized(context).number_of_people,
                 items: dropdownMock1,
                 onChanged: (value) {},
                 selectedItem: null,
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              vSpace20,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -126,9 +112,7 @@ class CreateEventPage extends StatelessWidget {
                     ),
                     height: 5.0,
                   ),
-                  const SizedBox(
-                    width: 15,
-                  ),
+                  hSpace15,
                   Container(
                     width: MediaQuery.of(context).size.width / 2.3,
                     decoration: BoxDecoration(
