@@ -3,22 +3,31 @@ import 'package:waaa/core/theme/colors.dart';
 
 import '../features/users/domain/entities/user_entity.dart';
 
-class ChipListWidget extends StatelessWidget {
+class ChipListWidget extends StatefulWidget {
   const ChipListWidget({super.key, required this.users});
 
   final List<User> users;
 
   @override
+  State<ChipListWidget> createState() => _ChipListWidgetState();
+}
+
+class _ChipListWidgetState extends State<ChipListWidget> {
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: users.length,
-        itemBuilder: (context, index) {
-          ChipWidget(
-              currentUser: users[index],
-              onDelete: () {
-                users.removeAt(index);
-              });
-        });
+      itemCount: widget.users.length,
+      itemBuilder: (context, index) {
+        return ChipWidget(
+          currentUser: widget.users[index],
+          onDelete: () {
+            setState(() {
+              widget.users.removeAt(index);
+            });
+          },
+        );
+      },
+    );
   }
 }
 

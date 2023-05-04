@@ -43,8 +43,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   void _onValidatePasswordButtonPressed(
       ValidatePasswordButtonPressed event, Emitter<SignupState> emit) async {
     try {
-      if (event.password.isNotEmpty &&
-          event.password.length > 7 &&
+      if (isStrongPassword(event.password) &&
           (event.password == event.confirmPassword)) {
         var signup = await di
             .sl<SignUpWithEmail>()
@@ -85,4 +84,28 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       rethrow;
     }
   }
+}
+
+bool isStrongPassword(String? password) {
+  if (password == null || password.isEmpty) {
+    return false;
+  }
+
+  bool hasUppercase = false;
+  bool hasSpecialChar = false;
+  bool hasNumber = false;
+
+  for (int i = 0; i < password.length; i++) {
+    String char = password[i];
+
+    if (char.toUpperCase() == char) {
+      hasUppercase = true;
+    } else if (RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(char)) {
+      hasSpecialChar = true;
+    } else if (int.tryParse(char) != null) {
+      hasNumber = true;
+    }
+  }
+
+  return password.length >= 6 && hasUppercase && hasSpecialChar && hasNumber;
 }

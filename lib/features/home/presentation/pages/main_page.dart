@@ -4,6 +4,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:waaa/component/app_bar.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/util/localized.dart';
+import 'package:waaa/core/util/mocks/users.dart';
 import 'package:waaa/features/home/presentation/manager/navigation_cubit/bottom_navigation_cubit.dart';
 import 'package:waaa/features/home/presentation/pages/home_page.dart';
 import 'package:waaa/features/home/presentation/pages/notifications_page.dart';
@@ -49,7 +50,9 @@ class _MainPageState extends State<MainPage> {
                 case 3:
                   return const NotificationsPage();
                 case 4:
-                  return const ProfilPage();
+                  return const ProfilPage(
+                    currentUser: mockYamiYugi,
+                  );
                 default:
                   return Container();
               }

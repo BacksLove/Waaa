@@ -5,6 +5,7 @@ import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
+import 'package:waaa/core/util/mocks/users.dart';
 import 'package:waaa/features/home/presentation/manager/home_bloc/home_bloc.dart';
 import 'package:waaa/features/users/domain/entities/user_entity.dart';
 
@@ -13,6 +14,8 @@ import '../../../events/domain/entities/event_entity.dart';
 
 import 'package:waaa/core/route/routes.dart' as route;
 import 'package:waaa/injection_container.dart' as di;
+
+import '../../../events/presentation/widgets/event_carousel.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,45 +26,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late HomeBloc homeBloc;
-
-  final _userNear = [
-    const User(
-        username: "Stanley",
-        photo:
-            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"),
-    const User(
-        username: "Cédric",
-        photo:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSya5dwz7sppH6NGJVip5KpNHbO6feSmMVJoQ&usqp=CAU"),
-    const User(
-        username: "Ralph",
-        photo:
-            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3000&q=80"),
-    const User(
-        username: "Jeremy",
-        photo:
-            "https://images.unsplash.com/photo-1624561172888-ac93c696e10c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=989&q=80"),
-    const User(
-        username: "Boubakar",
-        photo:
-            "https://img1.freepng.fr/20180409/rhe/kisspng-karlovy-vary-computer-icons-avatar-health-care-man-icon-5acb932fc01531.0083656115232909277868.jpg"),
-    const User(
-        username: "Stanley",
-        photo:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSya5dwz7sppH6NGJVip5KpNHbO6feSmMVJoQ&usqp=CAU"),
-    const User(
-        username: "Stanley",
-        photo:
-            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"),
-    const User(
-        username: "Stanley",
-        photo:
-            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3000&q=80"),
-    const User(
-        username: "Stanley",
-        photo:
-            "https://images.unsplash.com/photo-1624561172888-ac93c696e10c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=989&q=80"),
-  ];
 
   @override
   void initState() {
@@ -93,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   vSpace35,
                   UserListCarrousel(
-                    userNear: _userNear,
+                    userNear: mockUsersList,
                     withName: false,
                   ),
                   EventsWaaa(listEvents: state.waaaEvents),
@@ -368,46 +332,7 @@ class EventsUser extends StatelessWidget {
             style: regularTextStyle16,
           )
         else
-          SizedBox(
-            height: 170,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: _listEvents.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, route.eventDetailPage,
-                          arguments: _listEvents[index]);
-                    },
-                    child: Card(
-                      elevation: 0,
-                      child: Container(
-                        height: 170,
-                        width: MediaQuery.of(context).size.width / 2,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          image: DecorationImage(
-                              image: NetworkImage(_listEvents[index].mainPhoto),
-                              fit: BoxFit.cover),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 10, left: 10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _listEvents[index].name,
-                                style: boldWhiteTextStyle20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-          ),
+          EventsCarouselWidget(listEvents: _listEvents),
         vSpace15,
         SizedBox(
           height: 35,

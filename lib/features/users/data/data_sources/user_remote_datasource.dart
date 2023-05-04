@@ -18,18 +18,16 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   @override
   Future<bool> createUser(User user) async {
     try {
-      //var userJSon = user.toJson();
       var userEncoded = user.toJson().toString();
       var userGood = doubleQuotesAroundValues(userEncoded);
-      print("USER = $userGood");
       var doc = '''
       mutation Mutation {
           createUser(input: $userGood}) {
-            id,
-    username
-          }
-        } 
-    ''';
+                  id,
+                  username
+                }
+              } 
+          ''';
       var operation =
           Amplify.API.mutate(request: GraphQLRequest<String>(document: doc));
       var result = await operation.response;
@@ -52,7 +50,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   Future<User?> getUserById(String id) async {
     try {
       var doc = '''query MyQuery {
-  getUser(id: "$id") {
+  getUser(cognitoUserPoolId: "$id") {
     id
     username
     photo

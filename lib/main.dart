@@ -4,10 +4,13 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waaa/core/theme/theme.dart';
+import 'package:waaa/core/util/mocks/users.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/auth/presentation/manager/signup_bloc/signup_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:waaa/features/events/presentation/pages/create_event_part_two_page.dart';
+import 'package:waaa/features/home/presentation/pages/profile_page.dart';
+import 'package:waaa/features/users/domain/entities/user_entity.dart';
 import 'package:waaa/splashpage.dart';
 
 import 'amplifyconfiguration.dart';
@@ -73,7 +76,9 @@ class _MyAppState extends State<MyApp> {
         supportedLocales: AppLocalizations.supportedLocales,
         onGenerateRoute: route.controller,
         home: _amplifyConfigured
-            ? const CreateEventPageTwo()
+            ? const ProfilPage(
+                currentUser: mockYamiYugi,
+              )
             : Scaffold(
                 body: Center(
                   child: Center(

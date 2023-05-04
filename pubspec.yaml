@@ -58,6 +58,10 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   aws_common: ^0.1.1
 
+  #Maps
+  flutter_map: ^3.1.0
+  latlong2: ^0.8.1
+
 
 
 dev_dependencies:
