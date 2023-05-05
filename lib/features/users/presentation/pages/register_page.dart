@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waaa/core/enums/register_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
-import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
+import 'package:waaa/features/users/presentation/manager/bloc/register/register_bloc.dart';
 import 'package:waaa/features/users/presentation/pages/welcome_page.dart';
 import 'package:waaa/features/users/presentation/widgets/country_screen_widget.dart';
 import 'package:waaa/features/users/presentation/widgets/hobbies_screen_widget.dart';

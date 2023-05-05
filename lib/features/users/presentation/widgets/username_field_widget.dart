@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waaa/component/signup_textfield.dart';
 import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/text_styles.dart';
-import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
+import 'package:waaa/features/users/presentation/manager/bloc/register/register_bloc.dart';
 
 import '../../../../core/theme/common_widget/button.dart';
 import '../../../../core/util/localized.dart';

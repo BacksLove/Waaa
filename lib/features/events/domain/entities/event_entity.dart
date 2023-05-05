@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'package:waaa/features/users/domain/entities/user_entity.dart';
@@ -73,4 +74,28 @@ class Event extends Equatable {
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 
   Map<String, dynamic> toJson() => _$EventToJson(this);
+
+  String getStartDate() {
+    return DateFormat("dd/MM/yyyy").format(begin);
+  }
+
+  String getStartHour() {
+    if (hourBegin < 10) {
+      return "0$hourBegin";
+    }
+    return hourBegin.toString();
+  }
+
+  String getEndDate() {
+    return DateFormat("dd/MM/yyyy").format(end);
+  }
+
+  String getEndHour() {
+    if (hourEnd == null) return "";
+
+    if (hourEnd! < 10) {
+      return "0$hourEnd";
+    }
+    return hourBegin.toString();
+  }
 }

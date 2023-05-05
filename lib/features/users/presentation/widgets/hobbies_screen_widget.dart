@@ -3,7 +3,7 @@ import 'package:group_button/group_button.dart';
 import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/features/hobbies/domain/entities/hobby.dart';
-import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
+import 'package:waaa/features/users/presentation/manager/bloc/register/register_bloc.dart';
 
 import 'package:waaa/injection_container.dart' as di;
 

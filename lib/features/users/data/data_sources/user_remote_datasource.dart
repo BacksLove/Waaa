@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -137,7 +138,6 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
 
   @override
   Future<String?> uploadUserPhoto(XFile file, String userId) async {
-    return "";
     /*try {
       final awsFile = AWSFilePlatform.fromFile(File(file.path));
       final uploadResult = await Amplify.Storage.uploadFile(
@@ -149,6 +149,8 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
     } on StorageException catch (e) {
       safePrint('Error uploading file: ${e.message}');
       rethrow;
-    }*/
+    }
+  }*/
+    return "";
   }
 }

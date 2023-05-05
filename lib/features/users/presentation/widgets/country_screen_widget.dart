@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waaa/component/country_picker.dart';
 import 'package:waaa/core/theme/text_styles.dart';
-import 'package:waaa/features/users/presentation/manager/register_bloc.dart';
+import 'package:waaa/features/users/presentation/manager/bloc/register/register_bloc.dart';
 import 'package:waaa/features/users/presentation/widgets/show_country_selected.dart';
 
 import '../../../../core/constants/spacer.dart';

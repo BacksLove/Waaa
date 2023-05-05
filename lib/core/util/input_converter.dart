@@ -12,11 +12,11 @@ class DateConverter {
   }
 
   String dateToDatetimeString(DateTime date) {
-    return DateFormat("dd/M/yyyy hh:mm").format(date);
+    return DateFormat("dd/M/yyyy HH:mm").format(date);
   }
 
   String dateToTimeString(DateTime date) {
-    return DateFormat("hh:mm").format(date);
+    return DateFormat("HH:mm").format(date);
   }
 
   DateTime stringToDate(String date) {

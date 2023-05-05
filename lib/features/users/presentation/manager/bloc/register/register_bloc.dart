@@ -8,13 +8,13 @@ import 'package:waaa/features/users/domain/entities/user_entity.dart';
 import 'package:waaa/features/users/domain/use_cases/create_user.dart';
 import 'package:waaa/features/users/domain/use_cases/upload_user_photo.dart';
 
-import '../../../../core/enums/register_enum.dart';
-import '../../../../core/usecases/usecase.dart';
-import '../../../hobbies/domain/entities/hobby.dart';
+import '../../../../../../core/enums/register_enum.dart';
+import '../../../../../../core/usecases/usecase.dart';
+import '../../../../../hobbies/domain/entities/hobby.dart';
 
 import 'package:waaa/injection_container.dart' as di;
 
-import '../../../hobbies/domain/use_cases/get_hobbies.dart';
+import '../../../../../hobbies/domain/use_cases/get_hobbies.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';

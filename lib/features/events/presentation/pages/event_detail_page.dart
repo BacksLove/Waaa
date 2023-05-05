@@ -159,7 +159,7 @@ class ShowEventDetails extends StatelessWidget {
                   vSpace5,
                   Text(
                     localized(context).interested,
-                    style: semiBoldTextStyle16,
+                    style: semiBoldTextStyle14,
                   )
                 ],
               ),
@@ -183,7 +183,7 @@ class ShowEventDetails extends StatelessWidget {
                   vSpace5,
                   Text(
                     localized(context).participate,
-                    style: semiBoldTextStyle16,
+                    style: semiBoldTextStyle14,
                   )
                 ],
               ),
@@ -207,7 +207,7 @@ class ShowEventDetails extends StatelessWidget {
                   vSpace5,
                   Text(
                     localized(context).share,
-                    style: semiBoldTextStyle16,
+                    style: semiBoldTextStyle14,
                   )
                 ],
               ),
@@ -231,7 +231,7 @@ class ShowEventDetails extends StatelessWidget {
                   vSpace5,
                   Text(
                     localized(context).plus,
-                    style: semiBoldTextStyle16,
+                    style: semiBoldTextStyle14,
                   )
                 ],
               ),
@@ -254,9 +254,10 @@ class ShowEventDetails extends StatelessWidget {
                 "${currentEvent.city}, ${currentEvent.country} - ${currentEvent.address}"),
         EventDetailTile(
             icon: FeatherIcons.calendar,
-            tileKey: localized(context).start_date_and_time,
+            tileKey: "Date et heure",
             tileValue:
-                "Début : ${currentEvent.begin} à ${currentEvent.hourBegin}\nFin : ${currentEvent.end} à ${currentEvent.hourEnd}"),
+                // Todo : Mettre le texte dans le localized
+                "\nDébut : ${currentEvent.getStartDate()} à ${currentEvent.getStartHour()}\nFin : ${currentEvent.getEndDate()} à ${currentEvent.getEndHour()}"),
         vSpace20,
         // Infos
         Container(
@@ -421,6 +422,7 @@ class EventDetailTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      minLeadingWidth: 5,
       leading: Icon(
         icon,
         color: primaryColor,
