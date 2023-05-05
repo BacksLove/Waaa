@@ -42,7 +42,7 @@ class SettingPage extends StatelessWidget {
         child: ListView(children: [
           Container(
             padding: const EdgeInsets.only(left: 15.0, top: 20.0),
-            child: const Text(
+            child: Text(
               "Parametres du profil",
               style: semiBoldTextStyle16,
             ),

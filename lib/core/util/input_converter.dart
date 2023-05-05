@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class InputConverter {
   int stringToUnsignedInteger(String str) {
     return int.parse(str);
@@ -6,15 +8,15 @@ class InputConverter {
 
 class DateConverter {
   String dateToDateString(DateTime date) {
-    return "${date.day}/${date.month}/${date.year}";
+    return DateFormat("dd/M/yyyy").format(date);
   }
 
   String dateToDatetimeString(DateTime date) {
-    return "${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute}";
+    return DateFormat("dd/M/yyyy hh:mm").format(date);
   }
 
   String dateToTimeString(DateTime date) {
-    return "${date.hour}:${date.minute}";
+    return DateFormat("hh:mm").format(date);
   }
 
   DateTime stringToDate(String date) {

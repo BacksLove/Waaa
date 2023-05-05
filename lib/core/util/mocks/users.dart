@@ -4,7 +4,7 @@ const User mockYamiYugi = User(
   username: "Yami YuGi",
   photo:
       "https://static.wikia.nocookie.net/yugioh-gx/images/3/3d/YamiYugi-DSOD.png/revision/latest?cb=20180826170223&path-prefix=fr",
-  languagesSpeak: ["FR", "EN"],
+  languagesSpeak: ["FR", "EN", "DU", "ES", "EN", "DU", "ES"],
 );
 
 final List<User> mockUsersList = [

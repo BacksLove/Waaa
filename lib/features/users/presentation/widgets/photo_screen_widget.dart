@@ -83,7 +83,7 @@ class PhotoScreenWidget extends StatelessWidget {
               onPressed: () {
                 registerBloc.add(RegisterCompleteEvent());
               },
-              child: const Text(
+              child: Text(
                 "Ok, Cool",
                 style: boldTextStyle12,
               ))

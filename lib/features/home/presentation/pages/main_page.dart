@@ -8,10 +8,11 @@ import 'package:waaa/core/util/mocks/users.dart';
 import 'package:waaa/features/home/presentation/manager/navigation_cubit/bottom_navigation_cubit.dart';
 import 'package:waaa/features/home/presentation/pages/home_page.dart';
 import 'package:waaa/features/home/presentation/pages/notifications_page.dart';
-import 'package:waaa/features/home/presentation/pages/profile_page.dart';
 import 'package:waaa/features/home/presentation/pages/search_page.dart';
 
 import 'package:waaa/injection_container.dart' as di;
+
+import '../../../users/presentation/pages/profile_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

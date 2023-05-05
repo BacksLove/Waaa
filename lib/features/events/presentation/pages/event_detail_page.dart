@@ -351,7 +351,7 @@ class ShowEventDetails extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+            Text(
               "Audience de l'evenenement",
               style: semiBoldTextStyle16,
             ),

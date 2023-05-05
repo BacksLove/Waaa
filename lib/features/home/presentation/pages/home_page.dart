@@ -176,7 +176,7 @@ class EventsWaaa extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Events WAAA",
           style: boldTextStyle24,
         ),
@@ -327,7 +327,7 @@ class EventsUser extends StatelessWidget {
         ),
         vSpace10,
         if (_listEvents.isEmpty)
-          const Text(
+          Text(
             "There's no event, create one",
             style: regularTextStyle16,
           )

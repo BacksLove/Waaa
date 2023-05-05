@@ -8,14 +8,11 @@ import 'package:waaa/core/util/mocks/users.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/auth/presentation/manager/signup_bloc/signup_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:waaa/features/events/presentation/pages/create_event_part_two_page.dart';
-import 'package:waaa/features/home/presentation/pages/profile_page.dart';
-import 'package:waaa/features/users/domain/entities/user_entity.dart';
-import 'package:waaa/splashpage.dart';
 
 import 'amplifyconfiguration.dart';
 import 'features/auth/presentation/manager/login_bloc/login_bloc.dart';
 import 'features/users/presentation/manager/register_bloc.dart';
+import 'features/users/presentation/pages/profile_page.dart';
 import 'injection_container.dart' as di;
 import 'package:waaa/core/route/routes.dart' as route;
 
