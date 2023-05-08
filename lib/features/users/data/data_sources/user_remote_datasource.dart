@@ -21,10 +21,10 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   Future<bool> createUser(User user) async {
     try {
       var userEncoded = user.toJson().toString();
-      var userGood = doubleQuotesAroundValues(userEncoded);
-      var doc = '''
-      mutation Mutation {
-          createUser(input: $userGood}) {
+      var removeQuoteFromKeys = removeQuotesFromKeys(userEncoded);
+      var removeQuoteFromKeys1 = removeQuotesFromKeys1(userEncoded);
+      var doc = ''' mutation Mutation {
+          createUser(input: $removeQuoteFromKeys1}) {
                   id,
                   username
                 }
@@ -33,6 +33,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       var operation =
           Amplify.API.mutate(request: GraphQLRequest<String>(document: doc));
       var result = await operation.response;
+      safePrint(result.errors);
       if (result.data != null) {
         return true;
       }

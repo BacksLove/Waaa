@@ -84,9 +84,7 @@ class _MyAppState extends State<MyApp> {
         supportedLocales: AppLocalizations.supportedLocales,
         onGenerateRoute: route.controller,
         home: _amplifyConfigured
-            ? const ProfilPage(
-                currentUser: mockYamiYugi,
-              )
+            ? const SplashPage()
             : Scaffold(
                 body: Center(
                   child: Center(

@@ -5,6 +5,7 @@ import 'package:waaa/component/app_bar.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/util/localized.dart';
 import 'package:waaa/core/util/mocks/users.dart';
+import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/home/presentation/manager/navigation_cubit/bottom_navigation_cubit.dart';
 import 'package:waaa/features/home/presentation/pages/home_page.dart';
 import 'package:waaa/features/home/presentation/pages/notifications_page.dart';
@@ -23,11 +24,13 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   late BottomNavigationCubit navigationCubit;
+  late AuthBloc authBloc;
 
   @override
   void initState() {
     super.initState();
     navigationCubit = di.sl<BottomNavigationCubit>();
+    authBloc = di.sl<AuthBloc>();
   }
 
   @override
@@ -51,8 +54,8 @@ class _MainPageState extends State<MainPage> {
                 case 3:
                   return const NotificationsPage();
                 case 4:
-                  return const ProfilPage(
-                    currentUser: mockYamiYugi,
+                  return ProfilPage(
+                    currentUser: authBloc.state.user!,
                   );
                 default:
                   return Container();
@@ -72,10 +75,9 @@ class _MainPageState extends State<MainPage> {
                     label: localized(context).home,
                   ),
                   BottomNavigationBarItem(
-                    backgroundColor: Colors.green,
                     icon: Icon(
                       FeatherIcons.search,
-                      color: primaryColor,
+                      color: blackColor,
                     ),
                     label: localized(context).search,
                   ),
