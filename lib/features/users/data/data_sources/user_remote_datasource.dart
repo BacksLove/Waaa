@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:waaa/core/constants/constants.dart';
-import 'package:waaa/core/util/json_to_graphql.dart';
+import 'package:waaa/core/environment/graphql_config.dart';
 import '../../domain/entities/user_entity.dart';
 
 abstract class UserRemoteDatasource {
@@ -17,24 +18,41 @@ abstract class UserRemoteDatasource {
 }
 
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
+  static GraphQLConfig graphQLConfig = GraphQLConfig();
+  GraphQLClient client = graphQLConfig.clientToQuery();
+
   @override
   Future<bool> createUser(User user) async {
     try {
-      var userEncoded = user.toJson().toString();
-      var removeQuoteFromKeys = removeQuotesFromKeys(userEncoded);
-      var removeQuoteFromKeys1 = removeQuotesFromKeys1(userEncoded);
-      var doc = ''' mutation Mutation {
-          createUser(input: $removeQuoteFromKeys1}) {
+      var userEncoded = user.toJson();
+      safePrint(userEncoded);
+      var doc = ''' mutation CreateUser(\$input: CreateUserInput!) {
+          createUser(input: \$input) {
                   id,
+                  cognitoUserPoolId,
                   username
                 }
               } 
           ''';
-      var operation =
-          Amplify.API.mutate(request: GraphQLRequest<String>(document: doc));
+      /*QueryResult result = await client.mutate(
+        MutationOptions(
+            fetchPolicy: FetchPolicy.noCache,
+            document: gql(doc),
+            variables: userEncoded),
+      );*/
+      var operation = Amplify.API.mutate(
+        request: GraphQLRequest<String>(
+          document: doc,
+          variables: <String, dynamic>{
+            'input': userEncoded,
+          },
+        ),
+      );
       var result = await operation.response;
+      safePrint(result.data);
       safePrint(result.errors);
-      if (result.data != null) {
+      //safePrint(result.exception);
+      if (operation != null) {
         return true;
       }
       return false;
@@ -55,6 +73,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       var doc = '''query MyQuery {
   getUser(cognitoUserPoolId: "$id") {
     id
+    cognitoUserPoolId
     username
     photo
     role
@@ -72,24 +91,24 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
     events {
       items {
         address
-      begin
-      city
-      country
-      createdAt
-      description
-      end
-      hourBegin
-      id
-      hourEnd
-      isPublic
-      language
-      mainPhoto
-      maxParticipants
-      minAgeRestriction
-      minParticipants
-      name
-      photos
-      userEventsId
+        begin
+        city
+        country
+        createdAt
+        description
+        end
+        hourBegin
+        id
+        hourEnd
+        isPublic
+        language
+        mainPhoto
+        maxParticipants
+        minAgeRestriction
+        minParticipants
+        name
+        photos
+        userEventsId
       }
     }
     hobbies {
@@ -114,7 +133,10 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       var operation =
           Amplify.API.query(request: GraphQLRequest<String>(document: doc));
       var result = await operation.response;
+      safePrint(result.data);
+      safePrint(result.errors);
       if (result.data != null) {
+        safePrint(result.data);
         var userJSON = json.decode(result.data!)["getUser"];
         if (userJSON != null) {
           var user = User.fromJson(userJSON);

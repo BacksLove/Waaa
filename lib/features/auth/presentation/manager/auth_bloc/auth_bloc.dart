@@ -28,7 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   @override
   void onTransition(Transition<AuthEvent, AuthState> transition) {
     super.onTransition(transition);
-    //print(transition);
+    print(transition);
   }
 
   void _onAppStart(AppStarted event, Emitter<AuthState> emit) async {
@@ -37,13 +37,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const AuthState.unknown());
       var token = di.sl<SharedPreferences>().getString(userIdKey);
       if (token != null) {
+        print("Y'a un token déja");
         final AuthSession session =
             await di.sl<GetCurrentAuthSession>().call(NoParams());
         if (session.isSignedIn) {
+          print("User authentifié");
           user = await di.sl<GetUserById>().call(GetUserByIdParams(id: token));
           if (user != null) {
+            print("User en cours = ${user.username}");
             emit(AuthState.authenticated(user));
           } else {
+            print("Y'a personne");
             emit(const AuthState.registered());
           }
         } else {

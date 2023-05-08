@@ -8,6 +8,7 @@ part of 'user_entity.dart';
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
       id: json['id'] as String?,
+      cognitoUserPoolId: json['cognitoUserPoolId'] as String?,
       role: json['role'] as String?,
       gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
       lookingFor: $enumDecodeNullable(_$GenderEnumMap, json['lookingFor']),
@@ -20,10 +21,10 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       languagesSpeak: (json['languagesSpeak'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      hobbies: (json['hobbies']['items'] as List<dynamic>?)
+      hobbies: (json['hobbies'] as List<dynamic>?)
           ?.map((e) => Hobby.fromJson(e as Map<String, dynamic>))
           .toList(),
-      events: (json['events']['items'] as List<dynamic>?)
+      events: (json['events'] as List<dynamic>?)
           ?.map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
       suspendedUntil: json['suspendedUntil'] == null
@@ -48,6 +49,7 @@ Map<String, dynamic> _$UserToJson(User instance) {
   }
 
   writeNotNull('id', instance.id);
+  writeNotNull('cognitoUserPoolId', instance.cognitoUserPoolId);
   writeNotNull('role', instance.role);
   writeNotNull('gender', _$GenderEnumMap[instance.gender]);
   writeNotNull('lookingFor', _$GenderEnumMap[instance.lookingFor]);

@@ -10,6 +10,7 @@ import 'package:waaa/features/users/domain/use_cases/upload_user_photo.dart';
 
 import '../../../../../../core/enums/register_enum.dart';
 import '../../../../../../core/usecases/usecase.dart';
+import '../../../../../../core/util/list_from_indices.dart';
 import '../../../../../hobbies/domain/entities/hobby.dart';
 
 import 'package:waaa/injection_container.dart' as di;
@@ -137,9 +138,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     emit(state.copyWith(status: RegisterStatus.loading, errorMessage: ""));
     //var selectedHobbies = getListFromIndices(state.selectedHobbiesIndexes, state.hobbies);
     var userId = di.sl<SharedPreferences>().getString(userIdKey);
-
+    late String? photoLink;
     if (state.photoUrl.isNotEmpty && userId != null) {
-      await di
+      photoLink = await di
           .sl<UploadUserPhoto>()
           .call(UploadUserPhotoParams(file: state.photoFile!, userId: userId));
     }
@@ -148,6 +149,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         cognitoUserPoolId: userId,
         nativeLanguage: state.nativeLanguage,
         username: state.username,
+        photo: photoLink,
         languagesSpeak: state.spokenLanguages);
     try {
       final bool creation =
