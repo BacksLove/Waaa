@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
               }
             }
           }, builder: (context, state) {
-            return Padding(
+            return SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Center(
                   child: Column(

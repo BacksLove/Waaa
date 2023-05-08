@@ -4,22 +4,32 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waaa/core/environment/environment.dart';
 import 'package:waaa/core/theme/theme.dart';
 import 'package:waaa/core/util/mocks/users.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/auth/presentation/manager/signup_bloc/signup_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:waaa/features/users/presentation/pages/profile_page.dart';
+import 'package:waaa/splashpage.dart';
 
 import 'amplifyconfiguration.dart';
 import 'features/auth/presentation/manager/login_bloc/login_bloc.dart';
 import 'features/users/presentation/manager/bloc/register/register_bloc.dart';
-import 'features/users/presentation/pages/profile_page.dart';
 import 'injection_container.dart' as di;
 import 'package:waaa/core/route/routes.dart' as route;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
+
+  const String environment = String.fromEnvironment(
+    'ENVIRONMENT',
+    defaultValue: Environment.DEV,
+  );
+
+  Environment().initConfig(environment);
+
   runApp(const MyApp());
 }
 

@@ -72,9 +72,10 @@ class _MainPageState extends State<MainPage> {
                     label: localized(context).home,
                   ),
                   BottomNavigationBarItem(
+                    backgroundColor: Colors.green,
                     icon: Icon(
                       FeatherIcons.search,
-                      color: blackColor,
+                      color: primaryColor,
                     ),
                     label: localized(context).search,
                   ),

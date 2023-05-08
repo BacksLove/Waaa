@@ -43,8 +43,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   void _onValidatePasswordButtonPressed(
       ValidatePasswordButtonPressed event, Emitter<SignupState> emit) async {
     try {
-      if (isStrongPassword(event.password) &&
-          (event.password == event.confirmPassword)) {
+      if ((event.password == event.confirmPassword)) {
         var signup = await di
             .sl<SignUpWithEmail>()
             .call(SignUpParams(email: event.email, password: event.password));

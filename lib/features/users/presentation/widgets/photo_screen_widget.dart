@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/features/users/presentation/manager/bloc/register/register_bloc.dart';
@@ -16,9 +20,8 @@ class PhotoScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final RegisterBloc registerBloc = di.sl<RegisterBloc>();
-    //final String photo_url;
 
-    return Padding(
+    return Container(
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
@@ -36,7 +39,7 @@ class PhotoScreenWidget extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(
                   width: 1,
-                  color: grayColor,
+                  color: lightGrayColor,
                   style: BorderStyle.solid,
                 ),
               ),
@@ -47,14 +50,33 @@ class PhotoScreenWidget extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(
                       width: 1,
-                      color: grayColor,
+                      color: lightGrayColor,
                       style: BorderStyle.solid,
                     ),
                   ),
                   child: Container(
-                    padding: const EdgeInsets.all(80),
-                    child: const CircleAvatar(
-                      child: Icon(FeatherIcons.image),
+                    padding: const EdgeInsets.all(50),
+                    child: BlocBuilder<RegisterBloc, RegisterState>(
+                      builder: (context, state) {
+                        if (state.photoUrl.isNotEmpty) {
+                          return SizedBox(
+                            height: 150,
+                            width: 150,
+                            child: CircleAvatar(
+                              backgroundImage: Image.file(
+                                File(state.photoUrl),
+                                fit: BoxFit.cover,
+                              ).image,
+                            ),
+                          );
+                        } else {
+                          return const CircleAvatar(
+                            child: Icon(
+                              FeatherIcons.image,
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -64,7 +86,10 @@ class PhotoScreenWidget extends StatelessWidget {
           vSpace30,
           ElevatedButton(
               style: primaryButton,
-              onPressed: () {},
+              onPressed: () {
+                registerBloc
+                    .add(const OpenImagePicker(source: ImageSource.camera));
+              },
               child: Text(
                 localized(context).take_a_photo,
                 style: boldTextStyle12,
@@ -72,7 +97,10 @@ class PhotoScreenWidget extends StatelessWidget {
           vSpace15,
           ElevatedButton(
               style: outlinedBlackButton,
-              onPressed: () {},
+              onPressed: () {
+                registerBloc
+                    .add(const OpenImagePicker(source: ImageSource.gallery));
+              },
               child: Text(
                 localized(context).browse_from_media,
                 style: boldTextStyle12,

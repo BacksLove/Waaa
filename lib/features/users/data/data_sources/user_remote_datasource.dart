@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:waaa/core/constants/constants.dart';
 import 'package:waaa/core/util/json_to_graphql.dart';
 import '../../domain/entities/user_entity.dart';
 
@@ -138,19 +139,17 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
 
   @override
   Future<String?> uploadUserPhoto(XFile file, String userId) async {
-    /*try {
-      final awsFile = AWSFilePlatform.fromFile(File(file.path));
-      final uploadResult = await Amplify.Storage.uploadFile(
+    try {
+      final awsFile = File(file.path);
+      await Amplify.Storage.uploadFile(
         local: awsFile,
-        key: 'profilePhotos/$userId.png',
-      ).result;
-      safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
-      return uploadResult.uploadedItem.key;
+        key: '$userPhotoDir$userId.png',
+      );
+      final photoUrl = await Amplify.Storage.getUrl(key: '$userId.png');
+      return photoUrl.toString();
     } on StorageException catch (e) {
       safePrint('Error uploading file: ${e.message}');
       rethrow;
     }
-  }*/
-    return "";
   }
 }

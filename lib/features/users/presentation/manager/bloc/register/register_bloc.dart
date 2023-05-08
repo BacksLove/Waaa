@@ -41,7 +41,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   @override
   void onTransition(Transition<RegisterEvent, RegisterState> transition) {
     super.onTransition(transition);
-    //print(transition);
+    // print(transition);
   }
 
   void _onValidateUsernameButtonPressed(
@@ -137,6 +137,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     emit(state.copyWith(status: RegisterStatus.loading, errorMessage: ""));
     //var selectedHobbies = getListFromIndices(state.selectedHobbiesIndexes, state.hobbies);
     var userId = di.sl<SharedPreferences>().getString(userIdKey);
+
+    if (state.photoUrl.isNotEmpty && userId != null) {
+      await di
+          .sl<UploadUserPhoto>()
+          .call(UploadUserPhotoParams(file: state.photoFile!, userId: userId));
+    }
+
     User user = User(
         cognitoUserPoolId: userId,
         nativeLanguage: state.nativeLanguage,
@@ -224,13 +231,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   void _onOpenImagePicker(
       OpenImagePicker event, Emitter<RegisterState> emit) async {
     final pickedFile = await imagePicker.pickImage(source: event.source);
-    final userId = di.sl<SharedPreferences>().getString(userIdKey);
-    if (pickedFile != null && userId != null) {
-      await di
-          .sl<UploadUserPhoto>()
-          .call(UploadUserPhotoParams(file: pickedFile, userId: userId));
-
-      emit(state.copyWith(photoUrl: pickedFile.path));
+    if (pickedFile != null) {
+      emit(state.copyWith(photoUrl: pickedFile.path, photoFile: pickedFile));
     } else {
       emit(state.copyWith(
           errorMessage: "Something went wrong when choosing image"));

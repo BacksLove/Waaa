@@ -28,6 +28,7 @@ import 'package:waaa/features/users/domain/use_cases/create_user.dart';
 import 'package:waaa/features/users/domain/use_cases/delete_user.dart';
 import 'package:waaa/features/users/domain/use_cases/get_user_by_id.dart';
 import 'package:waaa/features/users/domain/use_cases/update_user.dart';
+import 'package:waaa/features/users/domain/use_cases/upload_user_photo.dart';
 import 'package:waaa/features/users/presentation/manager/bloc/profile/profile_bloc.dart';
 import 'package:waaa/features/users/presentation/manager/bloc/register/register_bloc.dart';
 
@@ -78,9 +79,12 @@ Future<void> init() async {
   sl.registerLazySingleton<UserRemoteDatasource>(
       () => UserRemoteDatasourceImpl());
 
-  //! Feature - Profile
+  //! Feature - Users
   // Bloc
   sl.registerLazySingleton<ProfileBloc>(() => ProfileBloc());
+
+  // Use cases
+  sl.registerLazySingleton<UploadUserPhoto>(() => UploadUserPhoto(sl()));
 
   //! Feature - Home
   // Bloc

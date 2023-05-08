@@ -29,6 +29,7 @@ dependencies:
   # Forms
   pin_code_fields: ^7.4.0
   country_picker: ^2.0.20
+  language_picker: ^0.4.3
   group_button: ^5.2.2
   scroll_date_picker: ^3.7.0
   flutter_datetime_picker: ^1.5.1

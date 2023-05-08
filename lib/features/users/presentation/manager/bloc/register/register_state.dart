@@ -11,6 +11,7 @@ class RegisterState extends Equatable {
   final List<int> selectedHobbiesIndexes;
   final String photoUrl;
   final String? errorMessage;
+  final XFile? photoFile;
 
   const RegisterState({
     required this.status,
@@ -23,6 +24,7 @@ class RegisterState extends Equatable {
     required this.selectedHobbiesIndexes,
     required this.photoUrl,
     this.errorMessage,
+    this.photoFile,
   });
 
   factory RegisterState.initial() => const RegisterState(
@@ -65,20 +67,21 @@ class RegisterState extends Equatable {
     List<int>? selectedHobbiesIndexes,
     String? photoUrl,
     String? errorMessage,
+    XFile? photoFile,
   }) {
     return RegisterState(
-      status: status ?? this.status,
-      username: username ?? this.username,
-      nationality: nationality ?? this.nationality,
-      residency: residency ?? this.residency,
-      nativeLanguage: nativeLanguage ?? this.nativeLanguage,
-      spokenLanguages: spokenLanguages ?? this.spokenLanguages,
-      hobbies: hobbies ?? this.hobbies,
-      selectedHobbiesIndexes:
-          selectedHobbiesIndexes ?? this.selectedHobbiesIndexes,
-      photoUrl: photoUrl ?? this.photoUrl,
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
+        status: status ?? this.status,
+        username: username ?? this.username,
+        nationality: nationality ?? this.nationality,
+        residency: residency ?? this.residency,
+        nativeLanguage: nativeLanguage ?? this.nativeLanguage,
+        spokenLanguages: spokenLanguages ?? this.spokenLanguages,
+        hobbies: hobbies ?? this.hobbies,
+        selectedHobbiesIndexes:
+            selectedHobbiesIndexes ?? this.selectedHobbiesIndexes,
+        photoUrl: photoUrl ?? this.photoUrl,
+        errorMessage: errorMessage ?? this.errorMessage,
+        photoFile: photoFile ?? this.photoFile);
   }
 }
 
