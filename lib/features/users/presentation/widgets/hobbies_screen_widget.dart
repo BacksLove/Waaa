@@ -22,8 +22,8 @@ class HobbiesScreenWidget extends StatelessWidget {
     final GroupButtonController hobbiesController = GroupButtonController();
     List<String> list = [for (var hobby in hobbies) hobby.name];
 
-    return Center(
-      child: Padding(
+    return SingleChildScrollView(
+      child: Container(
         padding: const EdgeInsets.all(30),
         child: Column(
           children: [

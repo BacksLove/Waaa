@@ -41,8 +41,7 @@ class WaaaDatePicker extends StatelessWidget {
             minTime: DateTime(2018, 3, 5),
             maxTime: DateTime(2019, 6, 7),
             onChanged: (date) {}, onConfirm: (date) {
-          controller.text =
-              "${date.day}/${date.month}/${date.year} à ${date.hour}:${date.minute}";
+          controller.text = date.toString();
         }, currentTime: DateTime.now(), locale: LocaleType.fr);
       },
     );

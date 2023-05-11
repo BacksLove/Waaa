@@ -5,26 +5,26 @@ import '../../../../../core/enums/login_enum.dart';
 
 class LoginState extends Equatable {
   final LoginStatus status;
-  final String? errorMesssage;
+  final LoginErrorType? errorType;
   final bool isPassworHidden;
 
   const LoginState({
     required this.status,
-    this.errorMesssage,
+    this.errorType,
     this.isPassworHidden = true,
   });
 
   @override
-  List<Object?> get props => [status, errorMesssage];
+  List<Object?> get props => [status, errorType, isPassworHidden];
 
   LoginState copyWith({
     LoginStatus? status,
-    String? errorMesssage,
+    LoginErrorType? errorType,
     bool? isPassworHidden,
   }) {
     return LoginState(
       status: status ?? this.status,
-      errorMesssage: errorMesssage ?? this.errorMesssage,
+      errorType: errorType ?? this.errorType,
       isPassworHidden: isPassworHidden ?? this.isPassworHidden,
     );
   }

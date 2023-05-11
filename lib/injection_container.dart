@@ -17,6 +17,7 @@ import 'package:waaa/features/events/data/repositories/event_repository_impl.dar
 import 'package:waaa/features/events/domain/repositories/event_repository.dart';
 import 'package:waaa/features/events/domain/use_cases/get_events_by_user_id.dart';
 import 'package:waaa/features/events/domain/use_cases/get_waaa_events.dart';
+import 'package:waaa/features/events/presentation/manager/bloc/event_detail_bloc.dart';
 import 'package:waaa/features/hobbies/data/data_sources/hobbies_remote_data_source.dart';
 import 'package:waaa/features/hobbies/data/repositories/hobbies_repository_impl.dart';
 import 'package:waaa/features/hobbies/domain/repositories/hobbies_repository.dart';
@@ -89,10 +90,11 @@ Future<void> init() async {
   //! Feature - Home
   // Bloc
   sl.registerFactory<BottomNavigationCubit>(() => BottomNavigationCubit());
+  sl.registerLazySingleton<HomeBloc>(() => HomeBloc(sl()));
 
   //! Events
   // Bloc
-  sl.registerLazySingleton<HomeBloc>(() => HomeBloc(sl()));
+  sl.registerLazySingleton<EventDetailBloc>(() => EventDetailBloc());
 
   // Use cases
   sl.registerLazySingleton<GetEventsByUserId>(() => GetEventsByUserId(sl()));

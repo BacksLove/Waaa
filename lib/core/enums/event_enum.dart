@@ -1,0 +1,4 @@
+enum CreateEventStep {
+  partOne,
+  partTwo
+}

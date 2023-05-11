@@ -17,9 +17,8 @@ class WaaaTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
-      enabled: true,
       decoration: InputDecoration(
         suffixIcon: (icondata != null) ? Icon(icondata) : null,
         labelText: label,
@@ -41,9 +40,6 @@ class WaaaTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(50.0),
         ),
       ),
-      onChanged: (value) {
-        controller.text = value;
-      },
     );
   }
 }

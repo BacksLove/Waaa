@@ -8,3 +8,17 @@ enum RegisterStatus {
   createUser,
   complete
 }
+
+enum RegisterErrorType {
+  none,
+  usernameEmpty,
+  usernameTaken,
+  nationalityEmpty,
+  residencyEmpty,
+  nativeLanguageEmpty,
+  spokenLanguagesEmpty,
+  spokenLanguageAlreadySelected,
+  countrySelectError,
+  photoSelectError,
+  photoEmpty,
+}

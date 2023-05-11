@@ -58,3 +58,17 @@ final List<Event> mockEventsList = [
       mainPhoto:
           "https://www.studiesup.com/images/%C3%89tudier-%C3%A0-singapour-10.jpg"),
 ];
+
+final List<String> mockEventType = [
+  "Festif",
+  "Restaurant",
+  "Concert",
+  "Visite"
+];
+
+final List<String> mockEventNumberParticipation = [
+  "0 - 10",
+  "10 - 50",
+  "50 - 100",
+  "+ 100"
+];

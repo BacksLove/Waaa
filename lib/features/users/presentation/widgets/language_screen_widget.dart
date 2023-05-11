@@ -21,7 +21,7 @@ class LanguageScreenWidget extends StatelessWidget {
     return BlocBuilder<RegisterBloc, RegisterState>(
       bloc: registerBloc,
       builder: (context, state) {
-        return Center(
+        return SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(30),
             child: Column(

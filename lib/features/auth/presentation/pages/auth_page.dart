@@ -39,7 +39,7 @@ class AuthPage extends StatelessWidget {
                       Navigator.pushNamed(context, route.loginPage);
                     },
                     child: Text(
-                      AppLocalizations.of(context)!.login,
+                      AppLocalizations.of(context)!.signin,
                       style: boldTextStyle12,
                     )),
                 vSpace15,

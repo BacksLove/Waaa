@@ -10,7 +10,7 @@ class RegisterState extends Equatable {
   final List<Hobby> hobbies;
   final List<int> selectedHobbiesIndexes;
   final String photoUrl;
-  final String? errorMessage;
+  final RegisterErrorType errorType;
   final XFile? photoFile;
 
   const RegisterState({
@@ -23,7 +23,7 @@ class RegisterState extends Equatable {
     required this.hobbies,
     required this.selectedHobbiesIndexes,
     required this.photoUrl,
-    this.errorMessage,
+    required this.errorType,
     this.photoFile,
   });
 
@@ -36,6 +36,7 @@ class RegisterState extends Equatable {
       spokenLanguages: [],
       hobbies: [],
       selectedHobbiesIndexes: [],
+      errorType: RegisterErrorType.none,
       photoUrl: "");
 
   @override
@@ -49,6 +50,7 @@ class RegisterState extends Equatable {
       spokenLanguages,
       hobbies,
       selectedHobbiesIndexes,
+      errorType,
       photoUrl,
     ];
   }
@@ -66,7 +68,7 @@ class RegisterState extends Equatable {
     List<Hobby>? hobbies,
     List<int>? selectedHobbiesIndexes,
     String? photoUrl,
-    String? errorMessage,
+    RegisterErrorType? errorType,
     XFile? photoFile,
   }) {
     return RegisterState(
@@ -80,84 +82,7 @@ class RegisterState extends Equatable {
         selectedHobbiesIndexes:
             selectedHobbiesIndexes ?? this.selectedHobbiesIndexes,
         photoUrl: photoUrl ?? this.photoUrl,
-        errorMessage: errorMessage ?? this.errorMessage,
+        errorType: errorType ?? this.errorType,
         photoFile: photoFile ?? this.photoFile);
   }
 }
-
-/*class RegisterInitial extends RegisterState {}
-
-// Username
-class RegisterUsernameState extends RegisterState {
-  final String steps = "1";
-}
-
-// Countries buttons
-class RegisterCountriesState extends RegisterState {
-  final String? nationality;
-  final String? residence;
-  final String steps = "2";
-
-  const RegisterCountriesState({this.nationality, this.residence});
-
-  RegisterCountriesState copyWith({
-    String? nationality,
-    String? residence,
-  }) {
-    return RegisterCountriesState(
-      nationality: nationality ?? this.nationality,
-      residence: residence ?? this.residence,
-    );
-  }
-}
-
-class NationalityCountrySelectedState extends RegisterState {
-  final String nationality;
-
-  const NationalityCountrySelectedState({required this.nationality});
-}
-
-class ResidenceCountrySelectedState extends RegisterState {
-  final String residence;
-
-  const ResidenceCountrySelectedState({required this.residence});
-}
-
-// Languages buttons
-class RegisterLanguagesState extends RegisterState {
-  final String steps = "3";
-}
-
-class NativeLanguageSelectedState extends RegisterState {
-  final String nativeLangue;
-
-  const NativeLanguageSelectedState({required this.nativeLangue});
-}
-
-class SpokenLanguagesSelectedState extends RegisterState {
-  final String spokenLanguages;
-
-  const SpokenLanguagesSelectedState({required this.spokenLanguages});
-}
-
-class RegisterHobbiesState extends RegisterState {
-  final List<Hobby> hobbies;
-  final String steps = "4";
-
-  const RegisterHobbiesState({required this.hobbies});
-}
-
-class RegisterPhotoState extends RegisterState {
-  final String steps = "5";
-}
-
-class RegisterCompleteState extends RegisterState {}
-
-class RegisterErrorState extends RegisterState {
-  final String errorMessage;
-
-  const RegisterErrorState({required this.errorMessage});
-}
-
-class RegisterLoadingState extends RegisterState {}
-*/

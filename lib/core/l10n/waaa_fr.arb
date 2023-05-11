@@ -337,5 +337,20 @@
     "twelves_days": "12 jours",
     "people_requests": "",
     "signup": "Inscription",
-    "nickname_already_taken": "Pseudo déjà pris"
+    "nickname_already_taken": "Pseudo déjà pris",
+    "signin": "Connexion",
+    "empty_email": "L'email doit être renseigné",
+    "empty_password": "Le mot de passe doit être renseigné",
+    "user_not_found": "Utilisateur introuvable, verifiez vos identifiants",
+    "username_empty": "Le nom d'utilisateur doit être renseigné",
+    "username_already_taken": "Ce nom d'utilisateur est déjà pris",
+    "nationality_empty": "Votre nationalité doit être selectionné",
+    "residency_empty": "Votre pays de résidence doit être selectionné",
+    "native_language_empty": "Votre langue natale doit être selectionnée",
+    "spoken_languages_empty": "Vos langues parlées doivent être selectionnées",
+    "spoken_language_already_selected": "Cette langue a déjà été selectionnée",
+    "country_error": "Une erreur est survenue lors de la sélection du pays",
+    "language_error": "Une erreur est survenue lors de la sélection de la langue",
+    "photo_empty": "Vous devez choisir une photo de profil",
+    "photo_error": "Une erreur est survenue lors de la sélection d'une ou des photo(s)"
   }

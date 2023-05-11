@@ -49,16 +49,18 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       ValidateUsernameButtonPressed event, Emitter<RegisterState> emit) async {
     try {
       if (event.username.isNotEmpty) {
+        // TODO: Username taken
+
         emit(state.copyWith(
           status: RegisterStatus.countryStep,
           username: event.username,
-          errorMessage: "",
+          errorType: RegisterErrorType.none,
         ));
       } else {
-        emit(state.copyWith(errorMessage: "username shouldn't be empty"));
+        emit(state.copyWith(errorType: RegisterErrorType.usernameEmpty));
       }
     } catch (e) {
-      emit(state.copyWith(errorMessage: e.toString()));
+      //emit(state.copyWith(errorMessage: e.toString()));
       rethrow;
     }
   }
@@ -66,21 +68,18 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   void _onValidateCountriesButtonPressed(
       ValidateCountriesButtonPressed event, Emitter<RegisterState> emit) async {
     try {
-      emit(state.copyWith(errorMessage: ""));
       if (state.nationality.isEmpty) {
-        emit(state.copyWith(
-            errorMessage: "You have to select a country for nationality"));
+        emit(state.copyWith(errorType: RegisterErrorType.nationalityEmpty));
       } else if (state.residency.isEmpty) {
-        emit(state.copyWith(
-            errorMessage: "You have to select a country for residence"));
+        emit(state.copyWith(errorType: RegisterErrorType.residencyEmpty));
       } else {
         emit(state.copyWith(
           status: RegisterStatus.languagesStep,
-          errorMessage: "",
+          errorType: RegisterErrorType.none,
         ));
       }
     } catch (e) {
-      emit(state.copyWith(errorMessage: e.toString()));
+      //emit(state.copyWith(errorMessage: e.toString()));
       rethrow;
     }
   }
@@ -88,15 +87,15 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   void _onValidateLanguagesButtonPressed(
       ValidateLanguagesButtonPressed event, Emitter<RegisterState> emit) async {
     try {
-      emit(state.copyWith(status: RegisterStatus.loading, errorMessage: ""));
+      emit(state.copyWith(status: RegisterStatus.loading));
       var hobbiesList = await di.sl<GetHobbies>().call(NoParams());
       emit(state.copyWith(
         status: RegisterStatus.hobbiesStep,
         hobbies: hobbiesList,
-        errorMessage: "",
+        errorType: RegisterErrorType.none,
       ));
     } catch (e) {
-      emit(state.copyWith(errorMessage: e.toString()));
+      //emit(state.copyWith(errorMessage: e.toString()));
       rethrow;
     }
   }
@@ -107,10 +106,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(state.copyWith(
         status: RegisterStatus.photoStep,
         selectedHobbiesIndexes: event.hobbiesIndexes,
-        errorMessage: "",
+        errorType: RegisterErrorType.none,
       ));
     } catch (e) {
-      emit(state.copyWith(errorMessage: e.toString()));
+      //emit(state.copyWith(errorMessage: e.toString()));
       rethrow;
     }
   }
@@ -118,24 +117,23 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   void _onValidatePhotoButtonPressed(
       ValidatePhotoButtonPressed event, Emitter<RegisterState> emit) async {
     try {
-      emit(state.copyWith(errorMessage: ""));
       if (event.photoUrl.isNotEmpty) {
         emit(state.copyWith(
           status: RegisterStatus.createUser,
-          errorMessage: "",
+          errorType: RegisterErrorType.none,
         ));
       } else {
-        emit(state.copyWith(errorMessage: "You have to choose a photo"));
+        emit(state.copyWith(errorType: RegisterErrorType.photoEmpty));
       }
     } catch (e) {
-      emit(state.copyWith(errorMessage: e.toString()));
+      //emit(state.copyWith(errorMessage: e.toString()));
       rethrow;
     }
   }
 
   void _onRegisterUser(
       RegisterCompleteEvent event, Emitter<RegisterState> emit) async {
-    emit(state.copyWith(status: RegisterStatus.loading, errorMessage: ""));
+    emit(state.copyWith(status: RegisterStatus.loading));
     //var selectedHobbies = getListFromIndices(state.selectedHobbiesIndexes, state.hobbies);
     var userId = di.sl<SharedPreferences>().getString(userIdKey);
     late String? photoLink;
@@ -166,43 +164,39 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   void _onNationalityCountrySelected(
       NationalityCountrySelected event, Emitter<RegisterState> emit) {
-    emit(state.copyWith(errorMessage: ""));
     if (event.nationalityCountry.isNotEmpty) {
       emit(state.copyWith(
         nationality: event.nationalityCountry,
-        errorMessage: "",
+        errorType: RegisterErrorType.none,
       ));
     } else {
-      emit(state.copyWith(
-          errorMessage: "An error occured when selecting the nationality"));
+      emit(state.copyWith(errorType: RegisterErrorType.countrySelectError));
     }
   }
 
   void _onResidenceCountrySelected(
       ResidenceCountrySelected event, Emitter<RegisterState> emit) {
-    emit(state.copyWith(errorMessage: ""));
     if (event.residenceCountry.isNotEmpty) {
       emit(state.copyWith(
         residency: event.residenceCountry,
-        errorMessage: "",
+        errorType: RegisterErrorType.none,
       ));
     } else {
-      emit(state.copyWith(
-          errorMessage: "An error occured when selecting the residence"));
+      emit(state.copyWith(errorType: RegisterErrorType.countrySelectError));
     }
   }
 
   void _onNativeLanguageSelected(
       NativeLanguageSelected event, Emitter<RegisterState> emit) {
-    emit(state.copyWith(errorMessage: ""));
     if (event.nativeLanguage.isNotEmpty) {
       emit(state.copyWith(
         nativeLanguage: event.nativeLanguage,
-        errorMessage: "",
+        errorType: RegisterErrorType.none,
       ));
     } else {
       emit(state.copyWith(
-          errorMessage: "An error occured when selecting the native language"));
+        errorType: RegisterErrorType.countrySelectError,
+      ));
     }
   }
 
@@ -212,20 +206,20 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       if (event.speakLanguage.isNotEmpty) {
         List<String> speaks = List.from(state.spokenLanguages);
         if (speaks.contains(event.speakLanguage)) {
-          emit(state.copyWith(errorMessage: "Country already selected"));
+          emit(state.copyWith(
+              errorType: RegisterErrorType.spokenLanguageAlreadySelected));
         } else {
           speaks.add(event.speakLanguage);
           emit(state.copyWith(
             spokenLanguages: speaks,
-            errorMessage: "",
+            errorType: RegisterErrorType.none,
           ));
         }
       } else {
-        emit(state.copyWith(
-            errorMessage: "An error occured when selecting a spoken language"));
+        emit(state.copyWith(errorType: RegisterErrorType.countrySelectError));
       }
     } catch (e) {
-      emit(state.copyWith(errorMessage: e.toString()));
+      //emit(state.copyWith(errorMessage: e.toString()));
       rethrow;
     }
   }
@@ -237,7 +231,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(state.copyWith(photoUrl: pickedFile.path, photoFile: pickedFile));
     } else {
       emit(state.copyWith(
-          errorMessage: "Something went wrong when choosing image"));
+        errorType: RegisterErrorType.photoSelectError,
+      ));
     }
   }
 }

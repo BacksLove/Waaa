@@ -35,12 +35,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  void dispose() {
-    loginBloc.close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -62,8 +56,10 @@ class _LoginPageState extends State<LoginPage> {
           child:
               BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
             if (state.status == LoginStatus.error) {
-              if (state.errorMesssage != null) {
-                showSnackBar(context, state.errorMesssage!);
+              if (state.errorType == LoginErrorType.userNotFound) {
+                //showSnackBar(context, localized(context).user_not_found);
+                showFloatingFlushbar(
+                    context, null, localized(context).user_not_found);
               }
             }
           }, builder: (context, state) {
@@ -85,6 +81,9 @@ class _LoginPageState extends State<LoginPage> {
                     style: const TextStyle(fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
                         labelText: localized(context).email,
+                        errorText: state.errorType == LoginErrorType.emptyEmail
+                            ? localized(context).empty_email
+                            : null,
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).primaryColor))),
@@ -96,6 +95,9 @@ class _LoginPageState extends State<LoginPage> {
                     style: const TextStyle(fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
                       labelText: localized(context).password,
+                      errorText: state.errorType == LoginErrorType.emptyPassword
+                          ? localized(context).empty_password
+                          : null,
                       iconColor: primaryColor,
                       enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
@@ -119,16 +121,15 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   // Buttons
                   vSpace60,
-                  /*if (state is LoginLoadingState)
-                          const CircularProgressIndicator(),*/
                   ElevatedButton(
-                      style: primaryButton,
-                      onPressed: () {
-                        loginBloc.add(LoginButtonPressed(
-                            _emailField.text, _passwordField.text));
-                        _passwordField.clear();
-                      },
-                      child: Text(localized(context).login)),
+                    style: primaryButton,
+                    onPressed: () {
+                      loginBloc.add(LoginButtonPressed(
+                          _emailField.text, _passwordField.text));
+                      _passwordField.clear();
+                    },
+                    child: Text(localized(context).signin),
+                  ),
                   vSpace25,
                   Text(
                     localized(context).or_connect_with,
@@ -146,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                           icon: const Icon(FeatherIcons.facebook),
                         ),
                       ),
-                      vSpace15,
+                      hSpace15,
                       Expanded(
                         child: ElevatedButton.icon(
                           style: googleButton,

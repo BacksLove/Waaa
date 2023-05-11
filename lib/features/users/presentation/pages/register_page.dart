@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waaa/core/enums/register_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
+import 'package:waaa/core/util/localized.dart';
 import 'package:waaa/features/users/presentation/manager/bloc/register/register_bloc.dart';
 import 'package:waaa/features/users/presentation/pages/welcome_page.dart';
 import 'package:waaa/features/users/presentation/widgets/country_screen_widget.dart';
@@ -41,10 +42,35 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return BlocListener<RegisterBloc, RegisterState>(
       listener: (context, state) {
-        if (state.errorMessage != null) {
-          if (state.errorMessage!.isNotEmpty) {
-            showSnackBar(context, state.errorMessage!);
-          }
+        if (state.errorType == RegisterErrorType.nationalityEmpty) {
+          showFloatingFlushbar(
+              context, null, localized(context).nationality_empty);
+        }
+        if (state.errorType == RegisterErrorType.residencyEmpty) {
+          showFloatingFlushbar(
+              context, null, localized(context).residency_empty);
+        }
+        if (state.errorType == RegisterErrorType.nativeLanguageEmpty) {
+          showFloatingFlushbar(
+              context, null, localized(context).native_language_empty);
+        }
+        if (state.errorType == RegisterErrorType.spokenLanguagesEmpty) {
+          showFloatingFlushbar(
+              context, null, localized(context).spoken_languages_empty);
+        }
+        if (state.errorType ==
+            RegisterErrorType.spokenLanguageAlreadySelected) {
+          showFloatingFlushbar(context, null,
+              localized(context).spoken_language_already_selected);
+        }
+        if (state.errorType == RegisterErrorType.photoEmpty) {
+          showFloatingFlushbar(context, null, localized(context).photo_empty);
+        }
+        if (state.errorType == RegisterErrorType.countrySelectError) {
+          showFloatingFlushbar(context, null, localized(context).country_error);
+        }
+        if (state.errorType == RegisterErrorType.photoSelectError) {
+          showFloatingFlushbar(context, null, localized(context).photo_error);
         }
         if (state.status == RegisterStatus.complete) {
           Navigator.popAndPushNamed(context, route.homePage);

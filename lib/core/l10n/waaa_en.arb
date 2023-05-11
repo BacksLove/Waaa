@@ -337,5 +337,20 @@
     "twelves_days": "12 days",
     "people_requests": "People requests",
     "signup": "Sign up",
-    "nickname_already_taken": "Username already taken"
+    "nickname_already_taken": "Username already taken",
+    "signin": "Sign in",
+    "empty_email": "Email must be filled",
+    "empty_password": "Password must be filled",
+    "user_not_found": "User not found, check your credentials",
+    "username_empty": "Username should not be empty",
+    "username_already_taken": "This username is already taken",
+    "nationality_empty": "Your nationality must be selected",
+    "residency_empty": "Your residency must be selected",
+    "native_language_empty": "Your native language must be selected",
+    "spoken_languages_empty": "Your spoken languages must be selected",
+    "spoken_language_already_selected": "This languages was already selected",
+    "country_error": "Something went wrong when selecting a country",
+    "language_error": "Something went wrong when selecting a language",
+    "photo_empty": "You have to choose a photo",
+    "photo_error": "Something went wrong when selecting a photo"
   }

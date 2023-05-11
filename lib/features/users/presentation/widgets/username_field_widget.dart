@@ -33,15 +33,9 @@ class UsernameScreenWidget extends StatelessWidget {
                 ),
                 vSpace40,
                 SignupTextfieldWidget(
-                    controller: usernameController,
-                    hintText: localized(context).nickname),
-                vSpace15,
-                /*SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      localized(context).nickname_already_taken,
-                      textAlign: TextAlign.left,
-                    )),*/
+                  controller: usernameController,
+                  hintText: localized(context).nickname,
+                ),
                 vSpace20,
                 ElevatedButton(
                     style: primaryButton,

@@ -34,17 +34,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginButtonPressed event, Emitter<LoginState> emit) async {
     emit(state.copyWith(status: LoginStatus.loading));
     try {
-      var login = await di
-          .sl<LoginWithEmail>()
-          .call(Params(email: event.email, password: event.password));
-      var id = await di.sl<GetCurrentAuthUser>().call(NoParams());
-      if (login) {
-        await di.sl<SharedPreferences>().setString(userIdKey, id.userId);
-        emit(state.copyWith(status: LoginStatus.succeed));
-        authBloc.add(LoggedIn(id: id.userId));
+      if (event.email.isEmpty) {
+        emit(state.copyWith(errorType: LoginErrorType.emptyEmail));
+      } else if (event.password.isEmpty) {
+        emit(state.copyWith(errorType: LoginErrorType.emptyPassword));
       } else {
-        emit(state.copyWith(
-            status: LoginStatus.error, errorMesssage: "Wrong Crédentials"));
+        var login = await di
+            .sl<LoginWithEmail>()
+            .call(Params(email: event.email, password: event.password));
+        if (login) {
+          var id = await di.sl<GetCurrentAuthUser>().call(NoParams());
+          await di.sl<SharedPreferences>().setString(userIdKey, id.userId);
+          emit(state.copyWith(status: LoginStatus.succeed));
+          authBloc.add(LoggedIn(id: id.userId));
+        } else {
+          emit(state.copyWith(
+              status: LoginStatus.error,
+              errorType: LoginErrorType.userNotFound));
+        }
       }
     } catch (e) {
       rethrow;
@@ -68,8 +75,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   void _onShowPasswordPressed(
       ShowPasswordPressed event, Emitter<LoginState> emit) {
-    isPasswordShowed = !isPasswordShowed;
-    emit(state.copyWith(
-        status: state.status, isPassworHidden: isPasswordShowed));
+    emit(state.copyWith(isPassworHidden: !state.isPassworHidden));
   }
 }

@@ -1,4 +1,3 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -22,9 +21,11 @@ import '../manager/bloc/profile/profile_bloc.dart';
 import 'package:waaa/injection_container.dart' as di;
 
 class ProfilPage extends StatefulWidget {
-  const ProfilPage({super.key, required this.currentUser});
+  ProfilPage(
+      {super.key, required this.currentUser, this.isFromSearching = false});
 
   final User currentUser;
+  bool isFromSearching;
 
   @override
   State<ProfilPage> createState() => _ProfilPageState();

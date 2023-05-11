@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:waaa/component/chip_list.dart';
-import 'package:waaa/core/theme/common_widget/button.dart';
-import 'package:waaa/core/util/mocks/users.dart';
+import 'package:waaa/injection_container.dart' as di;
 
+import '../../../../component/chip_list.dart';
 import '../../../../core/constants/spacer.dart';
 import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/common_widget/button.dart';
 import '../../../../core/theme/text_styles.dart';
 import '../../../../core/util/localized.dart';
+import '../../../../core/util/mocks/users.dart';
+import '../../../users/domain/entities/user_entity.dart';
+import '../manager/bloc/event_detail_bloc.dart';
 
-class CreateEventPageTwo extends StatelessWidget {
-  const CreateEventPageTwo({super.key});
+class CreateEventTwoPage extends StatelessWidget {
+  const CreateEventTwoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +23,42 @@ class CreateEventPageTwo extends StatelessWidget {
         centerTitle: true,
         title: Text(
           localized(context).create_an_event,
-          style: boldTextStyle18,
+          style: appBarTextStyle,
         ),
         leading: IconButton(
           icon: const Icon(FeatherIcons.x),
           color: blackColor,
           onPressed: () => Navigator.pop(context),
         ),
+        backgroundColor: transparentColor,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
+      body: const SingleChildScrollView(
+        padding: EdgeInsets.all(15.0),
+        child: CreateEventPartTwo(),
+      ),
+    );
+  }
+}
+
+class CreateEventPartTwo extends StatelessWidget {
+  const CreateEventPartTwo({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final EventDetailBloc eventDetailBloc = di.sl<EventDetailBloc>();
+
+    TextEditingController descriptionController = TextEditingController();
+    List<User> coorganizers = [];
+    List<User> guests = [];
+    bool isVisible = true;
+    bool guestCanInvite = true;
+
+    return BlocBuilder<EventDetailBloc, EventDetailState>(
+      builder: (context, state) {
+        return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -49,7 +77,7 @@ class CreateEventPageTwo extends StatelessWidget {
             vSpace20,
             SizedBox(
               height: 200,
-              child: ChipListWidget(users: mockUsersList),
+              child: ChipListWidget(users: state.coorganizer),
             ),
             vSpace20,
             Text(
@@ -63,7 +91,7 @@ class CreateEventPageTwo extends StatelessWidget {
             vSpace5,
             SizedBox(
               height: 200,
-              child: ChipListWidget(users: mockUsersList),
+              child: ChipListWidget(users: state.guests),
             ),
             vSpace20,
             Text(
@@ -73,6 +101,7 @@ class CreateEventPageTwo extends StatelessWidget {
             ),
             vSpace20,
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   localized(context).guests_can_invite,
@@ -81,14 +110,19 @@ class CreateEventPageTwo extends StatelessWidget {
                 Switch(value: true, onChanged: (value) {})
               ],
             ),
-            vSpace5,
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   localized(context).guests_can_invite,
                   style: semiBoldTextStyle16,
                 ),
-                Switch(value: true, onChanged: (value) {})
+                Switch(
+                  value: guestCanInvite,
+                  onChanged: (value) {
+                    guestCanInvite = value;
+                  },
+                )
               ],
             ),
             vSpace20,
@@ -100,14 +134,14 @@ class CreateEventPageTwo extends StatelessWidget {
             SizedBox(
               height: 160,
               child: TextField(
-                controller: null,
+                controller: descriptionController,
                 decoration: InputDecoration(
                     hintText: localized(context).description__1,
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: lightGrayColor),
                     )),
-                maxLines: null, // Set this
-                expands: true, // and this
+                maxLines: null,
+                expands: true,
                 keyboardType: TextInputType.multiline,
               ),
             ),
@@ -134,10 +168,45 @@ class CreateEventPageTwo extends StatelessWidget {
                   height: 5.0,
                 ),
               ],
-            )
+            ),
+            vSpace20,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 45,
+                  width: MediaQuery.of(context).size.width / 4,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      localized(context).cancel,
+                    ),
+                  ),
+                ),
+                hSpace15,
+                SizedBox(
+                  height: 45,
+                  width: MediaQuery.of(context).size.width / 2.2,
+                  child: ElevatedButton(
+                    style: primaryButton,
+                    onPressed: () {
+                      // TODO: Validate
+                    },
+                    child: Text(
+                      localized(context).next,
+                      style: boldTextStyle12,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            vSpace20,
           ],
-        ),
-      ),
+        );
+      },
     );
   }
 }

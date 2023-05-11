@@ -80,6 +80,7 @@ class _SignUpPageState extends State<SignUpPage> {
 // Screens
 Widget emailScreen(
     BuildContext context, TextEditingController emailController) {
+  bool isChecked = false;
   return Center(
     child: Padding(
       padding: const EdgeInsets.all(30),
@@ -94,9 +95,13 @@ Widget emailScreen(
           SignupTextfieldWidget(
               controller: emailController, hintText: localized(context).email),
           vSpace80,
-          Text(
-            localized(context).term_and_policy,
-            textAlign: TextAlign.center,
+          ListTile(
+            minLeadingWidth: 10,
+            leading: Checkbox(value: isChecked, onChanged: (value) {}),
+            title: Text(
+              localized(context).term_and_policy,
+              maxLines: 3,
+            ),
           ),
           vSpace35,
           ElevatedButton(

@@ -81,7 +81,7 @@ final italicTextStyle18 = GoogleFonts.poppins(
 final italicTextStyle20 = GoogleFonts.poppins(
     fontSize: 14, fontWeight: FontWeight.normal, fontStyle: FontStyle.italic);
 
-// Specifi TextStyles
+// Specific TextStyles
 
 final appNameTextStyle =
     GoogleFonts.poppins(color: secondaryColor, fontSize: 33);
@@ -94,3 +94,6 @@ final lightPrimaryBoldTextStyle18 = GoogleFonts.poppins(
 
 final settingSubtitleTextStyle = GoogleFonts.poppins(
     fontWeight: FontWeight.normal, fontSize: 9, color: lightGrayColor);
+
+final appBarTextStyle = GoogleFonts.poppins(
+    fontSize: 18, fontWeight: FontWeight.bold, color: blackColor);

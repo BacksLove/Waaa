@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:waaa/features/auth/presentation/pages/auth_page.dart';
 import 'package:waaa/features/auth/presentation/pages/signup_page.dart';
+import 'package:waaa/features/events/presentation/pages/create_event_two_page.dart';
 import 'package:waaa/features/events/presentation/pages/event_detail_page.dart';
 import 'package:waaa/features/users/presentation/pages/register_page.dart';
 
@@ -25,6 +26,7 @@ const String settingsPage = "settings";
 // Event
 const String eventDetailPage = 'eventDetails';
 const String createEventPage = "createEvent";
+const String createEventTwoPage = "createEventPartTwo";
 
 // Control our page route flow
 Route<dynamic> controller(RouteSettings settings) {
@@ -50,6 +52,9 @@ Route<dynamic> controller(RouteSettings settings) {
       }
     case createEventPage:
       return MaterialPageRoute(builder: (context) => const CreateEventPage());
+    case createEventTwoPage:
+      return MaterialPageRoute(
+          builder: (context) => const CreateEventTwoPage());
     default:
       throw ('This route name does not exit');
   }
