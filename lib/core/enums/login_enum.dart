@@ -7,6 +7,7 @@ enum LoginStatus {
 
 enum LoginErrorType {
   none,
+  conditionsNotChecked,
   emptyEmail,
   emptyPassword,
   userNotFound,

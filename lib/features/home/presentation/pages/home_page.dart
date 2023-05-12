@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:waaa/core/constants/spacer.dart';
+import 'package:waaa/core/enums/home_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
 import 'package:waaa/core/util/mocks/users.dart';
 import 'package:waaa/features/home/presentation/manager/home_bloc/home_bloc.dart';
+import 'package:waaa/features/users/domain/entities/profile_page_arguments.dart';
 import 'package:waaa/features/users/domain/entities/user_entity.dart';
 
 import '../../../../core/theme/common_widget/button.dart';
@@ -34,19 +36,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void dispose() {
-    homeBloc.close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => homeBloc,
       child: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-        if (state is HomeLoadingState) {
+        if (state.status == HomeStatus.loading) {
           return const Center(child: CircularProgressIndicator());
-        } else if (state is HomeLoadedState) {
+        } else if (state.status == HomeStatus.failed) {
+          return Center(
+            child: Text(
+              "Une erreur est survenue lors du chargement",
+              style: boldTextStyle14,
+            ),
+          );
+        } else if (state.status == HomeStatus.loaded) {
           return Padding(
               padding: const EdgeInsets.all(15.0),
               child: ListView(
@@ -87,49 +90,61 @@ class UserItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: NetworkImage(_currentUser.photo!),
-                      fit: BoxFit.fitWidth),
-                ),
-              ),
-              _isOnline
-                  ? Container(
-                      width: 65,
-                      height: 65,
-                      alignment: Alignment.bottomRight,
-                      margin: const EdgeInsets.only(top: 5),
-                      child: Container(
-                          width: 15,
-                          height: 15,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: onlineColor,
-                              border:
-                                  Border.all(color: secondaryColor, width: 1)),
-                          child: const Text("")),
-                    )
-                  : Container()
-            ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          route.profilePage,
+          arguments: ProfilePageArguments(
+            user: _currentUser,
+            isFromSearching: true,
           ),
-          vSpace10,
-          if (_withName)
-            Text(
-              _currentUser.username,
-              textAlign: TextAlign.left,
-              style: regularTextStyle12,
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(5),
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: NetworkImage(_currentUser.photo!),
+                        fit: BoxFit.fitWidth),
+                  ),
+                ),
+                _isOnline
+                    ? Container(
+                        width: 65,
+                        height: 65,
+                        alignment: Alignment.bottomRight,
+                        margin: const EdgeInsets.only(top: 5),
+                        child: Container(
+                            width: 15,
+                            height: 15,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: onlineColor,
+                                border: Border.all(
+                                    color: secondaryColor, width: 1)),
+                            child: const Text("")),
+                      )
+                    : Container()
+              ],
             ),
-        ],
+            vSpace10,
+            if (_withName)
+              Text(
+                _currentUser.username,
+                textAlign: TextAlign.left,
+                style: regularTextStyle12,
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -151,17 +166,18 @@ class UserListCarrousel extends StatelessWidget {
     return SizedBox(
       height: 120,
       child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: _userNear.length,
-          itemBuilder: (BuildContext context, int index) {
-            return _userNear[index].photo != null
-                ? UserItemList(
-                    user: _userNear[index],
-                    isOnline: true,
-                    withName: _withName,
-                  )
-                : const Placeholder();
-          }),
+        scrollDirection: Axis.horizontal,
+        itemCount: _userNear.length,
+        itemBuilder: (BuildContext context, int index) {
+          return _userNear[index].photo != null
+              ? UserItemList(
+                  user: _userNear[index],
+                  isOnline: true,
+                  withName: _withName,
+                )
+              : const Placeholder();
+        },
+      ),
     );
   }
 }

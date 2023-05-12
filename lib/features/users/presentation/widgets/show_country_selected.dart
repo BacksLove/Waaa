@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/svg.dart';
@@ -28,7 +29,7 @@ class ShowCountrySelected extends StatelessWidget {
           height: 10,
         ),
         Text(
-          country,
+          Country.parse(country).displayNameNoCountryCode,
           textAlign: TextAlign.center,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
         ),
@@ -62,7 +63,7 @@ class ShowCountryItemSelected extends StatelessWidget {
               ),
               vSpace15,
               Text(
-                language,
+                Country.parse(language).displayNameNoCountryCode,
                 style: regularTextStyle12,
               ),
             ],

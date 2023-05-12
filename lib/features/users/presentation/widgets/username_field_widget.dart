@@ -36,17 +36,19 @@ class UsernameScreenWidget extends StatelessWidget {
                   controller: usernameController,
                   hintText: localized(context).nickname,
                 ),
-                vSpace20,
+                const Spacer(),
                 ElevatedButton(
-                    style: primaryButton,
-                    onPressed: () {
-                      registerBloc.add(ValidateUsernameButtonPressed(
-                          username: usernameController.text));
-                    },
-                    child: Text(
-                      localized(context).next,
-                      style: boldTextStyle12,
-                    ))
+                  style: primaryButton,
+                  onPressed: () {
+                    registerBloc.add(ValidateUsernameButtonPressed(
+                        username: usernameController.text));
+                  },
+                  child: Text(
+                    localized(context).next,
+                    style: boldTextStyle12,
+                  ),
+                ),
+                vSpace150,
               ],
             ),
           ),

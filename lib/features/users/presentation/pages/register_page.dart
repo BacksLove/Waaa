@@ -90,7 +90,9 @@ class _RegisterPageState extends State<RegisterPage> {
             builder: (context, state) {
               switch (state.status) {
                 case RegisterStatus.loading:
-                  return const CircularProgressIndicator();
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 case RegisterStatus.usernameStep:
                   return const UsernameScreenWidget();
                 case RegisterStatus.countryStep:
@@ -104,7 +106,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 case RegisterStatus.createUser:
                   {
                     registerBloc.add(RegisterCompleteEvent());
-                    return const CircularProgressIndicator();
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
                   }
                 case RegisterStatus.complete:
                   return const WelcomePage();

@@ -20,6 +20,7 @@ import '../manager/bloc/profile/profile_bloc.dart';
 
 import 'package:waaa/injection_container.dart' as di;
 
+// ignore: must_be_immutable
 class ProfilPage extends StatefulWidget {
   ProfilPage(
       {super.key, required this.currentUser, this.isFromSearching = false});
@@ -49,6 +50,7 @@ class _ProfilPageState extends State<ProfilPage> {
           slivers: [
             UserProfileAppBar(
               currentUser: widget.currentUser,
+              isFromSearching: widget.isFromSearching,
             ),
             ShowUserDetails(currentUser: widget.currentUser),
           ],
@@ -68,170 +70,187 @@ class ShowUserDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileBloc, ProfileState>(
-      builder: (context, state) {
-        return SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                //! Rang du prénom
-                vSpace15,
-                Row(
-                  children: [
-                    Text(
-                      currentUser.username,
-                      style: boldTextStyle24,
-                    ),
-                    hSpace10,
-                    Expanded(
-                      child: (currentUser.languagesSpeak != null)
-                          ? ShowSpokenLanguages(
-                              spokenLanguages: currentUser.languagesSpeak!)
-                          : Container(),
-                    ),
-                    hSpace10,
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(FeatherIcons.moreVertical),
-                    )
-                  ],
-                ),
-                //! Rang de la localisation
-                vSpace10,
-                Row(
-                  children: [
-                    Icon(
-                      FeatherIcons.mapPin,
-                      color: primaryColor,
-                    ),
-                    hSpace5,
-                    Text(
-                      "Paris, France",
-                      style: regularTextStyle14,
-                    ),
-                    hSpace15,
-                    Text(
-                      DateConverter().dateToTimeString(DateTime.now()),
-                      style: regularTextStyle14,
-                    ),
-                    const Spacer(),
-                    SizedBox(
-                      width: 100,
-                      height: 25,
-                      child: ElevatedButton(
-                        style: primaryButton,
+    final ProfileBloc profileBloc = di.sl<ProfileBloc>();
+    return BlocProvider(
+      create: (context) => profileBloc,
+      child: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, state) {
+          return SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  //! Rang du prénom
+                  vSpace15,
+                  Row(
+                    children: [
+                      Text(
+                        currentUser.username,
+                        style: boldTextStyle24,
+                      ),
+                      hSpace10,
+                      Expanded(
+                        child: (currentUser.languagesSpeak != null)
+                            ? ShowSpokenLanguages(
+                                spokenLanguages: currentUser.languagesSpeak!)
+                            : Container(),
+                      ),
+                      hSpace10,
+                      IconButton(
                         onPressed: () {},
-                        child: Text(localized(context).follow),
-                      ),
-                    )
-                  ],
-                ),
-                vSpace15,
-                //! Rang de la nationalité
-                Row(
-                  children: [
-                    Icon(
-                      FeatherIcons.flag,
-                      color: primaryColor,
-                    ),
-                    hSpace5,
-                    Text(
-                      "Française",
-                      style: regularTextStyle14,
-                    )
-                  ],
-                ),
-                //! Follow et Age
-                vSpace15,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            "24",
-                            style: boldTextStyle20,
-                          ),
-                          Text(
-                            "Age",
-                            style: regularTextStyle14,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            "11k",
-                            style: boldTextStyle20,
-                          ),
-                          Text(
-                            localized(context).followers,
-                            style: regularTextStyle14,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                //! Hobbies
-                HobbiesGridWidget(hobbies: mockHobbies),
-                //! Tabs
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        localized(context).trips,
-                        style: boldTextStyle16,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        localized(context).news__1,
-                        style: boldTextStyle16,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: (MediaQuery.of(context).size.width / 2) - 15,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50.0),
+                        icon: const Icon(FeatherIcons.moreVertical),
+                      )
+                    ],
+                  ),
+                  //! Rang de la localisation
+                  vSpace10,
+                  Row(
+                    children: [
+                      Icon(
+                        FeatherIcons.mapPin,
                         color: primaryColor,
                       ),
-                      height: 2.0,
-                    ),
-                    Container(
-                      width: (MediaQuery.of(context).size.width / 2) - 15,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50.0),
-                        color: lightGrayColor,
+                      hSpace5,
+                      Text(
+                        "Paris, France",
+                        style: regularTextStyle14,
                       ),
-                      height: 1.0,
-                    ),
-                  ],
-                ),
-                //! Mes voyages
-                const MyTripsTab(),
-                //! Mon actualités
-                const MyNewsTab(),
-                vSpace100,
-              ],
+                      hSpace15,
+                      Text(
+                        DateConverter().dateToTimeString(DateTime.now()),
+                        style: regularTextStyle14,
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        width: 100,
+                        height: 25,
+                        child: ElevatedButton(
+                          style: primaryButton,
+                          onPressed: () {},
+                          child: Text(localized(context).follow),
+                        ),
+                      )
+                    ],
+                  ),
+                  vSpace15,
+                  //! Rang de la nationalité
+                  Row(
+                    children: [
+                      Icon(
+                        FeatherIcons.flag,
+                        color: primaryColor,
+                      ),
+                      hSpace5,
+                      Text(
+                        "Française",
+                        style: regularTextStyle14,
+                      )
+                    ],
+                  ),
+                  //! Follow et Age
+                  vSpace15,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              "24",
+                              style: boldTextStyle20,
+                            ),
+                            Text(
+                              "Age",
+                              style: regularTextStyle14,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              "11k",
+                              style: boldTextStyle20,
+                            ),
+                            Text(
+                              localized(context).followers,
+                              style: regularTextStyle14,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  //! Hobbies
+                  vSpace15,
+                  HobbiesGridWidget(hobbies: mockHobbies),
+                  vSpace15,
+                  //! Tabs
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          profileBloc.add(ProfileTripTabPressed());
+                        },
+                        child: Text(
+                          localized(context).trips,
+                          style: boldTextStyle16,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          profileBloc.add(ProfileNewsTabPressed());
+                        },
+                        child: Text(
+                          localized(context).news__1,
+                          style: boldTextStyle16,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: (MediaQuery.of(context).size.width / 2) - 15,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50.0),
+                          color: state.isTripShowed
+                              ? primaryColor
+                              : lightGrayColor,
+                        ),
+                        height: state.isTripShowed ? 2.0 : 1.0,
+                      ),
+                      Container(
+                        width: (MediaQuery.of(context).size.width / 2) - 15,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50.0),
+                          color: state.isTripShowed
+                              ? lightGrayColor
+                              : primaryColor,
+                        ),
+                        height: state.isTripShowed ? 1.0 : 2.0,
+                      ),
+                    ],
+                  ),
+                  state.isTripShowed
+                      ?
+                      //! Mes voyages
+                      const MyTripsTab()
+                      :
+                      //! Mon actualités
+                      const MyNewsTab(),
+                  vSpace50,
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
@@ -298,20 +317,23 @@ class UserProfileAppBar extends StatelessWidget {
   const UserProfileAppBar({
     super.key,
     required this.currentUser,
+    required this.isFromSearching,
   });
 
   final User currentUser;
+  final bool isFromSearching;
 
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      pinned: true,
-      expandedHeight: 180.0,
+      pinned: isFromSearching ? true : false,
+      expandedHeight: 180,
       backgroundColor: Colors.white,
       elevation: 0,
       flexibleSpace: FlexibleSpaceBar(
         collapseMode: CollapseMode.pin,
         background: Stack(
+          fit: StackFit.expand,
           children: [
             Image.network(
               (currentUser.photo != null)
@@ -335,43 +357,47 @@ class UserProfileAppBar extends StatelessWidget {
           ],
         ),
       ),
-      leading: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            color: Colors.white,
-          ),
-          child: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(
-              FeatherIcons.chevronLeft,
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              color: Colors.white,
-            ),
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(
-                FeatherIcons.messageSquare,
-                color: Colors.black,
+      leading: isFromSearching
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: Colors.white,
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(
+                    FeatherIcons.chevronLeft,
+                    color: Colors.black,
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
+            )
+          : null,
+      actions: [
+        isFromSearching
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: Colors.white,
+                  ),
+                  child: IconButton(
+                    onPressed: () {
+                      print('message');
+                    },
+                    icon: const Icon(
+                      FeatherIcons.messageSquare,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              )
+            : Container(),
       ],
     );
   }

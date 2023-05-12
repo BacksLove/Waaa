@@ -56,17 +56,18 @@ class CountryScreenWidget extends StatelessWidget {
                           registerBloc.add(
                               ResidenceCountrySelected(residenceCountry: value))
                         }),
-                vSpace100,
+                vSpace150,
                 ElevatedButton(
-                    style: primaryButton,
-                    onPressed: () {
-                      BlocProvider.of<RegisterBloc>(context)
-                          .add(ValidateCountriesButtonPressed());
-                    },
-                    child: Text(
-                      localized(context).next,
-                      style: boldTextStyle12,
-                    ))
+                  style: primaryButton,
+                  onPressed: () {
+                    BlocProvider.of<RegisterBloc>(context)
+                        .add(ValidateCountriesButtonPressed());
+                  },
+                  child: Text(
+                    localized(context).next,
+                    style: boldTextStyle12,
+                  ),
+                ),
               ],
             ),
           ),

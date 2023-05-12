@@ -134,23 +134,27 @@ Widget passwordScreen(
           ),
           vSpace40,
           SignupTextfieldWidget(
-              controller: passwordController,
+              controller: emailController,
               hintText: localized(context).password),
           vSpace35,
           SignupTextfieldWidget(
-              controller: confirmPasswordController,
+              controller: passwordController,
               hintText: localized(context).password),
           vSpace80,
           ElevatedButton(
-              style: primaryButton,
-              onPressed: () {
-                BlocProvider.of<SignupBloc>(context).add(
-                    ValidatePasswordButtonPressed(
-                        email: emailController.text,
-                        password: passwordController.text,
-                        confirmPassword: confirmPasswordController.text));
-              },
-              child: const Text("Next"))
+            style: primaryButton,
+            onPressed: () {
+              BlocProvider.of<SignupBloc>(context).add(
+                  ValidatePasswordButtonPressed(
+                      email: emailController.text,
+                      password: passwordController.text,
+                      confirmPassword: confirmPasswordController.text));
+            },
+            child: Text(
+              localized(context).next,
+              style: boldWhiteTextStyle12,
+            ),
+          )
         ],
       ),
     ),

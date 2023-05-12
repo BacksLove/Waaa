@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:waaa/core/enums/home_enum.dart';
 import 'package:waaa/core/usecases/usecase.dart';
+import 'package:waaa/core/util/mocks/users.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/events/domain/use_cases/get_waaa_events.dart';
 
@@ -15,7 +17,7 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   AuthBloc authBloc;
 
-  HomeBloc(this.authBloc) : super(HomeInitial()) {
+  HomeBloc(this.authBloc) : super(HomeState.initial()) {
     on<LoadData>(_onLoadData);
 
     add(LoadData());
@@ -24,11 +26,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   @override
   void onTransition(Transition<HomeEvent, HomeState> transition) {
     super.onTransition(transition);
-    //print(transition);
+    print(transition);
   }
 
   void _onLoadData(LoadData event, Emitter<HomeState> emit) async {
-    emit(HomeLoadingState());
+    emit(state.copyWith(status: HomeStatus.loading));
     late List<User> usersNear;
     late List<Event> commonEvents;
     late List<Event> userEvents;
@@ -41,12 +43,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         userEvents = [];
       }
       commonEvents = await di.sl<GetWaaaEvents>().call(NoParams());
-      emit(HomeLoadedState(
+      emit(state.copyWith(
+          status: HomeStatus.loaded,
           usersNear: usersNear,
           userEvents: userEvents,
           waaaEvents: commonEvents));
     } else {
-      emit(const HomeLoadingFailedState(errorMessage: "User not found"));
+      //emit(state.copyWith(status: HomeStatus.failed));
+      emit(state.copyWith(status: HomeStatus.loaded, usersNear: mockUsersList));
     }
   }
 }

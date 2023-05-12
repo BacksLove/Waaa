@@ -352,5 +352,6 @@
     "country_error": "Une erreur est survenue lors de la sélection du pays",
     "language_error": "Une erreur est survenue lors de la sélection de la langue",
     "photo_empty": "Vous devez choisir une photo de profil",
-    "photo_error": "Une erreur est survenue lors de la sélection d'une ou des photo(s)"
+    "photo_error": "Une erreur est survenue lors de la sélection d'une ou des photo(s)",
+    "conditions_not_checked": "Vous devez accepter les conditions générales"
   }

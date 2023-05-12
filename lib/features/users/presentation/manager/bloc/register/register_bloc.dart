@@ -73,10 +73,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       } else if (state.residency.isEmpty) {
         emit(state.copyWith(errorType: RegisterErrorType.residencyEmpty));
       } else {
-        emit(state.copyWith(
-          status: RegisterStatus.languagesStep,
-          errorType: RegisterErrorType.none,
-        ));
+        emit(
+          state.copyWith(
+            status: RegisterStatus.languagesStep,
+            errorType: RegisterErrorType.none,
+          ),
+        );
       }
     } catch (e) {
       //emit(state.copyWith(errorMessage: e.toString()));
@@ -87,13 +89,21 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   void _onValidateLanguagesButtonPressed(
       ValidateLanguagesButtonPressed event, Emitter<RegisterState> emit) async {
     try {
-      emit(state.copyWith(status: RegisterStatus.loading));
-      var hobbiesList = await di.sl<GetHobbies>().call(NoParams());
-      emit(state.copyWith(
-        status: RegisterStatus.hobbiesStep,
-        hobbies: hobbiesList,
-        errorType: RegisterErrorType.none,
-      ));
+      if (state.nativeLanguage.isEmpty) {
+        emit(state.copyWith(errorType: RegisterErrorType.nationalityEmpty));
+      } else if (state.spokenLanguages.isEmpty) {
+        emit(state.copyWith(errorType: RegisterErrorType.spokenLanguagesEmpty));
+      } else {
+        emit(state.copyWith(status: RegisterStatus.loading));
+        var hobbiesList = await di.sl<GetHobbies>().call(NoParams());
+        emit(
+          state.copyWith(
+            status: RegisterStatus.hobbiesStep,
+            hobbies: hobbiesList,
+            errorType: RegisterErrorType.none,
+          ),
+        );
+      }
     } catch (e) {
       //emit(state.copyWith(errorMessage: e.toString()));
       rethrow;

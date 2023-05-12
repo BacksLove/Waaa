@@ -55,7 +55,8 @@ class _MainPageState extends State<MainPage> {
                   return const NotificationsPage();
                 case 4:
                   return ProfilPage(
-                    currentUser: authBloc.state.user!,
+                    currentUser: mockYamiYugi /*authBloc.state.user!*/,
+                    isFromSearching: false,
                   );
                 default:
                   return Container();
@@ -90,7 +91,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
-                      FeatherIcons.send,
+                      FeatherIcons.bell,
                       color: blackColor,
                     ),
                     label: localized(context).notifications,

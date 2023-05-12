@@ -17,6 +17,7 @@ import 'package:waaa/splashpage.dart';
 
 import 'amplifyconfiguration.dart';
 import 'features/auth/presentation/manager/login_bloc/login_bloc.dart';
+import 'features/auth/presentation/pages/general_conditions_page.dart';
 import 'features/events/presentation/pages/create_event_two_page.dart';
 import 'features/users/presentation/manager/bloc/register/register_bloc.dart';
 import 'injection_container.dart' as di;
@@ -83,7 +84,7 @@ class _MyAppState extends State<MyApp> {
         supportedLocales: AppLocalizations.supportedLocales,
         onGenerateRoute: route.controller,
         home: _amplifyConfigured
-            ? const SplashPage()
+            ? const MainPage()
             : Scaffold(
                 body: Center(
                   child: Center(

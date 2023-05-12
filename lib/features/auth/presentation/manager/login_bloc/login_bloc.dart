@@ -23,6 +23,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<FacebookButtonPressed>(_onFacebookButtonPressed);
     on<GoogleButtonPressed>(_onGoogleButtonPressed);
     on<ShowPasswordPressed>(_onShowPasswordPressed);
+    on<AcceptConditions>(_onAcceptTermsPressed);
   }
 
   @override
@@ -38,6 +39,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(state.copyWith(errorType: LoginErrorType.emptyEmail));
       } else if (event.password.isEmpty) {
         emit(state.copyWith(errorType: LoginErrorType.emptyPassword));
+      } else if (state.hasAcceptConditions == false) {
+        emit(state.copyWith(errorType: LoginErrorType.conditionsNotChecked));
       } else {
         var login = await di
             .sl<LoginWithEmail>()
@@ -45,7 +48,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         if (login) {
           var id = await di.sl<GetCurrentAuthUser>().call(NoParams());
           await di.sl<SharedPreferences>().setString(userIdKey, id.userId);
-          emit(state.copyWith(status: LoginStatus.succeed));
+          emit(
+            state.copyWith(
+              status: LoginStatus.succeed,
+              errorType: LoginErrorType.none,
+            ),
+          );
           authBloc.add(LoggedIn(id: id.userId));
         } else {
           emit(state.copyWith(
@@ -75,6 +83,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   void _onShowPasswordPressed(
       ShowPasswordPressed event, Emitter<LoginState> emit) {
-    emit(state.copyWith(isPassworHidden: !state.isPassworHidden));
+    emit(state.copyWith(
+        isPassworHidden: !state.isPassworHidden,
+        errorType: LoginErrorType.none));
+  }
+
+  void _onAcceptTermsPressed(AcceptConditions event, Emitter<LoginState> emit) {
+    emit(state.copyWith(
+        hasAcceptConditions: !state.hasAcceptConditions,
+        errorType: LoginErrorType.none));
   }
 }

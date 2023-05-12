@@ -6,6 +6,7 @@ import 'package:waaa/core/enums/authentication_enum.dart';
 import 'package:waaa/core/enums/login_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/common_widget/button.dart';
+import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/auth/presentation/manager/login_bloc/login_state.dart';
@@ -55,9 +56,12 @@ class _LoginPageState extends State<LoginPage> {
           },
           child:
               BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
+            if (state.errorType == LoginErrorType.conditionsNotChecked) {
+              showFloatingFlushbar(
+                  context, null, localized(context).conditions_not_checked);
+            }
             if (state.status == LoginStatus.error) {
               if (state.errorType == LoginErrorType.userNotFound) {
-                //showSnackBar(context, localized(context).user_not_found);
                 showFloatingFlushbar(
                     context, null, localized(context).user_not_found);
               }
@@ -70,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   vSpace60,
                   Text(
-                    localized(context).login,
+                    localized(context).signin,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 24),
                   ),
@@ -80,13 +84,15 @@ class _LoginPageState extends State<LoginPage> {
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
-                        labelText: localized(context).email,
-                        errorText: state.errorType == LoginErrorType.emptyEmail
-                            ? localized(context).empty_email
-                            : null,
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context).primaryColor))),
+                      labelText: localized(context).email,
+                      errorText: state.errorType == LoginErrorType.emptyEmail
+                          ? localized(context).empty_email
+                          : null,
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Theme.of(context).primaryColor),
+                      ),
+                    ),
                   ),
                   vSpace35,
                   TextField(
@@ -104,8 +110,8 @@ class _LoginPageState extends State<LoginPage> {
                               color: Theme.of(context).primaryColor)),
                       suffixIcon: IconButton(
                         icon: state.isPassworHidden
-                            ? const Icon(FeatherIcons.eye)
-                            : const Icon(FeatherIcons.eyeOff),
+                            ? const Icon(FeatherIcons.eyeOff)
+                            : const Icon(FeatherIcons.eye),
                         onPressed: () => loginBloc.add(ShowPasswordPressed()),
                       ),
                     ),
@@ -159,9 +165,20 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                   vSpace50,
-                  Text(
-                    localized(context).term_and_policy,
-                  )
+                  ListTile(
+                    minLeadingWidth: 10,
+                    leading: Checkbox(
+                      value: state.hasAcceptConditions,
+                      activeColor: primaryColor,
+                      onChanged: (value) {
+                        loginBloc.add(AcceptConditions());
+                      },
+                    ),
+                    title: Text(
+                      localized(context).term_and_policy,
+                      style: regularTextStyle12,
+                    ),
+                  ),
                 ],
               )),
             );
