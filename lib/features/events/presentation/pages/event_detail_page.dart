@@ -89,7 +89,7 @@ class EditEvent extends StatelessWidget {
               WaaaTextField(
                 controller: titleController,
                 label: localized(context).name_of_the_event,
-                icondata: FeatherIcons.mapPin,
+                suffixIcon: FeatherIcons.mapPin,
               ),
               vSpace20,
               WaaaDatePicker(

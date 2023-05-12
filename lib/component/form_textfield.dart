@@ -6,13 +6,15 @@ class WaaaTextField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.label,
-    this.icondata,
+    this.leadingIcon,
+    this.suffixIcon,
     this.isColored = false,
   });
 
   final TextEditingController controller;
   final String label;
-  final IconData? icondata;
+  final IconData? leadingIcon;
+  final IconData? suffixIcon;
   final bool isColored;
 
   @override
@@ -20,7 +22,8 @@ class WaaaTextField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
-        suffixIcon: (icondata != null) ? Icon(icondata) : null,
+        prefixIcon: (leadingIcon != null) ? Icon(leadingIcon) : null,
+        suffixIcon: (suffixIcon != null) ? Icon(suffixIcon) : null,
         labelText: label,
         labelStyle: const TextStyle(
           color: Colors.black,

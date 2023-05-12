@@ -9,20 +9,20 @@ import 'package:waaa/features/users/domain/entities/user_entity.dart';
 
 import '../../../domain/entities/event_entity.dart';
 
-part 'event_detail_event.dart';
-part 'event_detail_state.dart';
+part 'create_event_event.dart';
+part 'create_event_state.dart';
 
-class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
+class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
   final imagePicker = ImagePicker();
 
-  EventDetailBloc() : super(EventDetailState.initial()) {
-    on<EventDetailEvent>((event, emit) {});
+  CreateEventBloc() : super(CreateEventState.initial()) {
+    on<CreateEventEvent>((event, emit) {});
     on<OpenEventImagePicker>(_onOpenImagePicker);
     on<ToNextEventStepPressed>(_onNextEventStepPressed);
   }
 
   void _onOpenImagePicker(
-      OpenEventImagePicker event, Emitter<EventDetailState> emit) async {
+      OpenEventImagePicker event, Emitter<CreateEventState> emit) async {
     final pickedFile = await imagePicker.pickImage(source: event.source);
 
     if (pickedFile != null) {
@@ -31,7 +31,7 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
   }
 
   void _onNextEventStepPressed(
-      ToNextEventStepPressed event, Emitter<EventDetailState> emit) {
+      ToNextEventStepPressed event, Emitter<CreateEventState> emit) {
     if (event.title.isEmpty ||
         event.address.isEmpty ||
         event.theme.isEmpty ||

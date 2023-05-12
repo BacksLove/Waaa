@@ -353,5 +353,7 @@
     "language_error": "Something went wrong when selecting a language",
     "photo_empty": "You have to choose a photo",
     "photo_error": "Something went wrong when selecting a photo",
-    "conditions_not_checked": "You have to accept the conditions and terms"
+    "conditions_not_checked": "You have to accept the conditions and terms",
+    "where_is_the_traveler": "Where is the traveler",
+    "age": "Age"
   }

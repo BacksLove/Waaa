@@ -11,7 +11,7 @@ import 'package:waaa/core/enums/event_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
-import 'package:waaa/features/events/presentation/manager/bloc/event_detail_bloc.dart';
+import 'package:waaa/features/events/presentation/manager/bloc/create_event_bloc.dart';
 
 import '../../../../component/dropdown.dart';
 import '../../../../component/form_textfield.dart';
@@ -27,11 +27,11 @@ class CreateEventPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final EventDetailBloc eventDetailBloc = di.sl<EventDetailBloc>();
+    final CreateEventBloc createEventBloc = di.sl<CreateEventBloc>();
 
     return BlocProvider(
-      create: (context) => eventDetailBloc,
-      child: BlocListener<EventDetailBloc, EventDetailState>(
+      create: (context) => createEventBloc,
+      child: BlocListener<CreateEventBloc, CreateEventState>(
         listener: (context, state) {
           if (state.step == CreateEventStep.partTwo) {
             Navigator.pushNamed(context, route.createEventTwoPage);
@@ -72,7 +72,7 @@ class CreateEventPartOne extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final EventDetailBloc eventDetailBloc = di.sl<EventDetailBloc>();
+    final CreateEventBloc createEventBloc = di.sl<CreateEventBloc>();
 
     TextEditingController titleController = TextEditingController();
     TextEditingController adressController = TextEditingController();
@@ -94,7 +94,7 @@ class CreateEventPartOne extends StatelessWidget {
         vSpace20,
         GestureDetector(
           onTap: () {
-            eventDetailBloc
+            createEventBloc
                 .add(const OpenEventImagePicker(source: ImageSource.gallery));
           },
           child: Container(
@@ -107,7 +107,7 @@ class CreateEventPartOne extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(10.0),
             ),
-            child: BlocBuilder<EventDetailBloc, EventDetailState>(
+            child: BlocBuilder<CreateEventBloc, CreateEventState>(
               builder: (context, state) {
                 if (state.photoFile == null) {
                   return Row(
@@ -154,7 +154,7 @@ class CreateEventPartOne extends StatelessWidget {
         WaaaTextField(
           controller: adressController,
           label: localized(context).event_adress,
-          icondata: FeatherIcons.mapPin,
+          suffixIcon: FeatherIcons.mapPin,
         ),
         vSpace20,
         WaaaDatePicker(
@@ -210,7 +210,7 @@ class CreateEventPartOne extends StatelessWidget {
               child: ElevatedButton(
                 style: primaryButton,
                 onPressed: () {
-                  eventDetailBloc.add(
+                  createEventBloc.add(
                     ToNextEventStepPressed(
                         title: titleController.text,
                         isPublic: isPublic,

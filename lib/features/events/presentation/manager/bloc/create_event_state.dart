@@ -1,6 +1,6 @@
-part of 'event_detail_bloc.dart';
+part of 'create_event_bloc.dart';
 
-class EventDetailState extends Equatable {
+class CreateEventState extends Equatable {
   final CreateEventStep step;
   final String title;
   final bool isPublic;
@@ -18,7 +18,7 @@ class EventDetailState extends Equatable {
   final XFile? photoFile;
   final String? errorMessage;
 
-  const EventDetailState({
+  const CreateEventState({
     required this.step,
     required this.title,
     required this.isPublic,
@@ -37,7 +37,7 @@ class EventDetailState extends Equatable {
     this.errorMessage,
   });
 
-  factory EventDetailState.initial() => EventDetailState(
+  factory CreateEventState.initial() => CreateEventState(
         step: CreateEventStep.partOne,
         title: "",
         isPublic: true,
@@ -74,7 +74,7 @@ class EventDetailState extends Equatable {
     ];
   }
 
-  EventDetailState copyWith({
+  CreateEventState copyWith({
     CreateEventStep? step,
     String? title,
     bool? isPublic,
@@ -92,7 +92,7 @@ class EventDetailState extends Equatable {
     XFile? photoFile,
     String? errorMessage,
   }) {
-    return EventDetailState(
+    return CreateEventState(
       step: step ?? this.step,
       title: title ?? this.title,
       isPublic: isPublic ?? this.isPublic,

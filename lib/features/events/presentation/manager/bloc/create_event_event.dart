@@ -1,19 +1,19 @@
-part of 'event_detail_bloc.dart';
+part of 'create_event_bloc.dart';
 
-abstract class EventDetailEvent extends Equatable {
-  const EventDetailEvent();
+abstract class CreateEventEvent extends Equatable {
+  const CreateEventEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class OpenEventImagePicker extends EventDetailEvent {
+class OpenEventImagePicker extends CreateEventEvent {
   final ImageSource source;
 
   const OpenEventImagePicker({required this.source});
 }
 
-class ToNextEventStepPressed extends EventDetailEvent {
+class ToNextEventStepPressed extends CreateEventEvent {
   final String title;
   final bool isPublic;
   final String theme;
@@ -33,7 +33,7 @@ class ToNextEventStepPressed extends EventDetailEvent {
   });
 }
 
-class ValidateEventPressed extends EventDetailEvent {
+class ValidateEventPressed extends CreateEventEvent {
   final Event currentEvent;
 
   const ValidateEventPressed({required this.currentEvent});

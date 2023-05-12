@@ -11,7 +11,7 @@ import '../../../../core/theme/text_styles.dart';
 import '../../../../core/util/localized.dart';
 import '../../../../core/util/mocks/users.dart';
 import '../../../users/domain/entities/user_entity.dart';
-import '../manager/bloc/event_detail_bloc.dart';
+import '../manager/bloc/create_event_bloc.dart';
 
 class CreateEventTwoPage extends StatelessWidget {
   const CreateEventTwoPage({super.key});
@@ -48,7 +48,7 @@ class CreateEventPartTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final EventDetailBloc eventDetailBloc = di.sl<EventDetailBloc>();
+    final CreateEventBloc createEventBloc = di.sl<CreateEventBloc>();
 
     TextEditingController descriptionController = TextEditingController();
     List<User> coorganizers = [];
@@ -56,7 +56,7 @@ class CreateEventPartTwo extends StatelessWidget {
     bool isVisible = true;
     bool guestCanInvite = true;
 
-    return BlocBuilder<EventDetailBloc, EventDetailState>(
+    return BlocBuilder<CreateEventBloc, CreateEventState>(
       builder: (context, state) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
