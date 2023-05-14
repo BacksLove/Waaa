@@ -1,6 +1,7 @@
 enum RegisterStatus {
   loading,
   usernameStep,
+  birthdayStep,
   countryStep,
   languagesStep,
   hobbiesStep,

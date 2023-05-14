@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,6 +30,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc(this.authBloc) : super(RegisterState.initial()) {
     on<ValidateUsernameButtonPressed>(_onValidateUsernameButtonPressed);
     on<ValidateCountriesButtonPressed>(_onValidateCountriesButtonPressed);
+    on<ValidateBirthdayPressed>(_onValidateBirthdayPressed);
     on<NationalityCountrySelected>(_onNationalityCountrySelected);
     on<ResidenceCountrySelected>(_onResidenceCountrySelected);
     on<NativeLanguageSelected>(_onNativeLanguageSelected);
@@ -52,7 +55,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         // TODO: Username taken
 
         emit(state.copyWith(
-          status: RegisterStatus.countryStep,
+          status: RegisterStatus.birthdayStep,
           username: event.username,
           errorType: RegisterErrorType.none,
         ));
@@ -156,6 +159,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     User user = User(
         cognitoUserPoolId: userId,
         nativeLanguage: state.nativeLanguage,
+        birthday: state.birthdate,
         username: state.username,
         photo: photoLink,
         languagesSpeak: state.spokenLanguages);
@@ -244,5 +248,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         errorType: RegisterErrorType.photoSelectError,
       ));
     }
+  }
+
+  void _onValidateBirthdayPressed(
+      ValidateBirthdayPressed event, Emitter<RegisterState> emit) {
+    emit(state.copyWith(
+        status: RegisterStatus.countryStep, birthdate: event.birthday));
   }
 }

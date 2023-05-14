@@ -53,6 +53,12 @@ class ValidatePhotoButtonPressed extends RegisterEvent {
   const ValidatePhotoButtonPressed({required this.photoUrl});
 }
 
+class ValidateBirthdayPressed extends RegisterEvent {
+  final DateTime birthday;
+
+  const ValidateBirthdayPressed({required this.birthday});
+}
+
 class OpenImagePicker extends RegisterEvent {
   final ImageSource source;
 

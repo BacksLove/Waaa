@@ -133,12 +133,32 @@ class _WaaaRangeSliderState extends State<WaaaRangeSlider> {
           values: range,
           min: 0,
           max: 100,
+          divisions: 100,
+          labels: RangeLabels(
+            range.start.round().toString(),
+            range.end.round().toString(),
+          ),
           onChanged: (value) {
             setState(() {
               range = value;
             });
           },
         ),
+        vSpace5,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "${range.start.round().toString()} ans", // TODO: Mettre string
+              style: regularTextStyle16,
+            ),
+            hSpace40,
+            Text(
+              "${range.end.round().toString()} ans", // TODO: Mettre string
+              style: regularTextStyle16,
+            ),
+          ],
+        )
       ],
     );
   }

@@ -3,6 +3,7 @@ part of 'register_bloc.dart';
 class RegisterState extends Equatable {
   final RegisterStatus status;
   final String username;
+  final DateTime birthdate;
   final String nationality;
   final String residency;
   final String nativeLanguage;
@@ -16,6 +17,7 @@ class RegisterState extends Equatable {
   const RegisterState({
     required this.status,
     required this.username,
+    required this.birthdate,
     required this.nationality,
     required this.residency,
     required this.nativeLanguage,
@@ -27,15 +29,16 @@ class RegisterState extends Equatable {
     this.photoFile,
   });
 
-  factory RegisterState.initial() => const RegisterState(
+  factory RegisterState.initial() => RegisterState(
       status: RegisterStatus.usernameStep,
       username: "",
+      birthdate: DateTime.now(),
       nationality: "",
       residency: "",
       nativeLanguage: "",
-      spokenLanguages: [],
-      hobbies: [],
-      selectedHobbiesIndexes: [],
+      spokenLanguages: const [],
+      hobbies: const [],
+      selectedHobbiesIndexes: const [],
       errorType: RegisterErrorType.none,
       photoUrl: "");
 
@@ -44,6 +47,7 @@ class RegisterState extends Equatable {
     return [
       status,
       username,
+      birthdate,
       nationality,
       residency,
       nativeLanguage,
@@ -61,6 +65,7 @@ class RegisterState extends Equatable {
   RegisterState copyWith({
     RegisterStatus? status,
     String? username,
+    DateTime? birthdate,
     String? nationality,
     String? residency,
     String? nativeLanguage,
@@ -74,6 +79,7 @@ class RegisterState extends Equatable {
     return RegisterState(
         status: status ?? this.status,
         username: username ?? this.username,
+        birthdate: birthdate ?? this.birthdate,
         nationality: nationality ?? this.nationality,
         residency: residency ?? this.residency,
         nativeLanguage: nativeLanguage ?? this.nativeLanguage,

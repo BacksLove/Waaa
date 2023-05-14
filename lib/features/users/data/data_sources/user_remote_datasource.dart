@@ -52,7 +52,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       safePrint(result.data);
       safePrint(result.errors);
       //safePrint(result.exception);
-      if (operation != null) {
+      if (result.data != null) {
         return true;
       }
       return false;
@@ -71,7 +71,8 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   Future<User?> getUserById(String id) async {
     try {
       var doc = '''query MyQuery {
-  getUser(cognitoUserPoolId: "$id") {
+  UsersByCognitoID(cognitoUserPoolId: "b7e44208-90f4-4b68-b6e5-471f028200d9") {
+    items {
     id
     cognitoUserPoolId
     username
@@ -111,12 +112,6 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         userEventsId
       }
     }
-    hobbies {
-      items {
-        name
-        id
-      }
-    }
     friends {
       items {
         id
@@ -129,15 +124,15 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       }
     }
   }
+  }
 }''';
       var operation =
           Amplify.API.query(request: GraphQLRequest<String>(document: doc));
       var result = await operation.response;
-      safePrint(result.data);
-      safePrint(result.errors);
       if (result.data != null) {
-        safePrint(result.data);
-        var userJSON = json.decode(result.data!)["getUser"];
+        //safePrint("result = ${result.data}");
+        var userJSON = json.decode(result.data!)["UsersByCognitoID"]["items"];
+        safePrint("userJSON = $userJSON");
         if (userJSON != null) {
           var user = User.fromJson(userJSON);
           return user;
