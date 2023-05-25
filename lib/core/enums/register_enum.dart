@@ -22,4 +22,5 @@ enum RegisterErrorType {
   countrySelectError,
   photoSelectError,
   photoEmpty,
+  registerFailed,
 }

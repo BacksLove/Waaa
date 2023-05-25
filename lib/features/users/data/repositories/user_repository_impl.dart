@@ -1,7 +1,8 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:waaa/features/users/data/data_sources/user_remote_datasource.dart';
-import 'package:waaa/features/users/domain/entities/user_entity.dart';
+import 'package:waaa/features/users/domain/entities/search_item.dart';
 import 'package:waaa/features/users/domain/repositories/user_repository.dart';
+import 'package:waaa/models/User.dart';
 
 import '../../../../core/platform/network_info.dart';
 
@@ -37,7 +38,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<List<User>?> getUsersByCity(String city) {
+  Future<List<User?>> getUsersByCity(String city) {
     networkInfo.isConnected;
     final remote = remoteDataSource.getUsersByCity(city);
 
@@ -56,6 +57,14 @@ class UserRepositoryImpl implements UserRepository {
   Future<String?> uploadUserPhoto(XFile file, String userId) async {
     await networkInfo.isConnected;
     final remote = remoteDataSource.uploadUserPhoto(file, userId);
+
+    return remote;
+  }
+
+  @override
+  Future<List<User?>> searchUser(SearchItem searchItem) async {
+    await networkInfo.isConnected;
+    final remote = remoteDataSource.searchUser(searchItem);
 
     return remote;
   }

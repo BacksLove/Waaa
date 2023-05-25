@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:waaa/models/User.dart';
 
 import '../../../../core/usecases/usecase.dart';
-import '../entities/user_entity.dart';
 import '../repositories/user_repository.dart';
 
 class GetUserById extends UseCase<User?, GetUserByIdParams> {

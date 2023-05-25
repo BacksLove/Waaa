@@ -1,13 +1,13 @@
-import '../../../features/hobbies/domain/entities/hobby.dart';
+import 'package:waaa/models/Hobby.dart';
 
 final List<Hobby> mockHobbies = [
-  const Hobby(id: "0", name: "Ski"),
-  const Hobby(id: "0", name: "Bowling"),
-  const Hobby(id: "0", name: "Football"),
-  const Hobby(id: "0", name: "Cuisine"),
-  const Hobby(id: "0", name: "Peinture"),
-  const Hobby(id: "0", name: "Mode"),
-  const Hobby(id: "0", name: "Art"),
+  Hobby(id: "0", name: "Ski"),
+  Hobby(id: "0", name: "Bowling"),
+  Hobby(id: "0", name: "Football"),
+  Hobby(id: "0", name: "Cuisine"),
+  Hobby(id: "0", name: "Peinture"),
+  Hobby(id: "0", name: "Mode"),
+  Hobby(id: "0", name: "Art"),
 ];
 
 final List<String> mockHobbiesNames = [

@@ -6,13 +6,14 @@ import 'package:waaa/features/events/presentation/pages/event_detail_page.dart';
 import 'package:waaa/features/users/domain/entities/profile_page_arguments.dart';
 import 'package:waaa/features/users/presentation/pages/profile_page.dart';
 import 'package:waaa/features/users/presentation/pages/register_page.dart';
+import 'package:waaa/features/users/presentation/pages/search_result_page.dart';
+import 'package:waaa/models/Event.dart';
+import 'package:waaa/models/User.dart';
 
 import '../../features/auth/presentation/pages/login_page.dart';
-import '../../features/events/domain/entities/event_entity.dart';
 import '../../features/events/presentation/pages/create_event_page.dart';
 import '../../features/home/presentation/pages/main_page.dart';
 import '../../features/home/presentation/pages/settings_page.dart';
-import '../../features/users/domain/entities/user_entity.dart';
 
 // Route Names
 
@@ -33,6 +34,7 @@ const String createEventTwoPage = "createEventPartTwo";
 
 // User
 const String profilePage = "profilePage";
+const String searchResultPage = "searchResultPage";
 
 // Control our page route flow
 Route<dynamic> controller(RouteSettings settings) {
@@ -70,6 +72,16 @@ Route<dynamic> controller(RouteSettings settings) {
           builder: (context) => ProfilPage(
             currentUser: profilePageArguments.user,
             isFromSearching: profilePageArguments.isFromSearching,
+          ),
+        );
+      }
+    case searchResultPage:
+      {
+        final List<User?> users = settings.arguments as List<User?>;
+
+        return MaterialPageRoute(
+          builder: (context) => SearchResultPage(
+            users: users,
           ),
         );
       }

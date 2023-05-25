@@ -1,19 +1,36 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-waaa-dev-224948-authRole",
-      "UnauthRoleArn": "arn:aws:iam::781320460873:role/amplify-waaa-dev-224948-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::781320460873:role/amplify-waaa-dev-224948-authRole",
       "Region": "eu-west-3",
-      "DeploymentBucketName": "amplify-waaa-dev-224948-deployment",
-      "UnauthRoleName": "amplify-waaa-dev-224948-unauthRole",
-      "StackName": "amplify-waaa-dev-224948",
-      "StackId": "arn:aws:cloudformation:eu-west-3:781320460873:stack/amplify-waaa-dev-224948/d4bbd0c0-b2fa-11ed-85aa-0a4b3a7e9ea4",
-      "AmplifyAppId": "d305jcf2w0kfby"
+      "DeploymentBucketName": "amplify-waaaapi-dev-211927-deployment",
+      "UnauthRoleName": "amplify-waaaapi-dev-211927-unauthRole",
+      "StackName": "amplify-waaaapi-dev-211927",
+      "StackId": "arn:aws:cloudformation:eu-west-3:781320460873:stack/amplify-waaaapi-dev-211927/8b327320-afc9-11ed-ae38-0ecd75c8bdf2",
+      "AuthRoleName": "amplify-waaaapi-dev-211927-authRole",
+      "UnauthRoleArn": "arn:aws:iam::781320460873:role/amplify-waaaapi-dev-211927-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::781320460873:role/amplify-waaaapi-dev-211927-authRole",
+      "AmplifyAppId": "d231hsexi8mbba"
     },
     "categories": {
       "auth": {
-        "waaa19ab4583": {}
+        "waaaapi9b26cf24": {}
+      },
+      "function": {
+        "waaaapilayerNodejs12x": {
+          "deploymentBucketName": "amplify-waaaapi-dev-211927-deployment",
+          "s3Key": "amplify-builds/waaaapilayerNodejs12x-LambdaLayerVersiona728645d-build.zip"
+        },
+        "selectWinnersLambda": {
+          "deploymentBucketName": "amplify-waaaapi-dev-211927-deployment",
+          "s3Key": "amplify-builds/selectWinnersLambda-776f596349486b495243-build.zip"
+        },
+        "checkUsername": {
+          "deploymentBucketName": "amplify-waaaapi-dev-211927-deployment",
+          "s3Key": "amplify-builds/checkUsername-31652f685a416e784643-build.zip"
+        }
+      },
+      "storage": {
+        "s3amplifyapi": {}
       }
     }
   }

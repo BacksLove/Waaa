@@ -24,4 +24,7 @@ class ProdConfig implements BaseConfig {
 
   @override
   String get authCredPoolId => throw UnimplementedError();
+
+  @override
+  String get storageArn => throw UnimplementedError();
 }

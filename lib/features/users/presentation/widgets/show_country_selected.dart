@@ -61,7 +61,7 @@ class ShowCountryItemSelected extends StatelessWidget {
                 FeatherIcons.check,
                 color: primaryColor,
               ),
-              vSpace15,
+              hSpace15,
               Text(
                 Country.parse(language).displayNameNoCountryCode,
                 style: regularTextStyle12,

@@ -20,10 +20,11 @@ class StagingConfig implements BaseConfig {
   String get storageBucket => throw UnimplementedError();
 
   @override
-  // TODO: implement authCognitoPoolId
   String get authCognitoPoolId => throw UnimplementedError();
 
   @override
-  // TODO: implement authCredPoolId
   String get authCredPoolId => throw UnimplementedError();
+
+  @override
+  String get storageArn => throw UnimplementedError();
 }

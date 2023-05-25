@@ -73,6 +73,10 @@ class _RegisterPageState extends State<RegisterPage> {
         if (state.errorType == RegisterErrorType.photoSelectError) {
           showFloatingFlushbar(context, null, localized(context).photo_error);
         }
+        if (state.errorType == RegisterErrorType.registerFailed) {
+          showFloatingFlushbar(
+              context, null, localized(context).register_failed);
+        }
         if (state.status == RegisterStatus.complete) {
           Navigator.popAndPushNamed(context, route.homePage);
         }

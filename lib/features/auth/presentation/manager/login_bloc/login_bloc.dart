@@ -1,3 +1,4 @@
+import 'package:aws_common/aws_common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waaa/core/constants/constants.dart';
@@ -29,6 +30,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   void onTransition(Transition<LoginEvent, LoginState> transition) {
     super.onTransition(transition);
+    safePrint(transition);
   }
 
   void _onLoginButtonPressed(

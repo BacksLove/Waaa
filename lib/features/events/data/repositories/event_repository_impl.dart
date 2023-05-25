@@ -1,4 +1,4 @@
-import 'package:waaa/features/events/domain/entities/event_entity.dart';
+import 'package:waaa/models/Event.dart';
 
 import '../../../../core/platform/network_info.dart';
 import '../../domain/repositories/event_repository.dart';
@@ -21,7 +21,7 @@ class EventRepositoryImpl implements EventRepository {
   }
 
   @override
-  Future<List<Event>> getEventsByUserId(String id) async {
+  Future<List<Event?>> getEventsByUserId(String id) async {
     await networkInfo.isConnected;
     final remoteEventByUser = await remoteDataSource.getEventsByUserId(id);
 
@@ -29,7 +29,7 @@ class EventRepositoryImpl implements EventRepository {
   }
 
   @override
-  Future<List<Event>> getWaaEvents() async {
+  Future<List<Event?>> getWaaEvents() async {
     await networkInfo.isConnected;
     final remoteEventsWaaa = await remoteDataSource.getWaaEvents();
 

@@ -89,6 +89,9 @@ final appNameTextStyle =
 final lightPrimarySemiBoldTextStyle12 = GoogleFonts.poppins(
     fontSize: 12, fontWeight: FontWeight.w500, color: lightPrimaryColor);
 
+final primarySemiBoldTextStyle14 = GoogleFonts.poppins(
+    fontSize: 14, fontWeight: FontWeight.w500, color: primaryColor);
+
 final lightPrimaryBoldTextStyle18 = GoogleFonts.poppins(
     fontWeight: FontWeight.bold, fontSize: 18, color: lightPrimaryColor);
 

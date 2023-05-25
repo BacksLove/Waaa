@@ -17,21 +17,25 @@ import 'package:waaa/features/events/data/repositories/event_repository_impl.dar
 import 'package:waaa/features/events/domain/repositories/event_repository.dart';
 import 'package:waaa/features/events/domain/use_cases/get_events_by_user_id.dart';
 import 'package:waaa/features/events/domain/use_cases/get_waaa_events.dart';
-import 'package:waaa/features/events/presentation/manager/bloc/create_event_bloc.dart';
+import 'package:waaa/features/events/presentation/manager/bloc/create_event/create_event_bloc.dart';
 import 'package:waaa/features/hobbies/data/data_sources/hobbies_remote_data_source.dart';
 import 'package:waaa/features/hobbies/data/repositories/hobbies_repository_impl.dart';
 import 'package:waaa/features/hobbies/domain/repositories/hobbies_repository.dart';
+import 'package:waaa/features/hobbies/domain/use_cases/add_hobby_to_user.dart';
 import 'package:waaa/features/hobbies/domain/use_cases/get_hobbies.dart';
 import 'package:waaa/features/home/presentation/manager/home_bloc/home_bloc.dart';
 import 'package:waaa/features/users/data/data_sources/user_remote_datasource.dart';
 import 'package:waaa/features/users/domain/repositories/user_repository.dart';
 import 'package:waaa/features/users/domain/use_cases/create_user.dart';
 import 'package:waaa/features/users/domain/use_cases/delete_user.dart';
+import 'package:waaa/features/users/domain/use_cases/get_user_by_city.dart';
 import 'package:waaa/features/users/domain/use_cases/get_user_by_id.dart';
+import 'package:waaa/features/users/domain/use_cases/search_user.dart';
 import 'package:waaa/features/users/domain/use_cases/update_user.dart';
 import 'package:waaa/features/users/domain/use_cases/upload_user_photo.dart';
 import 'package:waaa/features/users/presentation/manager/bloc/profile/profile_bloc.dart';
 import 'package:waaa/features/users/presentation/manager/bloc/register/register_bloc.dart';
+import 'package:waaa/features/users/presentation/manager/bloc/search/search_bloc.dart';
 
 import 'features/auth/domain/use_cases/get_current_auth_user.dart';
 import 'features/auth/presentation/manager/login_bloc/login_bloc.dart';
@@ -57,7 +61,6 @@ Future<void> init() async {
   sl.registerLazySingleton<GetCurrentAuthSession>(
       () => GetCurrentAuthSession(sl()));
   sl.registerLazySingleton<GetCurrentAuthUser>(() => GetCurrentAuthUser(sl()));
-  sl.registerLazySingleton<GetHobbies>(() => GetHobbies(sl()));
 
   sl.registerLazySingleton<CreateUser>(() => CreateUser(sl()));
   sl.registerLazySingleton<GetUserById>(() => GetUserById(sl()));
@@ -67,34 +70,37 @@ Future<void> init() async {
   // Repository
   sl.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
-  sl.registerLazySingleton<HobbiesRepository>(
-      () => HobbiesRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
-  sl.registerLazySingleton<UserRepository>(
-      () => UserRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
 
   // Data sources
   sl.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl());
-  sl.registerLazySingleton<HobbiesRemoteDataSource>(
-      () => HobbiesRemoteDataSourceImpl());
-  sl.registerLazySingleton<UserRemoteDatasource>(
-      () => UserRemoteDatasourceImpl());
 
   //! Feature - Users
   // Bloc
-  sl.registerLazySingleton<ProfileBloc>(() => ProfileBloc());
+  sl.registerFactory<ProfileBloc>(() => ProfileBloc());
+  sl.registerFactory<SearchBloc>(() => SearchBloc());
 
   // Use cases
   sl.registerLazySingleton<UploadUserPhoto>(() => UploadUserPhoto(sl()));
+  sl.registerLazySingleton<GetUserByCity>(() => GetUserByCity(sl()));
+  sl.registerLazySingleton<SearchUser>(() => SearchUser(sl()));
+
+  // Repository
+  sl.registerLazySingleton<UserRepository>(
+      () => UserRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+
+  // Data Source
+  sl.registerLazySingleton<UserRemoteDatasource>(
+      () => UserRemoteDatasourceImpl());
 
   //! Feature - Home
   // Bloc
   sl.registerFactory<BottomNavigationCubit>(() => BottomNavigationCubit());
   sl.registerLazySingleton<HomeBloc>(() => HomeBloc(sl()));
 
-  //! Events
+  //! Feature - Events
   // Bloc
-  sl.registerLazySingleton<CreateEventBloc>(() => CreateEventBloc());
+  sl.registerFactory<CreateEventBloc>(() => CreateEventBloc());
 
   // Use cases
   sl.registerLazySingleton<GetEventsByUserId>(() => GetEventsByUserId(sl()));
@@ -107,6 +113,19 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<EventRemoteDatasource>(
       () => EventRemoteDatasourceImpl());
+
+  //! Feature - Hobbies
+  // Use cases
+  sl.registerLazySingleton<GetHobbies>(() => GetHobbies(sl()));
+  sl.registerLazySingleton<AddHobbyToUser>(() => AddHobbyToUser(sl()));
+
+  // Repository
+  sl.registerLazySingleton<HobbiesRepository>(
+      () => HobbiesRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+
+  // Data source
+  sl.registerLazySingleton<HobbiesRemoteDataSource>(
+      () => HobbiesRemoteDataSourceImpl());
 
   //! Core
   sl.registerLazySingleton<InputConverter>(() => InputConverter());

@@ -1,19 +1,21 @@
-import 'dart:async';
-
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waaa/core/constants/constants.dart';
+import 'package:waaa/core/util/input_converter.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
-import 'package:waaa/features/users/domain/entities/user_entity.dart';
+import 'package:waaa/features/hobbies/domain/use_cases/add_hobby_to_user.dart';
 import 'package:waaa/features/users/domain/use_cases/create_user.dart';
+import 'package:waaa/features/users/domain/use_cases/get_user_by_id.dart';
 import 'package:waaa/features/users/domain/use_cases/upload_user_photo.dart';
+import 'package:waaa/models/Hobby.dart';
+import 'package:waaa/models/User.dart';
 
 import '../../../../../../core/enums/register_enum.dart';
 import '../../../../../../core/usecases/usecase.dart';
 import '../../../../../../core/util/list_from_indices.dart';
-import '../../../../../hobbies/domain/entities/hobby.dart';
 
 import 'package:waaa/injection_container.dart' as di;
 
@@ -147,9 +149,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   void _onRegisterUser(
       RegisterCompleteEvent event, Emitter<RegisterState> emit) async {
     emit(state.copyWith(status: RegisterStatus.loading));
-    //var selectedHobbies = getListFromIndices(state.selectedHobbiesIndexes, state.hobbies);
+    var selectedHobbies =
+        getListFromIndices(state.selectedHobbiesIndexes, state.hobbies);
     var userId = di.sl<SharedPreferences>().getString(userIdKey);
     late String? photoLink;
+
     if (state.photoUrl.isNotEmpty && userId != null) {
       photoLink = await di
           .sl<UploadUserPhoto>()
@@ -159,18 +163,35 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     User user = User(
         cognitoUserPoolId: userId,
         nativeLanguage: state.nativeLanguage,
-        birthday: state.birthdate,
+        birthday: TemporalDate(state.birthdate),
         username: state.username,
         photo: photoLink,
         languagesSpeak: state.spokenLanguages);
     try {
       final bool creation =
           await di.sl<CreateUser>().call(CreateUserParams(user: user));
-      if (creation) {
-      } else {}
-
-      emit(state.copyWith(status: RegisterStatus.complete));
-      authBloc.add(Registered(user: user));
+      if (creation && userId != null) {
+        final finalUser =
+            await di.sl<GetUserById>().call(GetUserByIdParams(id: userId));
+        if (finalUser != null) {
+          if (selectedHobbies.isNotEmpty) {
+            for (var hobby in selectedHobbies) {
+              await di.sl<AddHobbyToUser>().call(AddHobbyToUserParams(
+                  hobbyId: hobby!.id, userId: finalUser.id));
+            }
+          }
+          emit(state.copyWith(status: RegisterStatus.complete));
+          authBloc.add(Registered(user: finalUser));
+        } else {
+          emit(state.copyWith(
+              status: RegisterStatus.usernameStep,
+              errorType: RegisterErrorType.registerFailed));
+        }
+      } else {
+        emit(state.copyWith(
+            status: RegisterStatus.usernameStep,
+            errorType: RegisterErrorType.registerFailed));
+      }
     } catch (e) {
       rethrow;
     }

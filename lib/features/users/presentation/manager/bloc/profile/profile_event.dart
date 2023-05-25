@@ -14,3 +14,9 @@ class ProfileTripsYearSelected extends ProfileEvent {}
 class ProfileMapMarkerTapped extends ProfileEvent {}
 
 class ProfileNewsTabPressed extends ProfileEvent {}
+
+class ProfileLoadData extends ProfileEvent {
+  final String userId;
+
+  const ProfileLoadData({required this.userId});
+}

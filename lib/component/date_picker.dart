@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 import 'package:waaa/core/theme/colors.dart';
 
 class WaaaDatePicker extends StatelessWidget {
@@ -36,7 +36,7 @@ class WaaaDatePicker extends StatelessWidget {
         ),
       ),
       onTap: () {
-        DatePicker.showDateTimePicker(context,
+        DatePickerBdaya.showDateTimePicker(context,
             showTitleActions: true,
             minTime: DateTime(2018, 3, 5),
             maxTime: DateTime(2019, 6, 7),

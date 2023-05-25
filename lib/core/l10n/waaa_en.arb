@@ -355,5 +355,6 @@
     "photo_error": "Something went wrong when selecting a photo",
     "conditions_not_checked": "You have to accept the conditions and terms",
     "where_is_the_traveler": "Where is the traveler",
-    "age": "Age"
+    "age": "Age",
+    "register_failed": "Register failed, something went wrong"
   }

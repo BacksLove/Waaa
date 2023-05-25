@@ -9,8 +9,8 @@ import 'package:waaa/features/auth/domain/use_cases/get_current_auth_session.dar
 import 'package:waaa/features/users/domain/use_cases/get_user_by_id.dart';
 
 import 'package:waaa/injection_container.dart' as di;
+import 'package:waaa/models/User.dart';
 
-import '../../../../users/domain/entities/user_entity.dart';
 import '../../../domain/use_cases/log_out.dart';
 
 part 'auth_event.dart';
@@ -37,17 +37,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const AuthState.unknown());
       var token = di.sl<SharedPreferences>().getString(userIdKey);
       if (token != null) {
-        print("Y'a un token déja");
         final AuthSession session =
             await di.sl<GetCurrentAuthSession>().call(NoParams());
         if (session.isSignedIn) {
-          print("User authentifié");
           user = await di.sl<GetUserById>().call(GetUserByIdParams(id: token));
           if (user != null) {
-            print("User en cours = ${user.username}");
             emit(AuthState.authenticated(user));
           } else {
-            print("Y'a personne");
             emit(const AuthState.registered());
           }
         } else {
@@ -65,7 +61,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     User? user =
         await di.sl<GetUserById>().call(GetUserByIdParams(id: event.id));
     if (user != null) {
-      emit(AuthState.authenticated(user));
+      if (user.cognitoUserPoolId == event.id) {
+        emit(AuthState.authenticated(user));
+      } else {
+        emit(const AuthState.registered());
+      }
     } else {
       emit(const AuthState.registered());
     }

@@ -36,11 +36,13 @@ class CountryScreenWidget extends StatelessWidget {
                 if (state.nationality.isNotEmpty)
                   ShowCountrySelected(country: state.nationality),
                 CountryPicker(
-                    textButton: localized(context).select_a_residency,
-                    callback: (value) => {
-                          registerBloc.add(NationalityCountrySelected(
-                              nationalityCountry: value))
-                        }),
+                  textButton: localized(context).select_a_residency,
+                  callback: (value) => {
+                    registerBloc.add(
+                      NationalityCountrySelected(nationalityCountry: value),
+                    )
+                  },
+                ),
                 vSpace60,
                 Text(
                   localized(context).select_a_residency,

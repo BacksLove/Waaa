@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
+import 'package:waaa/models/Event.dart';
 
 import '../../../../core/usecases/usecase.dart';
-import '../entities/event_entity.dart';
 import '../repositories/event_repository.dart';
 
-class GetEventsByUserId extends UseCase<List<Event>, EventByUserIdParams> {
+class GetEventsByUserId extends UseCase<List<Event?>, EventByUserIdParams> {
   final EventRepository repository;
 
   GetEventsByUserId(this.repository);
 
   @override
-  Future<List<Event>> call(EventByUserIdParams params) async {
+  Future<List<Event?>> call(EventByUserIdParams params) async {
     return await repository.getEventsByUserId(params.id);
   }
 }

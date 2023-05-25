@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:waaa/core/constants/image_constants.dart';
 import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/enums/home_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
-import 'package:waaa/core/util/mocks/users.dart';
 import 'package:waaa/features/home/presentation/manager/home_bloc/home_bloc.dart';
 import 'package:waaa/features/users/domain/entities/profile_page_arguments.dart';
-import 'package:waaa/features/users/domain/entities/user_entity.dart';
+import 'package:waaa/models/Event.dart';
+import 'package:waaa/models/User.dart';
 
 import '../../../../core/theme/common_widget/button.dart';
-import '../../../events/domain/entities/event_entity.dart';
 
 import 'package:waaa/core/route/routes.dart' as route;
 import 'package:waaa/injection_container.dart' as di;
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   vSpace35,
                   UserListCarrousel(
-                    userNear: mockUsersList,
+                    userNear: state.usersNear,
                     withName: false,
                   ),
                   EventsWaaa(listEvents: state.waaaEvents),
@@ -113,8 +113,8 @@ class UserItemList extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        image: NetworkImage(_currentUser.photo!),
-                        fit: BoxFit.fitWidth),
+                        image: NetworkImage(_currentUser.photo ?? noPhotoImage),
+                        fit: BoxFit.cover),
                   ),
                 ),
                 _isOnline
@@ -153,12 +153,12 @@ class UserItemList extends StatelessWidget {
 class UserListCarrousel extends StatelessWidget {
   const UserListCarrousel({
     super.key,
-    required List<User> userNear,
+    required List<User?> userNear,
     required bool withName,
   })  : _userNear = userNear,
         _withName = withName;
 
-  final List<User> _userNear;
+  final List<User?> _userNear;
   final bool _withName;
 
   @override
@@ -169,13 +169,13 @@ class UserListCarrousel extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: _userNear.length,
         itemBuilder: (BuildContext context, int index) {
-          return _userNear[index].photo != null
+          return _userNear[index] != null
               ? UserItemList(
                   user: _userNear[index],
                   isOnline: true,
                   withName: _withName,
                 )
-              : const Placeholder();
+              : Container();
         },
       ),
     );
@@ -185,7 +185,7 @@ class UserListCarrousel extends StatelessWidget {
 class EventsWaaa extends StatelessWidget {
   const EventsWaaa({super.key, required listEvents}) : _listEvents = listEvents;
 
-  final List<Event> _listEvents;
+  final List<Event?> _listEvents;
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +211,8 @@ class EventsWaaa extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
-                      image: NetworkImage(_listEvents.first.mainPhoto),
+                      image: NetworkImage(
+                          _listEvents.first?.mainPhoto ?? noPhotoImage),
                       fit: BoxFit.cover),
                 ),
                 child: Padding(
@@ -220,12 +221,12 @@ class EventsWaaa extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _listEvents.first.city,
+                        _listEvents.first?.city ?? "",
                         style: boldWhiteTextStyle20,
                       ),
                       vSpace5,
                       Text(
-                        _listEvents.first.country,
+                        _listEvents.first?.country ?? "",
                         style: boldWhiteTextStyle12,
                       ),
                     ],
@@ -255,7 +256,8 @@ class EventsWaaa extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           image: DecorationImage(
-                              image: NetworkImage(_listEvents[1].mainPhoto),
+                              image:
+                                  NetworkImage(_listEvents[1]?.mainPhoto ?? ""),
                               fit: BoxFit.cover),
                         ),
                         child: Padding(
@@ -265,7 +267,7 @@ class EventsWaaa extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                _listEvents[1].country,
+                                _listEvents[1]?.country ?? "",
                                 style: boldWhiteTextStyle20,
                               ),
                             ],
@@ -290,7 +292,8 @@ class EventsWaaa extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           image: DecorationImage(
-                              image: NetworkImage(_listEvents[2].mainPhoto),
+                              image:
+                                  NetworkImage(_listEvents[2]?.mainPhoto ?? ""),
                               fit: BoxFit.cover),
                         ),
                         child: Padding(
@@ -300,7 +303,7 @@ class EventsWaaa extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                _listEvents[2].country,
+                                _listEvents[2]?.country ?? "",
                                 style: boldWhiteTextStyle20,
                               ),
                             ],
@@ -330,7 +333,7 @@ class EventsWaaa extends StatelessWidget {
 class EventsUser extends StatelessWidget {
   const EventsUser({super.key, required listEvents}) : _listEvents = listEvents;
 
-  final List<Event> _listEvents;
+  final List<Event?> _listEvents;
 
   @override
   Widget build(BuildContext context) {

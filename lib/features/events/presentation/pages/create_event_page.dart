@@ -11,7 +11,7 @@ import 'package:waaa/core/enums/event_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
-import 'package:waaa/features/events/presentation/manager/bloc/create_event_bloc.dart';
+import 'package:waaa/features/events/presentation/manager/bloc/create_event/create_event_bloc.dart';
 
 import '../../../../component/dropdown.dart';
 import '../../../../component/form_textfield.dart';

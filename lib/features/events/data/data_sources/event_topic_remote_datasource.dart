@@ -1,4 +1,4 @@
-import 'package:waaa/features/events/domain/entities/event_topic_entity.dart';
+import 'package:waaa/models/EventTopic.dart';
 
 abstract class EventTopicRemoteDatasource {
   Future<EventTopic> getAllEventTopic();

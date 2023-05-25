@@ -25,4 +25,7 @@ class DevConfig implements BaseConfig {
 
   @override
   String get authCredPoolId => "eu-west-3:a569b955-8621-464f-8b6e-73466093c2ea";
+
+  @override
+  String get storageArn => "arn:aws:s3:::waaaapis3bucket211927-dev/public/*";
 }

@@ -68,3 +68,4 @@ amplifytools.xcconfig
 # Keystore files
 *.jks
 *.keystore
+*.sh

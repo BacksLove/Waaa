@@ -4,11 +4,11 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import '../core/theme/colors.dart';
 import 'package:waaa/core/route/routes.dart' as route;
 
-class MainAppBar extends StatelessWidget with PreferredSizeWidget {
+class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
 
-  MainAppBar({Key? key})
+  const MainAppBar({Key? key})
       : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 

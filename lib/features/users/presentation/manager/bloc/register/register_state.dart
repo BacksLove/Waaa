@@ -8,7 +8,7 @@ class RegisterState extends Equatable {
   final String residency;
   final String nativeLanguage;
   final List<String> spokenLanguages;
-  final List<Hobby> hobbies;
+  final List<Hobby?> hobbies;
   final List<int> selectedHobbiesIndexes;
   final String photoUrl;
   final RegisterErrorType errorType;
@@ -70,7 +70,7 @@ class RegisterState extends Equatable {
     String? residency,
     String? nativeLanguage,
     List<String>? spokenLanguages,
-    List<Hobby>? hobbies,
+    List<Hobby?>? hobbies,
     List<int>? selectedHobbiesIndexes,
     String? photoUrl,
     RegisterErrorType? errorType,

@@ -2,9 +2,9 @@ part of 'home_bloc.dart';
 
 class HomeState extends Equatable {
   final HomeStatus status;
-  final List<User> usersNear;
-  final List<Event> userEvents;
-  final List<Event> waaaEvents;
+  final List<User?> usersNear;
+  final List<Event?> userEvents;
+  final List<Event?> waaaEvents;
 
   const HomeState({
     required this.status,
@@ -22,9 +22,9 @@ class HomeState extends Equatable {
 
   HomeState copyWith({
     HomeStatus? status,
-    List<User>? usersNear,
-    List<Event>? userEvents,
-    List<Event>? waaaEvents,
+    List<User?>? usersNear,
+    List<Event?>? userEvents,
+    List<Event?>? waaaEvents,
   }) {
     return HomeState(
       status: status ?? this.status,

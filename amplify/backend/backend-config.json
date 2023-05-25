@@ -1,7 +1,24 @@
 {
-  "api": {},
+  "api": {
+    "waaaapi": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            },
+            "authenticationType": "API_KEY"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  },
   "auth": {
-    "waaa19ab4583": {
+    "waaaapi9b26cf24": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -17,9 +34,7 @@
           "EMAIL"
         ],
         "socialProviders": [],
-        "usernameAttributes": [
-          "EMAIL"
-        ],
+        "usernameAttributes": [],
         "verificationMechanisms": [
           "EMAIL"
         ]
@@ -28,5 +43,78 @@
       "service": "Cognito"
     }
   },
-  "storage": {}
+  "function": {
+    "checkUsername": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "selectWinnersLambda": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "waaaapilayerNodejs12x": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_checkUsername_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkUsername"
+        }
+      ]
+    },
+    "AMPLIFY_function_checkUsername_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkUsername"
+        }
+      ]
+    },
+    "AMPLIFY_function_selectWinnersLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "selectWinnersLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_selectWinnersLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "selectWinnersLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_waaaapilayerNodejs12x_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "waaaapilayerNodejs12x"
+        }
+      ]
+    },
+    "AMPLIFY_function_waaaapilayerNodejs12x_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "waaaapilayerNodejs12x"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "s3amplifyapi": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
+    }
+  }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waaa/core/theme/colors.dart';
-
-import '../features/users/domain/entities/user_entity.dart';
+import 'package:waaa/models/User.dart';
 
 class ChipListWidget extends StatefulWidget {
   const ChipListWidget({super.key, required this.users});

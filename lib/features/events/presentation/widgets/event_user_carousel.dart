@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:waaa/core/constants/image_constants.dart';
 import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/colors.dart';
-import 'package:waaa/core/util/input_converter.dart';
+import 'package:waaa/models/Event.dart';
 
 import '../../../../core/theme/text_styles.dart';
-import '../../domain/entities/event_entity.dart';
 import 'package:waaa/core/route/routes.dart' as route;
 
 class EventsUserCarouselWidget extends StatelessWidget {
   const EventsUserCarouselWidget({
     super.key,
-    required List<Event> listEvents,
+    required List<Event?> listEvents,
   }) : _listEvents = listEvents;
 
-  final List<Event> _listEvents;
+  final List<Event?> _listEvents;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,8 @@ class EventsUserCarouselWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
-                      image: NetworkImage(_listEvents[index].mainPhoto),
+                      image: NetworkImage(
+                          _listEvents[index]?.mainPhoto ?? noPhotoImage),
                       fit: BoxFit.cover),
                 ),
                 child: Padding(
@@ -57,13 +58,11 @@ class EventsUserCarouselWidget extends StatelessWidget {
                             children: [
                               vSpace5,
                               Text(
-                                DateConverter().dateToDatetimeString(
-                                    _listEvents[index].begin),
+                                _listEvents[index]?.begin.toString() ?? "",
                                 style: boldWhiteTextStyle12,
                               ),
                               Text(
-                                DateConverter().dateToDatetimeString(
-                                    _listEvents[index].end),
+                                _listEvents[index]?.end.toString() ?? "",
                                 style: boldWhiteTextStyle12,
                               ),
                             ],
@@ -72,7 +71,7 @@ class EventsUserCarouselWidget extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        "${_listEvents[index].country}, ${_listEvents[index].city}",
+                        "${_listEvents[index]?.country}, ${_listEvents[index]?.city}",
                         style: boldWhiteTextStyle12,
                       ),
                       Row(
@@ -83,7 +82,7 @@ class EventsUserCarouselWidget extends StatelessWidget {
                           ),
                           hSpace5,
                           Text(
-                            _listEvents[index].address,
+                            _listEvents[index]?.address ?? "",
                             style: boldWhiteTextStyle14,
                           ),
                         ],

@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:waaa/component/error_screen.dart';
+import 'package:waaa/component/loading_screen.dart';
+import 'package:waaa/core/constants/image_constants.dart';
+import 'package:waaa/core/enums/user_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/common_widget/button.dart';
 import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/input_converter.dart';
 import 'package:waaa/core/util/localized.dart';
 import 'package:waaa/core/util/maps.dart';
-import 'package:waaa/core/util/mocks/events.dart';
-import 'package:waaa/core/util/mocks/hobbies.dart';
 import 'package:waaa/features/events/presentation/widgets/event_carousel.dart';
 import 'package:waaa/features/events/presentation/widgets/event_user_carousel.dart';
 import 'package:waaa/features/hobbies/presentation/widgets/hobbies_gridview.dart';
+import 'package:country_flags/country_flags.dart';
+import 'package:waaa/models/Event.dart';
+import 'package:waaa/models/User.dart';
 
 import '../../../../component/dropdown.dart';
 import '../../../../core/constants/spacer.dart';
-import '../../../users/domain/entities/user_entity.dart';
 import '../manager/bloc/profile/profile_bloc.dart';
 
 import 'package:waaa/injection_container.dart' as di;
@@ -44,17 +48,36 @@ class _ProfilPageState extends State<ProfilPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileBloc(),
-      child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            UserProfileAppBar(
-              currentUser: widget.currentUser,
-              isFromSearching: widget.isFromSearching,
-            ),
-            ShowUserDetails(currentUser: widget.currentUser),
-          ],
-        ),
+      create: (context) => profileBloc,
+      child: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, state) {
+          switch (state.status) {
+            case ProfileStatus.initial:
+              {
+                profileBloc.add(ProfileLoadData(
+                    userId: widget.currentUser.cognitoUserPoolId ?? ""));
+                return const LoadingScreen();
+              }
+            case ProfileStatus.loading:
+              return const LoadingScreen();
+            case ProfileStatus.loaded:
+              return Scaffold(
+                body: CustomScrollView(
+                  slivers: [
+                    UserProfileAppBar(
+                      currentUser: state.currentUser,
+                      isFromSearching: widget.isFromSearching,
+                    ),
+                    ShowUserDetails(currentUser: state.currentUser),
+                  ],
+                ),
+              );
+            case ProfileStatus.failed:
+              return const ErrorScreen();
+            default:
+              return const LoadingScreen();
+          }
+        },
       ),
     );
   }
@@ -83,6 +106,7 @@ class ShowUserDetails extends StatelessWidget {
                   //! Rang du prénom
                   vSpace15,
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
                         currentUser.username,
@@ -95,10 +119,12 @@ class ShowUserDetails extends StatelessWidget {
                                 spokenLanguages: currentUser.languagesSpeak!)
                             : Container(),
                       ),
-                      hSpace10,
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(FeatherIcons.moreVertical),
+                      SizedBox(
+                        height: 50,
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: const Icon(FeatherIcons.moreVertical),
+                        ),
                       )
                     ],
                   ),
@@ -157,7 +183,7 @@ class ShowUserDetails extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              "24",
+                              DateConverter().getAge(currentUser.birthday),
                               style: boldTextStyle20,
                             ),
                             Text(
@@ -185,7 +211,10 @@ class ShowUserDetails extends StatelessWidget {
                   ),
                   //! Hobbies
                   vSpace15,
-                  HobbiesGridWidget(hobbies: mockHobbies),
+                  HobbiesGridWidget(
+                      hobbies: currentUser.hobbies != null
+                          ? currentUser.hobbies!
+                          : []),
                   vSpace15,
                   //! Tabs
                   Row(
@@ -243,7 +272,9 @@ class ShowUserDetails extends StatelessWidget {
                       const MyTripsTab()
                       :
                       //! Mon actualités
-                      const MyNewsTab(),
+                      MyNewsTab(
+                          events: currentUser.events,
+                        ),
                   vSpace50,
                 ],
               ),
@@ -266,15 +297,18 @@ class ShowSpokenLanguages extends StatelessWidget {
       return SizedBox(
         height: 25,
         child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: spokenLanguages.length,
-          itemBuilder: (context, index) {
-            return CircleAvatar(
-              child: Image.network(
-                  "https://cdn-icons-png.flaticon.com/512/197/197560.png"),
-            );
-          },
-        ),
+            scrollDirection: Axis.horizontal,
+            itemCount: spokenLanguages.length,
+            itemBuilder: (context, index) {
+              return CircleAvatar(
+                child: CountryFlags.flag(
+                  spokenLanguages[index],
+                  height: 50,
+                  width: 50,
+                  borderRadius: 20,
+                ),
+              );
+            }),
       );
     } else {
       return SizedBox(
@@ -282,16 +316,28 @@ class ShowSpokenLanguages extends StatelessWidget {
         child: Row(
           children: [
             CircleAvatar(
-              child: Image.network(
-                  "https://cdn-icons-png.flaticon.com/512/197/197560.png"),
+              child: CountryFlags.flag(
+                spokenLanguages[0],
+                height: 30,
+                width: 30,
+                borderRadius: 20,
+              ),
             ),
             CircleAvatar(
-              child: Image.network(
-                  "https://cdn-icons-png.flaticon.com/512/197/197560.png"),
+              child: CountryFlags.flag(
+                spokenLanguages[1],
+                height: 30,
+                width: 30,
+                borderRadius: 20,
+              ),
             ),
             CircleAvatar(
-              child: Image.network(
-                  "https://cdn-icons-png.flaticon.com/512/197/197560.png"),
+              child: CountryFlags.flag(
+                spokenLanguages[2],
+                height: 30,
+                width: 30,
+                borderRadius: 20,
+              ),
             ),
             hSpace10,
             SizedBox(
@@ -327,7 +373,7 @@ class UserProfileAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       pinned: isFromSearching ? true : false,
-      expandedHeight: 180,
+      expandedHeight: 280,
       backgroundColor: Colors.white,
       elevation: 0,
       flexibleSpace: FlexibleSpaceBar(
@@ -336,9 +382,7 @@ class UserProfileAppBar extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             Image.network(
-              (currentUser.photo != null)
-                  ? currentUser.photo!
-                  : "photo a définir",
+              currentUser.photo ?? noPhotoImage,
               fit: BoxFit.cover,
             ),
             Align(
@@ -387,9 +431,7 @@ class UserProfileAppBar extends StatelessWidget {
                     color: Colors.white,
                   ),
                   child: IconButton(
-                    onPressed: () {
-                      print('message');
-                    },
+                    onPressed: () {},
                     icon: const Icon(
                       FeatherIcons.messageSquare,
                       color: Colors.black,
@@ -440,7 +482,9 @@ class MyTripsTab extends StatelessWidget {
 }
 
 class MyNewsTab extends StatelessWidget {
-  const MyNewsTab({super.key});
+  const MyNewsTab({super.key, required this.events});
+
+  final List<Event>? events;
 
   @override
   Widget build(BuildContext context) {
@@ -453,14 +497,14 @@ class MyNewsTab extends StatelessWidget {
           style: boldTextStyle24,
         ),
         vSpace20,
-        EventsUserCarouselWidget(listEvents: mockEventsList),
+        if (events != null) EventsUserCarouselWidget(listEvents: events!),
         vSpace20,
         Text(
           localized(context).news_feed,
           style: boldTextStyle24,
         ),
         vSpace20,
-        EventsCarouselWidget(listEvents: mockEventsList),
+        if (events != null) EventsCarouselWidget(listEvents: events!),
       ],
     );
   }

@@ -4,7 +4,6 @@ import 'package:waaa/core/theme/text_styles.dart';
 
 import '../core/constants/spacer.dart';
 import '../core/theme/common_widget/group_button_style.dart';
-import '../core/util/localized.dart';
 
 // ignore: must_be_immutable
 class WaaaGroupButton extends StatelessWidget {
@@ -13,11 +12,13 @@ class WaaaGroupButton extends StatelessWidget {
     required this.groupController,
     required this.list,
     this.title,
+    this.isRadio = false,
   });
 
   final GroupButtonController groupController;
   final List<String> list;
   String? title;
+  bool isRadio;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class WaaaGroupButton extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: GroupButton(
             controller: groupController,
-            isRadio: false,
+            isRadio: isRadio,
             options: groupButtonOptions,
             buttons: list,
             onSelected: (val, i, selected) =>

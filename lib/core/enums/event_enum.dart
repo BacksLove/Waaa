@@ -1,4 +1,11 @@
 enum CreateEventStep {
   partOne,
-  partTwo
+  partTwo,
+}
+
+enum EventDetailEnum {
+  loading,
+  showDetail,
+  updateDetail,
+  failed,
 }

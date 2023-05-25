@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:waaa/features/events/domain/entities/event_entity.dart';
+import 'package:waaa/models/Event.dart';
 
 import '../../../../core/theme/text_styles.dart';
 import 'package:waaa/core/route/routes.dart' as route;
@@ -34,7 +34,7 @@ class NewsCarouselWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
-                      image: NetworkImage(_listEvents[index].mainPhoto),
+                      image: NetworkImage(_listEvents[index].mainPhoto ?? ""),
                       fit: BoxFit.cover),
                 ),
                 child: Padding(

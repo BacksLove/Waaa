@@ -1,4 +1,4 @@
-import 'package:waaa/features/users/domain/entities/user_entity.dart';
+import 'package:waaa/models/User.dart';
 
 class ProfilePageArguments {
   final User user;

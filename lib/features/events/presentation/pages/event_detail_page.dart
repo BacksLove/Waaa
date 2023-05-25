@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/text_styles.dart';
-import 'package:waaa/core/util/input_converter.dart';
 import 'package:waaa/core/util/localized.dart';
-import 'package:waaa/features/events/domain/entities/event_entity.dart';
+import 'package:waaa/core/util/mocks/users.dart';
 import 'package:waaa/features/home/presentation/pages/home_page.dart';
+import 'package:waaa/models/Event.dart';
 
 import '../../../../component/date_picker.dart';
 import '../../../../component/dropdown.dart';
@@ -58,10 +58,9 @@ class EditEvent extends StatelessWidget {
     TextEditingController titleController = TextEditingController();
 
     titleController.text = currentEvent.name;
-    debutDateController.text =
-        DateConverter().dateToDateString(currentEvent.begin);
-    endDateController.text = DateConverter().dateToDateString(currentEvent.end);
-    addressController.text = currentEvent.address;
+    debutDateController.text = currentEvent.begin.toString();
+    endDateController.text = currentEvent.end.toString();
+    addressController.text = currentEvent.address ?? "";
 
     return SliverPadding(
         padding: const EdgeInsets.all(15),
@@ -125,7 +124,7 @@ class ShowEventDetails extends StatelessWidget {
       sliver: SliverList(
           delegate: SliverChildListDelegate([
         Text(
-          currentEvent.isPublic
+          currentEvent.isPublic != null && currentEvent.isPublic!
               ? localized(context).public_event
               : localized(context).private_event,
           style: lightPrimarySemiBoldTextStyle12,
@@ -246,7 +245,7 @@ class ShowEventDetails extends StatelessWidget {
         EventDetailTile(
             icon: FeatherIcons.penTool,
             tileKey: localized(context).description,
-            tileValue: currentEvent.description ?? ""),
+            tileValue: currentEvent.description),
         EventDetailTile(
             icon: FeatherIcons.mapPin,
             tileKey: localized(context).place,
@@ -257,7 +256,7 @@ class ShowEventDetails extends StatelessWidget {
             tileKey: "Date et heure",
             tileValue:
                 // Todo : Mettre le texte dans le localized
-                "\nDébut : ${currentEvent.getStartDate()} à ${currentEvent.getStartHour()}\nFin : ${currentEvent.getEndDate()} à ${currentEvent.getEndHour()}"),
+                "\nDébut : ${currentEvent.begin} à ${currentEvent.hourBegin}\nFin : ${currentEvent.end} à ${currentEvent.hourEnd}"),
         vSpace20,
         // Infos
         Container(
@@ -333,7 +332,8 @@ class ShowEventDetails extends StatelessWidget {
             style: boldTextStyle18,
           ),
         ),
-        const UserListCarrousel(userNear: [], withName: true),
+        const UserListCarrousel(
+            userNear: [] /*currentEvent.coowner*/, withName: true),
         // Convives
         ListTile(
           leading: Icon(
@@ -345,8 +345,8 @@ class ShowEventDetails extends StatelessWidget {
             style: boldTextStyle18,
           ),
         ),
-        UserListCarrousel(
-            userNear: currentEvent.participants ?? [], withName: true),
+        const UserListCarrousel(
+            userNear: [] /*currentEvent.participants*/, withName: true),
         // Audiences
         const SizedBox(height: 15),
         Row(
@@ -378,12 +378,12 @@ class EventDetailAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       pinned: true,
-      expandedHeight: 180.0,
+      expandedHeight: 230.0,
       backgroundColor: Colors.white,
       elevation: 0,
       flexibleSpace: FlexibleSpaceBar(
         background: Image.network(
-          currentEvent.mainPhoto,
+          currentEvent.mainPhoto ?? "",
           fit: BoxFit.cover,
         ),
       ),

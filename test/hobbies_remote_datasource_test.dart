@@ -14,7 +14,6 @@ void main() {
       'Je dois pouvoir recuperer la liste des hobbies',
       () async {
         final result = await dataSource.getHobbies();
-        safePrint(result.first.name);
       },
     );
   });

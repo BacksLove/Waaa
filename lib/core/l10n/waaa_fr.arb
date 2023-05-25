@@ -355,5 +355,6 @@
     "photo_error": "Une erreur est survenue lors de la sélection d'une ou des photo(s)",
     "conditions_not_checked": "Vous devez accepter les conditions générales",
     "where_is_the_traveler": "Où est le voyageur",
-    "age": "Âge"
+    "age": "Âge",
+    "register_failed": "Echec de l'enregistrement, une erreur est survenue"
   }

@@ -10,15 +10,11 @@ import 'package:waaa/core/theme/theme.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/auth/presentation/manager/signup_bloc/signup_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:waaa/features/auth/presentation/pages/login_page.dart';
-import 'package:waaa/features/home/presentation/pages/home_page.dart';
-import 'package:waaa/features/home/presentation/pages/main_page.dart';
+import 'package:waaa/models/ModelProvider.dart';
 import 'package:waaa/splashpage.dart';
 
 import 'amplifyconfiguration.dart';
 import 'features/auth/presentation/manager/login_bloc/login_bloc.dart';
-import 'features/auth/presentation/pages/general_conditions_page.dart';
-import 'features/events/presentation/pages/create_event_two_page.dart';
 import 'features/users/presentation/manager/bloc/register/register_bloc.dart';
 import 'injection_container.dart' as di;
 import 'package:waaa/core/route/routes.dart' as route;
@@ -52,7 +48,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _configureAmplify() async {
     await Amplify.addPlugins([
-      AmplifyAPI(),
+      AmplifyAPI(modelProvider: ModelProvider.instance),
       AmplifyAuthCognito(),
       AmplifyStorageS3(),
     ]);

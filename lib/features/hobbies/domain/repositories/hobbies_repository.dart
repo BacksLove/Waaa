@@ -1,5 +1,6 @@
-import 'package:waaa/features/hobbies/domain/entities/hobby.dart';
+import 'package:waaa/models/Hobby.dart';
 
 abstract class HobbiesRepository {
-  Future<List<Hobby>> getHobbies();
+  Future<List<Hobby?>> getHobbies();
+  Future<bool> addHobbyToUser(String hobbyId, String userId);
 }

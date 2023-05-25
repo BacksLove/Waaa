@@ -7,4 +7,5 @@ abstract class BaseConfig {
   String get authCredPoolId;
   String get storageBucket;
   String get region;
+  String get storageArn;
 }

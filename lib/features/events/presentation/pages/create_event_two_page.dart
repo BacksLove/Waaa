@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:waaa/features/events/presentation/manager/bloc/create_event/create_event_bloc.dart';
 import 'package:waaa/injection_container.dart' as di;
+import 'package:waaa/models/User.dart';
 
 import '../../../../component/chip_list.dart';
 import '../../../../core/constants/spacer.dart';
@@ -9,9 +11,6 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/common_widget/button.dart';
 import '../../../../core/theme/text_styles.dart';
 import '../../../../core/util/localized.dart';
-import '../../../../core/util/mocks/users.dart';
-import '../../../users/domain/entities/user_entity.dart';
-import '../manager/bloc/create_event_bloc.dart';
 
 class CreateEventTwoPage extends StatelessWidget {
   const CreateEventTwoPage({super.key});

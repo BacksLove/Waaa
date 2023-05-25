@@ -1,113 +1,53 @@
 import 'dart:convert';
 
+import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-
-import '../../domain/entities/event_entity.dart';
+import 'package:waaa/models/Event.dart';
 
 abstract class EventRemoteDatasource {
   Future<bool> createEvent(Event event);
   Future<bool> updateEvent(Event event);
   Future<bool> deleteEvent(String id);
-  Future<List<Event>> getWaaEvents();
-  Future<List<Event>> getEventsByUserId(String id);
+  Future<List<Event?>> getWaaEvents();
+  Future<List<Event?>> getEventsByUserId(String id);
 }
 
 class EventRemoteDatasourceImpl implements EventRemoteDatasource {
   @override
-  Future<List<Event>> getEventsByUserId(String id) async {
-    List<Event> eventList = [];
+  Future<List<Event?>> getEventsByUserId(String id) async {
     try {
-      const doc = '''query MyQuery {
-  listEvents(filter: {userEventsId: {eq: "03fe759a-d30a-4b33-a2b8-8e2e205f0d49"}}) {
-    items {
-      address
-      begin
-      city
-      country
-      createdAt
-      description
-      end
-      hourBegin
-      id
-      hourEnd
-      isPublic
-      language
-      mainPhoto
-      maxParticipants
-      minAgeRestriction
-      minParticipants
-      name
-      photos
-      userEventsId
-      participants {
-        items {
-          user {
-            id
-            languagesSpeak
-            photo
-            username
-          }
-        }
-      }
-    }
-  }
-}''';
-      var operation =
-          Amplify.API.query(request: GraphQLRequest<String>(document: doc));
-      var result = await operation.response;
+      //final queryPredicates
+      final request = ModelQueries.list(Event.classType);
+      final response = await Amplify.API.query(request: request).response;
+      final events = response.data?.items;
 
-      if (result.data != null) {
-        var eventsJSON = json.decode(result.data!)["listEvents"]["items"];
-        eventList = (eventsJSON).map<Event>((e) => Event.fromJson(e)).toList();
+      if (events == null) {
+        safePrint("errors: ${response.errors}");
+        return [];
       }
-      return eventList;
+      return events;
     } on AuthException catch (e) {
       safePrint(e.message);
-      return eventList;
+      return [];
     }
   }
 
   @override
-  Future<List<Event>> getWaaEvents() async {
-    List<Event> eventList = [];
+  Future<List<Event?>> getWaaEvents() async {
     try {
-      const doc = '''query MyQuery {
-  listEvents {
-    items {
-      address
-      begin
-      city
-      country
-      createdAt
-      description
-      end
-      hourBegin
-      id
-      hourEnd
-      isPublic
-      language
-      mainPhoto
-      maxParticipants
-      minAgeRestriction
-      minParticipants
-      name
-      photos
-      userEventsId
-    }
-  }
-}''';
-      var operation =
-          Amplify.API.query(request: GraphQLRequest<String>(document: doc));
-      var result = await operation.response;
+      //final queryPredicates = Event
+      final request = ModelQueries.list<Event>(Event.classType);
+      final response = await Amplify.API.query(request: request).response;
+      final events = response.data?.items;
 
-      if (result.data != null) {
-        var eventsJSON = json.decode(result.data!)["listEvents"]["items"];
-        eventList = (eventsJSON).map<Event>((e) => Event.fromJson(e)).toList();
+      if (events == null || events.isEmpty) {
+        safePrint("errors: ${response.errors}");
+        return [];
       }
-      return eventList;
+      return events;
     } on AuthException catch (e) {
       safePrint(e.message);
-      return eventList;
+      return [];
     }
   }
 

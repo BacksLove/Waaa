@@ -4,12 +4,11 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:waaa/component/app_bar.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/util/localized.dart';
-import 'package:waaa/core/util/mocks/users.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/home/presentation/manager/navigation_cubit/bottom_navigation_cubit.dart';
 import 'package:waaa/features/home/presentation/pages/home_page.dart';
 import 'package:waaa/features/home/presentation/pages/notifications_page.dart';
-import 'package:waaa/features/home/presentation/pages/search_page.dart';
+import 'package:waaa/features/users/presentation/pages/search_page.dart';
 
 import 'package:waaa/injection_container.dart' as di;
 
@@ -40,7 +39,7 @@ class _MainPageState extends State<MainPage> {
       child: WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
-          appBar: MainAppBar(),
+          appBar: const MainAppBar(),
           body: BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
             bloc: navigationCubit,
             builder: (context, state) {
@@ -55,7 +54,7 @@ class _MainPageState extends State<MainPage> {
                   return const NotificationsPage();
                 case 4:
                   return ProfilPage(
-                    currentUser: mockYamiYugi /*authBloc.state.user!*/,
+                    currentUser: authBloc.state.user!,
                     isFromSearching: false,
                   );
                 default:
@@ -97,16 +96,23 @@ class _MainPageState extends State<MainPage> {
                     label: localized(context).notifications,
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(
-                      FeatherIcons.user,
-                      color: blackColor,
+                    icon: Container(
+                      width: 25,
+                      height: 25,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(authBloc.state.user!.photo!),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                     label: localized(context).profil,
                   ),
                 ],
                 currentIndex: navigationCubit.state.currentPage,
                 onTap: (index) => {navigationCubit.moveToTab(index)},
-                selectedItemColor: lightPrimaryColor,
+                selectedItemColor: blackColor,
               );
             },
           ),

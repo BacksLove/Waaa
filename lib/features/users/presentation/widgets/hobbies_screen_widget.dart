@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/text_styles.dart';
-import 'package:waaa/features/hobbies/domain/entities/hobby.dart';
 import 'package:waaa/features/users/presentation/manager/bloc/register/register_bloc.dart';
 
 import 'package:waaa/injection_container.dart' as di;
+import 'package:waaa/models/Hobby.dart';
 
 import '../../../../core/theme/common_widget/button.dart';
 import '../../../../core/theme/common_widget/group_button_style.dart';
@@ -14,13 +14,16 @@ import '../../../../core/util/localized.dart';
 class HobbiesScreenWidget extends StatelessWidget {
   const HobbiesScreenWidget({super.key, required this.hobbies});
 
-  final List<Hobby> hobbies;
+  final List<Hobby?> hobbies;
 
   @override
   Widget build(BuildContext context) {
     final RegisterBloc registerBloc = di.sl<RegisterBloc>();
     final GroupButtonController hobbiesController = GroupButtonController();
-    List<String> list = [for (var hobby in hobbies) hobby.name];
+    List<String> list = [
+      if (hobbies.isNotEmpty)
+        for (var hobby in hobbies) hobby!.name
+    ];
 
     return SingleChildScrollView(
       child: Container(
