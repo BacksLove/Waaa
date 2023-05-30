@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:waaa/component/circle_avatar.dart';
 import 'package:waaa/core/constants/image_constants.dart';
 import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/enums/home_enum.dart';
@@ -8,6 +9,7 @@ import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
 import 'package:waaa/features/home/presentation/manager/home_bloc/home_bloc.dart';
+import 'package:waaa/features/home/presentation/widgets/user_carrousel.dart';
 import 'package:waaa/features/users/domain/entities/profile_page_arguments.dart';
 import 'package:waaa/models/Event.dart';
 import 'package:waaa/models/User.dart';
@@ -107,15 +109,10 @@ class UserItemList extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Container(
+                WaaaCircleAvatar(
+                  photo: _currentUser.photo,
                   width: 70,
                   height: 70,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: NetworkImage(_currentUser.photo ?? noPhotoImage),
-                        fit: BoxFit.cover),
-                  ),
                 ),
                 _isOnline
                     ? Container(
@@ -150,38 +147,6 @@ class UserItemList extends StatelessWidget {
   }
 }
 
-class UserListCarrousel extends StatelessWidget {
-  const UserListCarrousel({
-    super.key,
-    required List<User?> userNear,
-    required bool withName,
-  })  : _userNear = userNear,
-        _withName = withName;
-
-  final List<User?> _userNear;
-  final bool _withName;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 120,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: _userNear.length,
-        itemBuilder: (BuildContext context, int index) {
-          return _userNear[index] != null
-              ? UserItemList(
-                  user: _userNear[index],
-                  isOnline: true,
-                  withName: _withName,
-                )
-              : Container();
-        },
-      ),
-    );
-  }
-}
-
 class EventsWaaa extends StatelessWidget {
   const EventsWaaa({super.key, required listEvents}) : _listEvents = listEvents;
 
@@ -201,7 +166,7 @@ class EventsWaaa extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, route.eventDetailPage,
-                  arguments: _listEvents[0]);
+                  arguments: _listEvents[0]?.id);
             },
             child: Card(
               elevation: 0,
@@ -245,7 +210,7 @@ class EventsWaaa extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, route.eventDetailPage,
-                          arguments: _listEvents[1]);
+                          arguments: _listEvents[1]?.id);
                     },
                     child: Card(
                       elevation: 0,
@@ -256,8 +221,8 @@ class EventsWaaa extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           image: DecorationImage(
-                              image:
-                                  NetworkImage(_listEvents[1]?.mainPhoto ?? ""),
+                              image: NetworkImage(
+                                  _listEvents[1]?.mainPhoto ?? noPhotoImage),
                               fit: BoxFit.cover),
                         ),
                         child: Padding(
@@ -281,7 +246,7 @@ class EventsWaaa extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, route.eventDetailPage,
-                          arguments: _listEvents[2]);
+                          arguments: _listEvents[2]?.id);
                     },
                     child: Card(
                       elevation: 0,
@@ -292,8 +257,8 @@ class EventsWaaa extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           image: DecorationImage(
-                              image:
-                                  NetworkImage(_listEvents[2]?.mainPhoto ?? ""),
+                              image: NetworkImage(
+                                  _listEvents[2]?.mainPhoto ?? noPhotoImage),
                               fit: BoxFit.cover),
                         ),
                         child: Padding(

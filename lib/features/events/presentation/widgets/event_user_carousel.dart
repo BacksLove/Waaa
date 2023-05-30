@@ -27,7 +27,7 @@ class EventsUserCarouselWidget extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, route.eventDetailPage,
-                  arguments: _listEvents[index]);
+                  arguments: _listEvents[index]?.id);
             },
             child: Card(
               elevation: 0,

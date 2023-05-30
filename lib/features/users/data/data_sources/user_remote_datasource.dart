@@ -5,6 +5,7 @@ import 'package:amplify_api/model_queries.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:waaa/core/constants/constants.dart';
+import 'package:waaa/core/queries/user_queries.dart';
 import 'package:waaa/core/util/mocks/users.dart';
 import 'package:waaa/features/users/domain/entities/search_item.dart';
 import 'package:waaa/models/User.dart';
@@ -45,19 +46,24 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   @override
   Future<User?> getUserById(String id) async {
     try {
-      final queryPredicates = User.COGNITOUSERPOOLID.eq(id);
-      final request = ModelQueries.list(User.classType, where: queryPredicates);
+      const graphQLDocument = getUserByIdQuery;
+      final request = GraphQLRequest<PaginatedResult<User>>(
+        document: graphQLDocument,
+        modelType: const PaginatedModelType(User.classType),
+        variables: <String, String>{'id': id},
+        decodePath: "UsersByCognitoID",
+      );
       final response = await Amplify.API.query(request: request).response;
-
       final user = response.data?.items;
-      if (user!.isEmpty) {
+
+      if (user == null || user.isEmpty) {
         safePrint("errors: ${response.errors}");
         return null;
       }
       return user.first;
-    } catch (e) {
-      safePrint(e);
-      rethrow;
+    } on AuthException catch (e) {
+      safePrint(e.message);
+      return null;
     }
   }
 

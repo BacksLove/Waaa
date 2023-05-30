@@ -1,3 +1,4 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -93,195 +94,190 @@ class ShowUserDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProfileBloc profileBloc = di.sl<ProfileBloc>();
-    return BlocProvider(
-      create: (context) => profileBloc,
-      child: BlocBuilder<ProfileBloc, ProfileState>(
-        builder: (context, state) {
-          return SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  //! Rang du prénom
-                  vSpace15,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        currentUser.username,
-                        style: boldTextStyle24,
+    final ProfileBloc profileBloc = context.read<ProfileBloc>();
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        return SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                //! Rang du prénom
+                vSpace15,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      currentUser.username,
+                      style: boldTextStyle24,
+                    ),
+                    hSpace10,
+                    Expanded(
+                      child: (currentUser.languagesSpeak != null)
+                          ? ShowSpokenLanguages(
+                              spokenLanguages: currentUser.languagesSpeak!)
+                          : Container(),
+                    ),
+                    SizedBox(
+                      height: 50,
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(FeatherIcons.moreVertical),
                       ),
-                      hSpace10,
-                      Expanded(
-                        child: (currentUser.languagesSpeak != null)
-                            ? ShowSpokenLanguages(
-                                spokenLanguages: currentUser.languagesSpeak!)
-                            : Container(),
+                    )
+                  ],
+                ),
+                //! Rang de la localisation
+                vSpace10,
+                Row(
+                  children: [
+                    Icon(
+                      FeatherIcons.mapPin,
+                      color: primaryColor,
+                    ),
+                    hSpace5,
+                    Text(
+                      "Paris, France",
+                      style: regularTextStyle14,
+                    ),
+                    hSpace15,
+                    Text(
+                      DateConverter().dateToTimeString(DateTime.now()),
+                      style: regularTextStyle14,
+                    ),
+                    const Spacer(),
+                    SizedBox(
+                      width: 100,
+                      height: 25,
+                      child: ElevatedButton(
+                        style: primaryButton,
+                        onPressed: () {},
+                        child: Text(localized(context).follow),
                       ),
-                      SizedBox(
-                        height: 50,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(FeatherIcons.moreVertical),
-                        ),
-                      )
-                    ],
-                  ),
-                  //! Rang de la localisation
-                  vSpace10,
-                  Row(
-                    children: [
-                      Icon(
-                        FeatherIcons.mapPin,
-                        color: primaryColor,
+                    )
+                  ],
+                ),
+                vSpace15,
+                //! Rang de la nationalité
+                Row(
+                  children: [
+                    Icon(
+                      FeatherIcons.flag,
+                      color: primaryColor,
+                    ),
+                    hSpace5,
+                    Text(
+                      "Française",
+                      style: regularTextStyle14,
+                    )
+                  ],
+                ),
+                //! Follow et Age
+                vSpace15,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text(
+                            state.age,
+                            style: boldTextStyle20,
+                          ),
+                          Text(
+                            "Age",
+                            style: regularTextStyle14,
+                          ),
+                        ],
                       ),
-                      hSpace5,
-                      Text(
-                        "Paris, France",
-                        style: regularTextStyle14,
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text(
+                            state.followers,
+                            style: boldTextStyle20,
+                          ),
+                          Text(
+                            localized(context).followers,
+                            style: regularTextStyle14,
+                          ),
+                        ],
                       ),
-                      hSpace15,
-                      Text(
-                        DateConverter().dateToTimeString(DateTime.now()),
-                        style: regularTextStyle14,
+                    ),
+                  ],
+                ),
+                //! Hobbies
+                vSpace15,
+                HobbiesGridWidget(
+                    hobbies: currentUser.hobbies != null
+                        ? currentUser.hobbies!
+                        : []),
+                vSpace15,
+                //! Tabs
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        profileBloc.add(ProfileTripTabPressed());
+                      },
+                      child: Text(
+                        localized(context).trips,
+                        style: boldTextStyle16,
                       ),
-                      const Spacer(),
-                      SizedBox(
-                        width: 100,
-                        height: 25,
-                        child: ElevatedButton(
-                          style: primaryButton,
-                          onPressed: () {},
-                          child: Text(localized(context).follow),
-                        ),
-                      )
-                    ],
-                  ),
-                  vSpace15,
-                  //! Rang de la nationalité
-                  Row(
-                    children: [
-                      Icon(
-                        FeatherIcons.flag,
-                        color: primaryColor,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        profileBloc.add(ProfileNewsTabPressed());
+                      },
+                      child: Text(
+                        localized(context).news__1,
+                        style: boldTextStyle16,
                       ),
-                      hSpace5,
-                      Text(
-                        "Française",
-                        style: regularTextStyle14,
-                      )
-                    ],
-                  ),
-                  //! Follow et Age
-                  vSpace15,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              DateConverter().getAge(currentUser.birthday),
-                              style: boldTextStyle20,
-                            ),
-                            Text(
-                              "Age",
-                              style: regularTextStyle14,
-                            ),
-                          ],
-                        ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: (MediaQuery.of(context).size.width / 2) - 15,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        color:
+                            state.isTripShowed ? primaryColor : lightGrayColor,
                       ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              "11k",
-                              style: boldTextStyle20,
-                            ),
-                            Text(
-                              localized(context).followers,
-                              style: regularTextStyle14,
-                            ),
-                          ],
-                        ),
+                      height: state.isTripShowed ? 2.0 : 1.0,
+                    ),
+                    Container(
+                      width: (MediaQuery.of(context).size.width / 2) - 15,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        color:
+                            state.isTripShowed ? lightGrayColor : primaryColor,
                       ),
-                    ],
-                  ),
-                  //! Hobbies
-                  vSpace15,
-                  HobbiesGridWidget(
-                      hobbies: currentUser.hobbies != null
-                          ? currentUser.hobbies!
-                          : []),
-                  vSpace15,
-                  //! Tabs
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          profileBloc.add(ProfileTripTabPressed());
-                        },
-                        child: Text(
-                          localized(context).trips,
-                          style: boldTextStyle16,
-                        ),
+                      height: state.isTripShowed ? 1.0 : 2.0,
+                    ),
+                  ],
+                ),
+                state.isTripShowed
+                    ?
+                    //! Mes voyages
+                    const MyTripsTab()
+                    :
+                    //! Mon actualités
+                    MyNewsTab(
+                        events: currentUser.events,
                       ),
-                      TextButton(
-                        onPressed: () {
-                          profileBloc.add(ProfileNewsTabPressed());
-                        },
-                        child: Text(
-                          localized(context).news__1,
-                          style: boldTextStyle16,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: (MediaQuery.of(context).size.width / 2) - 15,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50.0),
-                          color: state.isTripShowed
-                              ? primaryColor
-                              : lightGrayColor,
-                        ),
-                        height: state.isTripShowed ? 2.0 : 1.0,
-                      ),
-                      Container(
-                        width: (MediaQuery.of(context).size.width / 2) - 15,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50.0),
-                          color: state.isTripShowed
-                              ? lightGrayColor
-                              : primaryColor,
-                        ),
-                        height: state.isTripShowed ? 1.0 : 2.0,
-                      ),
-                    ],
-                  ),
-                  state.isTripShowed
-                      ?
-                      //! Mes voyages
-                      const MyTripsTab()
-                      :
-                      //! Mon actualités
-                      MyNewsTab(
-                          events: currentUser.events,
-                        ),
-                  vSpace50,
-                ],
-              ),
+                vSpace50,
+              ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

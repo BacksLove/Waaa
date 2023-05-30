@@ -15,6 +15,11 @@ final regularTextStyle18 =
 final regularTextStyle20 =
     GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.normal);
 
+final lightgrayRegularTextStyle8 = GoogleFonts.poppins(
+    fontSize: 8, fontWeight: FontWeight.normal, color: lightGrayColor);
+final lightgrayRegularTextStyle12 = GoogleFonts.poppins(
+    fontSize: 12, fontWeight: FontWeight.normal, color: lightGrayColor);
+
 // Semi-Bold TextStyles
 
 final semiBoldTextStyle12 =

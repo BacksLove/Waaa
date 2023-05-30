@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:waaa/core/constants/image_constants.dart';
 
 import '../core/theme/colors.dart';
 import 'package:waaa/core/route/routes.dart' as route;
@@ -26,39 +27,21 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         },
       ),
       title: Image.asset(
-        "assets/images/logoWaaa.png",
+        appBarImage,
       ),
       actions: <Widget>[
         Container(
           padding: const EdgeInsets.only(right: 10.0),
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, route.chatListPage);
+            },
             icon: const Icon(
               FeatherIcons.messageSquare,
             ),
             color: Colors.black,
           ),
         ),
-        /*Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              elevation: 0,
-              backgroundColor: yellowColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-            ),
-            child: Text(
-              'Message',
-              style: TextStyle(
-                color: primaryColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),*/
       ],
     );
   }

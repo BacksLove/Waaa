@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:waaa/component/app_bar.dart';
+import 'package:waaa/component/circle_avatar.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/util/localized.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
@@ -96,16 +97,10 @@ class _MainPageState extends State<MainPage> {
                     label: localized(context).notifications,
                   ),
                   BottomNavigationBarItem(
-                    icon: Container(
+                    icon: WaaaCircleAvatar(
+                      photo: authBloc.state.user?.photo,
                       width: 25,
                       height: 25,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: NetworkImage(authBloc.state.user!.photo!),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
                     ),
                     label: localized(context).profil,
                   ),

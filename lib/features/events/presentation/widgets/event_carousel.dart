@@ -25,7 +25,7 @@ class EventsCarouselWidget extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, route.eventDetailPage,
-                    arguments: _listEvents[index]);
+                    arguments: _listEvents[index]?.id);
               },
               child: Card(
                 elevation: 0,
@@ -36,7 +36,7 @@ class EventsCarouselWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                     image: DecorationImage(
                         image: NetworkImage(
-                            _listEvents[index]!.mainPhoto ?? noPhotoImage),
+                            _listEvents[index]?.mainPhoto ?? noPhotoImage),
                         fit: BoxFit.cover),
                   ),
                   child: Padding(

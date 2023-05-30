@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:waaa/features/auth/presentation/pages/auth_page.dart';
 import 'package:waaa/features/auth/presentation/pages/signup_page.dart';
+import 'package:waaa/features/chat/presentation/pages/chat_list_page.dart';
+import 'package:waaa/features/chat/presentation/pages/chat_page.dart';
 import 'package:waaa/features/events/presentation/pages/create_event_two_page.dart';
 import 'package:waaa/features/events/presentation/pages/event_detail_page.dart';
 import 'package:waaa/features/users/domain/entities/profile_page_arguments.dart';
@@ -36,6 +38,10 @@ const String createEventTwoPage = "createEventPartTwo";
 const String profilePage = "profilePage";
 const String searchResultPage = "searchResultPage";
 
+// Chat
+const String chatListPage = "chatListPage";
+const String chatPage = "chatPage";
+
 // Control our page route flow
 Route<dynamic> controller(RouteSettings settings) {
   switch (settings.name) {
@@ -53,10 +59,10 @@ Route<dynamic> controller(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const SettingPage());
     case eventDetailPage:
       {
-        final Event event = settings.arguments as Event;
+        final String eventId = settings.arguments as String;
 
         return MaterialPageRoute(
-            builder: (context) => EventDetailPage(currentEvent: event));
+            builder: (context) => EventDetailPage(eventId: eventId));
       }
     case createEventPage:
       return MaterialPageRoute(builder: (context) => const CreateEventPage());
@@ -85,6 +91,10 @@ Route<dynamic> controller(RouteSettings settings) {
           ),
         );
       }
+    case chatListPage:
+      return MaterialPageRoute(builder: (context) => const ChatList());
+    case chatPage:
+      return MaterialPageRoute(builder: (context) => const ChatPage());
     default:
       throw ('This route name does not exit');
   }

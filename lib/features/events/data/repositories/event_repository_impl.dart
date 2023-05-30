@@ -40,4 +40,12 @@ class EventRepositoryImpl implements EventRepository {
   Future<bool> updateEvent(Event event) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<Event?> getEventById(String id) async {
+    await networkInfo.isConnected;
+    final remoteEventById = await remoteDataSource.getEventById(id);
+
+    return remoteEventById;
+  }
 }

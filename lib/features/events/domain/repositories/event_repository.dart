@@ -6,4 +6,5 @@ abstract class EventRepository {
   Future<bool> deleteEvent(String id);
   Future<List<Event?>> getWaaEvents();
   Future<List<Event?>> getEventsByUserId(String id);
+  Future<Event?> getEventById(String id);
 }

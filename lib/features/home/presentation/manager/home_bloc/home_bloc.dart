@@ -37,13 +37,30 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           .sl<GetUserByCity>()
           .call(const GetUserByCityParams(city: ""));
       final commonEvents = await di.sl<GetWaaaEvents>().call(NoParams());
+      List<Event?> listEvent = [];
 
-      safePrint("EVENTS = ${commonEvents.first?.name}");
+      if (currentUser.events != null && currentUser.events!.isNotEmpty) {
+        for (var eventSelect in currentUser.events!) {
+          listEvent.add(eventSelect);
+        }
+      }
+      if (currentUser.eventCoowner != null &&
+          currentUser.eventCoowner!.isNotEmpty) {
+        for (var eventSelect in currentUser.eventCoowner!) {
+          listEvent.add(eventSelect.event);
+        }
+      }
+      if (currentUser.eventParticipation != null &&
+          currentUser.eventParticipation!.isNotEmpty) {
+        for (var eventSelect in currentUser.eventParticipation!) {
+          listEvent.add(eventSelect.event);
+        }
+      }
 
       emit(state.copyWith(
         status: HomeStatus.loaded,
         usersNear: usersNear,
-        userEvents: currentUser.events,
+        userEvents: listEvent,
         waaaEvents: commonEvents,
       ));
     } else {

@@ -4,12 +4,15 @@ import 'package:aws_common/aws_common.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:scroll_date_picker/scroll_date_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waaa/core/constants/constants.dart';
 import 'package:waaa/core/enums/user_enum.dart';
+import 'package:waaa/core/util/input_converter.dart';
 import 'package:waaa/features/users/domain/use_cases/get_user_by_id.dart';
 
 import 'package:waaa/injection_container.dart' as di;
+import 'package:waaa/models/DemandStatus.dart';
 import 'package:waaa/models/User.dart';
 
 part 'profile_event.dart';
@@ -48,12 +51,31 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       } else {
         final userId = di.sl<SharedPreferences>().getString(userIdKey);
         bool isItMe = userId == currentUser.cognitoUserPoolId ? true : false;
+        final userAge = DateConverter().getAge(currentUser.birthday);
+        safePrint("age = $userAge");
+        int userFollowers = 0;
+
+        if (currentUser.friendsReceiver != null &&
+            currentUser.friendsReceiver!.isNotEmpty) {
+          for (var friend in currentUser.friendsReceiver!) {
+            if (friend.status == DemandStatus.ACCEPTED) userFollowers++;
+          }
+        }
+        if (currentUser.friendsSender != null &&
+            currentUser.friendsSender!.isNotEmpty) {
+          for (var friend in currentUser.friendsSender!) {
+            if (friend.status == DemandStatus.ACCEPTED) userFollowers++;
+          }
+        }
+
         emit(
           state.copyWith(
             status: ProfileStatus.loaded,
             currentUser: currentUser,
             isItMe: isItMe,
             isTripShowed: true,
+            age: userAge,
+            followers: userFollowers.toString(),
           ),
         );
       }

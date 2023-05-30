@@ -6,3 +6,9 @@ abstract class EventDetailEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class EventDetailLoadData extends EventDetailEvent {
+  final String eventId;
+
+  const EventDetailLoadData({required this.eventId});
+}

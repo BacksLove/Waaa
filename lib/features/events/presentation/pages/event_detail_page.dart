@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:waaa/component/error_screen.dart';
+import 'package:waaa/component/loading_screen.dart';
+import 'package:waaa/core/enums/event_enum.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
-import 'package:waaa/core/util/mocks/users.dart';
-import 'package:waaa/features/home/presentation/pages/home_page.dart';
+import 'package:waaa/features/events/presentation/manager/bloc/event_detail/event_detail_bloc.dart';
+import 'package:waaa/features/home/presentation/widgets/user_carrousel.dart';
 import 'package:waaa/models/Event.dart';
 
 import '../../../../component/date_picker.dart';
@@ -13,10 +17,12 @@ import '../../../../component/form_textfield.dart';
 import '../../../../component/toggle_button.dart';
 import '../../../../core/constants/spacer.dart';
 
-class EventDetailPage extends StatelessWidget {
-  EventDetailPage({Key? key, required this.currentEvent}) : super(key: key);
+import 'package:waaa/injection_container.dart' as di;
 
-  final Event currentEvent;
+class EventDetailPage extends StatelessWidget {
+  EventDetailPage({Key? key, required this.eventId}) : super(key: key);
+
+  final String eventId;
 
   final List<String> dropdownMock = [
     "Festif",
@@ -27,14 +33,37 @@ class EventDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: CustomScrollView(slivers: [
-      EventDetailAppBar(
-        currentEvent: currentEvent,
+    final EventDetailBloc eventDetailBloc = di.sl<EventDetailBloc>();
+    return BlocProvider(
+      create: (context) =>
+          eventDetailBloc..add(EventDetailLoadData(eventId: eventId)),
+      child: Scaffold(
+        body: BlocBuilder<EventDetailBloc, EventDetailState>(
+          builder: (context, state) {
+            if (state.status == EventDetailEnum.failed) {
+              return const ErrorScreen();
+            } else if (state.status == EventDetailEnum.loading) {
+              return const LoadingScreen();
+            } else if (state.status == EventDetailEnum.showDetail) {
+              return CustomScrollView(
+                slivers: [
+                  EventDetailAppBar(currentEvent: state.currentEvent),
+                  ShowEventDetails(currentEvent: state.currentEvent),
+                ],
+              );
+            } else if (state.status == EventDetailEnum.updateDetail) {
+              return CustomScrollView(
+                slivers: [
+                  EventDetailAppBar(currentEvent: state.currentEvent),
+                  EditEvent(currentEvent: state.currentEvent),
+                ],
+              );
+            }
+            return Container();
+          },
+        ),
       ),
-      ShowEventDetails(currentEvent: currentEvent),
-      //EditEvent(titleController: titleController, dropdownMock: dropdownMock, debutDateController: debutDateController),
-    ]));
+    );
   }
 }
 
@@ -241,7 +270,7 @@ class ShowEventDetails extends StatelessWidget {
         EventDetailTile(
             icon: FeatherIcons.checkCircle,
             tileKey: localized(context).theme,
-            tileValue: "festif"),
+            tileValue: currentEvent.topic.name),
         EventDetailTile(
             icon: FeatherIcons.penTool,
             tileKey: localized(context).description,
@@ -273,7 +302,9 @@ class ShowEventDetails extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        "56",
+                        currentEvent.participants?.length != null
+                            ? currentEvent.participants!.length.toString()
+                            : "0",
                         style: lightPrimaryBoldTextStyle18,
                       ),
                       Text(
@@ -304,7 +335,9 @@ class ShowEventDetails extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        "56",
+                        currentEvent.nbShare == null
+                            ? "0"
+                            : currentEvent.nbShare.toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -332,8 +365,7 @@ class ShowEventDetails extends StatelessWidget {
             style: boldTextStyle18,
           ),
         ),
-        const UserListCarrousel(
-            userNear: [] /*currentEvent.coowner*/, withName: true),
+        CoorganizerCarrousel(coowners: currentEvent.coowner, withName: true),
         // Convives
         ListTile(
           leading: Icon(
@@ -345,8 +377,8 @@ class ShowEventDetails extends StatelessWidget {
             style: boldTextStyle18,
           ),
         ),
-        const UserListCarrousel(
-            userNear: [] /*currentEvent.participants*/, withName: true),
+        ParticipantCarrousel(
+            paticipants: currentEvent.participants, withName: true),
         // Audiences
         const SizedBox(height: 15),
         Row(
@@ -428,20 +460,22 @@ class EventDetailTile extends StatelessWidget {
         color: primaryColor,
       ),
       title: RichText(
-        text: TextSpan(children: [
-          TextSpan(
-              text: "$tileKey : ",
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Colors.black)),
-          TextSpan(
-              text: tileValue,
-              style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 18,
-                  color: Colors.black))
-        ]),
+        text: TextSpan(
+          children: [
+            TextSpan(
+                text: "$tileKey : ",
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.black)),
+            TextSpan(
+                text: tileValue,
+                style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 18,
+                    color: Colors.black))
+          ],
+        ),
       ),
     );
   }
