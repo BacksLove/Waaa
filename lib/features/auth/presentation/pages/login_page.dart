@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:waaa/component/snack_bar.dart';
 import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/enums/authentication_enum.dart';
@@ -150,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                             loginBloc.add(LogOutButtonPressed());
                           },
                           label: Text(localized(context).facebook),
-                          icon: const Icon(FeatherIcons.facebook),
+                          icon: const Icon(Ionicons.logo_facebook),
                         ),
                       ),
                       hSpace15,
@@ -159,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: googleButton,
                           onPressed: () {},
                           label: Text(localized(context).google),
-                          icon: const Icon(FeatherIcons.twitter),
+                          icon: const Icon(Ionicons.logo_google),
                         ),
                       ),
                     ],

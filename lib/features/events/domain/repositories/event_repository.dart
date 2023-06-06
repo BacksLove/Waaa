@@ -1,4 +1,5 @@
 import 'package:waaa/models/Event.dart';
+import 'package:waaa/models/EventTopic.dart';
 
 abstract class EventRepository {
   Future<bool> createEvent(Event event);
@@ -7,4 +8,5 @@ abstract class EventRepository {
   Future<List<Event?>> getWaaEvents();
   Future<List<Event?>> getEventsByUserId(String id);
   Future<Event?> getEventById(String id);
+  Future<List<EventTopic?>> getAllEventTopic();
 }

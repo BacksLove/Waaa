@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:waaa/core/enums/home_enum.dart';
 import 'package:waaa/core/usecases/usecase.dart';
+import 'package:waaa/core/util/functions.dart';
 import 'package:waaa/core/util/mocks/users.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/events/domain/use_cases/get_waaa_events.dart';
@@ -37,25 +38,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           .sl<GetUserByCity>()
           .call(const GetUserByCityParams(city: ""));
       final commonEvents = await di.sl<GetWaaaEvents>().call(NoParams());
-      List<Event?> listEvent = [];
-
-      if (currentUser.events != null && currentUser.events!.isNotEmpty) {
-        for (var eventSelect in currentUser.events!) {
-          listEvent.add(eventSelect);
-        }
-      }
-      if (currentUser.eventCoowner != null &&
-          currentUser.eventCoowner!.isNotEmpty) {
-        for (var eventSelect in currentUser.eventCoowner!) {
-          listEvent.add(eventSelect.event);
-        }
-      }
-      if (currentUser.eventParticipation != null &&
-          currentUser.eventParticipation!.isNotEmpty) {
-        for (var eventSelect in currentUser.eventParticipation!) {
-          listEvent.add(eventSelect.event);
-        }
-      }
+      List<Event?> listEvent = getEventFromUser(currentUser);
 
       emit(state.copyWith(
         status: HomeStatus.loaded,

@@ -7,11 +7,11 @@ import 'package:waaa/core/route/routes.dart' as route;
 class NewsCarouselWidget extends StatelessWidget {
   const NewsCarouselWidget({
     super.key,
-    required List<Event> listEvents,
+    required List<Event?> listEvents,
   }) : _listEvents = listEvents;
 
   // TODO: Change to News Entity
-  final List<Event> _listEvents;
+  final List<Event?> _listEvents;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class NewsCarouselWidget extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, route.eventDetailPage,
-                  arguments: _listEvents[index].id);
+                  arguments: _listEvents[index]?.id);
             },
             child: Card(
               elevation: 0,
@@ -34,7 +34,7 @@ class NewsCarouselWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
-                      image: NetworkImage(_listEvents[index].mainPhoto ?? ""),
+                      image: NetworkImage(_listEvents[index]?.mainPhoto ?? ""),
                       fit: BoxFit.cover),
                 ),
                 child: Padding(
@@ -44,7 +44,7 @@ class NewsCarouselWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _listEvents[index].name,
+                        _listEvents[index]?.name ?? "",
                         style: boldWhiteTextStyle20,
                       ),
                     ],

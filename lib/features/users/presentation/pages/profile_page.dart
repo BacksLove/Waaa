@@ -1,7 +1,8 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:waaa/component/error_screen.dart';
 import 'package:waaa/component/loading_screen.dart';
 import 'package:waaa/core/constants/image_constants.dart';
@@ -118,13 +119,32 @@ class ShowUserDetails extends StatelessWidget {
                               spokenLanguages: currentUser.languagesSpeak!)
                           : Container(),
                     ),
-                    SizedBox(
-                      height: 50,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(FeatherIcons.moreVertical),
+                    if (!state.isItMe)
+                      PopupMenuButton<ProfileMenuItem>(
+                        onSelected: (value) {
+                          if (value == ProfileMenuItem.follow) {}
+                          if (value == ProfileMenuItem.report) {}
+                          if (value == ProfileMenuItem.block) {}
+                        },
+                        icon: Icon(
+                          FeatherIcons.moreVertical,
+                          color: blackColor,
+                        ),
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            value: ProfileMenuItem.follow,
+                            child: Text(localized(context).follow),
+                          ),
+                          PopupMenuItem(
+                            value: ProfileMenuItem.report,
+                            child: Text(localized(context).report),
+                          ),
+                          PopupMenuItem(
+                            value: ProfileMenuItem.block,
+                            child: Text(localized(context).block),
+                          ),
+                        ],
                       ),
-                    )
                   ],
                 ),
                 //! Rang de la localisation
@@ -132,7 +152,7 @@ class ShowUserDetails extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      FeatherIcons.mapPin,
+                      Ionicons.location,
                       color: primaryColor,
                     ),
                     hSpace5,
@@ -146,15 +166,18 @@ class ShowUserDetails extends StatelessWidget {
                       style: regularTextStyle14,
                     ),
                     const Spacer(),
-                    SizedBox(
-                      width: 100,
-                      height: 25,
-                      child: ElevatedButton(
-                        style: primaryButton,
-                        onPressed: () {},
-                        child: Text(localized(context).follow),
-                      ),
-                    )
+                    if (!state.isItMe)
+                      SizedBox(
+                        width: 100,
+                        child: ElevatedButton(
+                          style: primaryButton,
+                          onPressed: () {},
+                          child: Text(
+                            getNameFromStatus(context, state.friendStatus),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
                   ],
                 ),
                 vSpace15,
@@ -162,12 +185,15 @@ class ShowUserDetails extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      FeatherIcons.flag,
+                      Ionicons.flag,
                       color: primaryColor,
                     ),
                     hSpace5,
                     Text(
-                      "Française",
+                      state.currentUser.nativeLanguage != null
+                          ? Country.parse(state.currentUser.nativeLanguage!)
+                              .displayNameNoCountryCode
+                          : "",
                       style: regularTextStyle14,
                     )
                   ],
@@ -369,7 +395,7 @@ class UserProfileAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       pinned: isFromSearching ? true : false,
-      expandedHeight: 280,
+      expandedHeight: 250,
       backgroundColor: Colors.white,
       elevation: 0,
       flexibleSpace: FlexibleSpaceBar(
@@ -384,8 +410,13 @@ class UserProfileAppBar extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: 30,
+                height: 20,
                 decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Colors.white, Colors.white60],
+                  ),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25.0),
                     topRight: Radius.circular(25.0),

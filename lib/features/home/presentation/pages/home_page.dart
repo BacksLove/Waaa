@@ -138,7 +138,7 @@ class UserItemList extends StatelessWidget {
               Text(
                 _currentUser.username,
                 textAlign: TextAlign.left,
-                style: regularTextStyle12,
+                style: regularTextStyle14,
               ),
           ],
         ),
@@ -284,12 +284,13 @@ class EventsWaaa extends StatelessWidget {
         vSpace10,
         if (_listEvents.isNotEmpty)
           ElevatedButton(
-              style: primaryButton,
-              onPressed: () {},
-              child: Text(
-                localized(context).see_all,
-                style: regularTextStyle16,
-              )),
+            style: primaryButton,
+            onPressed: () {},
+            child: Text(
+              localized(context).see_all,
+              style: regularTextStyle16,
+            ),
+          ),
       ],
     );
   }

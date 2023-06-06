@@ -34,6 +34,7 @@ listEvents {
       nbShare
       coowner {
         items {
+          id
           user {
             cognitoUserPoolId
             photo
@@ -81,6 +82,11 @@ query GetEventById(\$id: ID!) {
     photos
     updatedAt
     userEventsId
+    owner {
+      username
+      id
+      cognitoUserPoolId
+    }
     participants {
       items {
         id

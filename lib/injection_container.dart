@@ -15,6 +15,7 @@ import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart
 import 'package:waaa/features/events/data/data_sources/event_remote_datasource.dart';
 import 'package:waaa/features/events/data/repositories/event_repository_impl.dart';
 import 'package:waaa/features/events/domain/repositories/event_repository.dart';
+import 'package:waaa/features/events/domain/use_cases/get_all_event_topic.dart';
 import 'package:waaa/features/events/domain/use_cases/get_event_by_id.dart';
 import 'package:waaa/features/events/domain/use_cases/get_events_by_user_id.dart';
 import 'package:waaa/features/events/domain/use_cases/get_waaa_events.dart';
@@ -26,10 +27,13 @@ import 'package:waaa/features/hobbies/domain/repositories/hobbies_repository.dar
 import 'package:waaa/features/hobbies/domain/use_cases/add_hobby_to_user.dart';
 import 'package:waaa/features/hobbies/domain/use_cases/get_hobbies.dart';
 import 'package:waaa/features/home/presentation/manager/home_bloc/home_bloc.dart';
+import 'package:waaa/features/users/data/data_sources/friendship_remote_datasource.dart';
 import 'package:waaa/features/users/data/data_sources/user_remote_datasource.dart';
+import 'package:waaa/features/users/domain/repositories/friendship_repository.dart';
 import 'package:waaa/features/users/domain/repositories/user_repository.dart';
 import 'package:waaa/features/users/domain/use_cases/create_user.dart';
 import 'package:waaa/features/users/domain/use_cases/delete_user.dart';
+import 'package:waaa/features/users/domain/use_cases/get_friendship_status.dart';
 import 'package:waaa/features/users/domain/use_cases/get_user_by_city.dart';
 import 'package:waaa/features/users/domain/use_cases/get_user_by_id.dart';
 import 'package:waaa/features/users/domain/use_cases/search_user.dart';
@@ -43,6 +47,7 @@ import 'features/auth/domain/use_cases/get_current_auth_user.dart';
 import 'features/auth/presentation/manager/login_bloc/login_bloc.dart';
 import 'features/auth/presentation/manager/signup_bloc/signup_bloc.dart';
 import 'features/home/presentation/manager/navigation_cubit/bottom_navigation_cubit.dart';
+import 'features/users/data/repositories/friendship_repository_impl.dart';
 import 'features/users/data/repositories/user_repository_impl.dart';
 
 final sl = GetIt.instance;
@@ -109,6 +114,7 @@ Future<void> init() async {
   sl.registerLazySingleton<GetEventsByUserId>(() => GetEventsByUserId(sl()));
   sl.registerLazySingleton<GetEventsById>(() => GetEventsById(sl()));
   sl.registerLazySingleton<GetWaaaEvents>(() => GetWaaaEvents(sl()));
+  sl.registerLazySingleton<GetAllEventTopic>(() => GetAllEventTopic(sl()));
 
   // Repository
   sl.registerLazySingleton<EventRepository>(
@@ -130,6 +136,19 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<HobbiesRemoteDataSource>(
       () => HobbiesRemoteDataSourceImpl());
+
+  //! Feature - FriendShip
+  // Use cases
+  sl.registerLazySingleton<GetFriendshipStatus>(
+      () => GetFriendshipStatus(sl()));
+
+  // Repository
+  sl.registerLazySingleton<FriendshipRepository>(() =>
+      FriendshipRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+
+  // Data source
+  sl.registerLazySingleton<FriendshipRemoteDatasource>(
+      () => FriendshipRemoteDatasourceImpl());
 
   //! Core
   sl.registerLazySingleton<InputConverter>(() => InputConverter());

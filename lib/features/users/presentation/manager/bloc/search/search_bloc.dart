@@ -1,11 +1,9 @@
-import 'dart:async';
-
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:waaa/core/enums/search_enum.dart';
-import 'package:waaa/core/util/list_from_indices.dart';
+import 'package:waaa/core/util/functions.dart';
 import 'package:waaa/core/util/mocks/travels.dart';
 import 'package:waaa/features/users/domain/entities/search_item.dart';
 import 'package:waaa/features/users/domain/use_cases/search_user.dart';

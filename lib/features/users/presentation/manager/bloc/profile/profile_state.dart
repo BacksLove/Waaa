@@ -9,6 +9,7 @@ class ProfileState extends Equatable {
   final List<Marker>? tripsMarkers;
   final String age;
   final String followers;
+  final ProfileFriendStatus friendStatus;
 
   const ProfileState({
     required this.status,
@@ -18,6 +19,7 @@ class ProfileState extends Equatable {
     this.tripsMarkers,
     required this.age,
     required this.followers,
+    required this.friendStatus,
   });
 
   factory ProfileState.initial() => ProfileState(
@@ -27,11 +29,12 @@ class ProfileState extends Equatable {
         isTripShowed: true,
         age: "0",
         followers: "0",
+        friendStatus: ProfileFriendStatus.canFollow,
       );
 
   @override
   List<Object> get props =>
-      [status, currentUser, isItMe, isTripShowed, age, followers];
+      [status, currentUser, isItMe, isTripShowed, age, followers, friendStatus];
 
   ProfileState copyWith({
     ProfileStatus? status,
@@ -41,6 +44,7 @@ class ProfileState extends Equatable {
     List<Marker>? tripsMarkers,
     String? age,
     String? followers,
+    ProfileFriendStatus? friendStatus,
   }) {
     return ProfileState(
       status: status ?? this.status,
@@ -50,6 +54,7 @@ class ProfileState extends Equatable {
       tripsMarkers: tripsMarkers ?? this.tripsMarkers,
       age: age ?? this.age,
       followers: followers ?? this.followers,
+      friendStatus: friendStatus ?? this.friendStatus,
     );
   }
 }

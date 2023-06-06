@@ -1,4 +1,5 @@
 import 'package:waaa/models/Event.dart';
+import 'package:waaa/models/EventTopic.dart';
 
 import '../../../../core/platform/network_info.dart';
 import '../../domain/repositories/event_repository.dart';
@@ -47,5 +48,13 @@ class EventRepositoryImpl implements EventRepository {
     final remoteEventById = await remoteDataSource.getEventById(id);
 
     return remoteEventById;
+  }
+
+  @override
+  Future<List<EventTopic?>> getAllEventTopic() async {
+    await networkInfo.isConnected;
+    final remoteAllEventTopic = await remoteDataSource.getAllEventTopic();
+
+    return remoteAllEventTopic;
   }
 }

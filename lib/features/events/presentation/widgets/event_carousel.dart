@@ -46,7 +46,7 @@ class EventsCarouselWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _listEvents[index]!.name,
+                          _listEvents[index]?.name ?? "",
                           style: boldWhiteTextStyle20,
                         ),
                       ],

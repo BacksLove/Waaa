@@ -12,3 +12,9 @@ class EventDetailLoadData extends EventDetailEvent {
 
   const EventDetailLoadData({required this.eventId});
 }
+
+class EventGoToUpdatePressed extends EventDetailEvent {}
+
+class EventGoToDetailPressed extends EventDetailEvent {}
+
+class EventUpdateEvent extends EventDetailEvent {}

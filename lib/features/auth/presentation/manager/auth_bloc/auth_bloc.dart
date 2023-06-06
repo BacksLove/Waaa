@@ -35,13 +35,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       late User? user;
       emit(const AuthState.unknown());
-      var token = di.sl<SharedPreferences>().getString(userIdKey);
+      var token = di.sl<SharedPreferences>().getString(userCognitoIdKey);
       if (token != null) {
         final AuthSession session =
             await di.sl<GetCurrentAuthSession>().call(NoParams());
         if (session.isSignedIn) {
           user = await di.sl<GetUserById>().call(GetUserByIdParams(id: token));
           if (user != null) {
+            await di.sl<SharedPreferences>().setString(userIdKey, user.id);
             emit(AuthState.authenticated(user));
           } else {
             emit(const AuthState.registered());
@@ -72,11 +73,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onSignUp(SignedUp event, Emitter<AuthState> emit) async {
-    final String? token = di.sl<SharedPreferences>().getString(userIdKey);
+    final String? token =
+        di.sl<SharedPreferences>().getString(userCognitoIdKey);
     if (token != null) emit(const AuthState.registered());
   }
 
   void _onLogOut(LoggedOut event, Emitter<AuthState> emit) async {
+    await di.sl<SharedPreferences>().remove(userCognitoIdKey);
     await di.sl<SharedPreferences>().remove(userIdKey);
     di.sl<LogOut>().call(NoParams());
     emit(const AuthState.unauthenticated());

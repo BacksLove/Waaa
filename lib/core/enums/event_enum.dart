@@ -9,3 +9,7 @@ enum EventDetailEnum {
   updateDetail,
   failed,
 }
+
+// enum EventDetailMoreItem {
+
+// }

@@ -11,6 +11,7 @@ abstract class EventRemoteDatasource {
   Future<List<Event?>> getEventsByUserId(String id);
   Future<bool> participateToEvent(User user, Event event, DemandStatus status);
   Future<Event?> getEventById(String id);
+  Future<List<EventTopic?>> getAllEventTopic();
 }
 
 class EventRemoteDatasourceImpl implements EventRemoteDatasource {
@@ -45,6 +46,7 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
       );
       final response = await Amplify.API.query(request: request).response;
       final events = response.data?.items;
+      safePrint("errors: ${response.errors}");
 
       if (events == null || events.isEmpty) {
         safePrint("errors: ${response.errors}");
@@ -104,6 +106,8 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
       final response = await Amplify.API.query(request: request).response;
       final event = response.data;
 
+      safePrint("errors: ${response.errors}");
+
       if (event == null) {
         safePrint("errors: ${response.errors}");
         return null;
@@ -112,6 +116,24 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
     } on AuthException catch (e) {
       safePrint(e.message);
       return null;
+    }
+  }
+
+  @override
+  Future<List<EventTopic?>> getAllEventTopic() async {
+    try {
+      final request = ModelQueries.list(EventTopic.classType);
+      final response = await Amplify.API.query(request: request).response;
+      final eventTopics = response.data?.items;
+
+      if (eventTopics == null) {
+        safePrint("errors: ${response.errors}");
+        return [];
+      }
+      return eventTopics;
+    } on AuthException catch (e) {
+      safePrint(e.message);
+      return [];
     }
   }
 }

@@ -49,6 +49,7 @@ class User extends Model {
   final bool? _privacy;
   final String? _photo;
   final bool? _isConnected;
+  final bool? _isAdminWaaa;
   final TemporalDateTime? _createdAt;
   final List<Friendship>? _friendsSender;
   final List<Friendship>? _friendsReceiver;
@@ -158,6 +159,10 @@ class User extends Model {
     return _isConnected;
   }
   
+  bool? get isAdminWaaa {
+    return _isAdminWaaa;
+  }
+  
   TemporalDateTime? get createdAt {
     return _createdAt;
   }
@@ -198,9 +203,9 @@ class User extends Model {
     return _updatedAt;
   }
   
-  const User._internal({required this.id, cognitoUserPoolId, required username, role, gender, lookingFor, birthday, country, city, bio, nativeLanguage, languagesSpeak, hobbies, suspended, suspendedUntil, reporting, openDiscussion, privacy, photo, isConnected, createdAt, friendsSender, friendsReceiver, trips, events, eventCoowner, tripParticipation, eventParticipation, offerParticipation, updatedAt}): _cognitoUserPoolId = cognitoUserPoolId, _username = username, _role = role, _gender = gender, _lookingFor = lookingFor, _birthday = birthday, _country = country, _city = city, _bio = bio, _nativeLanguage = nativeLanguage, _languagesSpeak = languagesSpeak, _hobbies = hobbies, _suspended = suspended, _suspendedUntil = suspendedUntil, _reporting = reporting, _openDiscussion = openDiscussion, _privacy = privacy, _photo = photo, _isConnected = isConnected, _createdAt = createdAt, _friendsSender = friendsSender, _friendsReceiver = friendsReceiver, _trips = trips, _events = events, _eventCoowner = eventCoowner, _tripParticipation = tripParticipation, _eventParticipation = eventParticipation, _offerParticipation = offerParticipation, _updatedAt = updatedAt;
+  const User._internal({required this.id, cognitoUserPoolId, required username, role, gender, lookingFor, birthday, country, city, bio, nativeLanguage, languagesSpeak, hobbies, suspended, suspendedUntil, reporting, openDiscussion, privacy, photo, isConnected, isAdminWaaa, createdAt, friendsSender, friendsReceiver, trips, events, eventCoowner, tripParticipation, eventParticipation, offerParticipation, updatedAt}): _cognitoUserPoolId = cognitoUserPoolId, _username = username, _role = role, _gender = gender, _lookingFor = lookingFor, _birthday = birthday, _country = country, _city = city, _bio = bio, _nativeLanguage = nativeLanguage, _languagesSpeak = languagesSpeak, _hobbies = hobbies, _suspended = suspended, _suspendedUntil = suspendedUntil, _reporting = reporting, _openDiscussion = openDiscussion, _privacy = privacy, _photo = photo, _isConnected = isConnected, _isAdminWaaa = isAdminWaaa, _createdAt = createdAt, _friendsSender = friendsSender, _friendsReceiver = friendsReceiver, _trips = trips, _events = events, _eventCoowner = eventCoowner, _tripParticipation = tripParticipation, _eventParticipation = eventParticipation, _offerParticipation = offerParticipation, _updatedAt = updatedAt;
   
-  factory User({String? id, String? cognitoUserPoolId, required String username, String? role, Gender? gender, Gender? lookingFor, TemporalDate? birthday, String? country, String? city, String? bio, String? nativeLanguage, List<String>? languagesSpeak, List<HobbyOfUser>? hobbies, bool? suspended, TemporalTimestamp? suspendedUntil, int? reporting, bool? openDiscussion, bool? privacy, String? photo, bool? isConnected, TemporalDateTime? createdAt, List<Friendship>? friendsSender, List<Friendship>? friendsReceiver, List<Trip>? trips, List<Event>? events, List<EventCoowner>? eventCoowner, List<TripParticipant>? tripParticipation, List<EventParticipant>? eventParticipation, List<OfferParticipants>? offerParticipation}) {
+  factory User({String? id, String? cognitoUserPoolId, required String username, String? role, Gender? gender, Gender? lookingFor, TemporalDate? birthday, String? country, String? city, String? bio, String? nativeLanguage, List<String>? languagesSpeak, List<HobbyOfUser>? hobbies, bool? suspended, TemporalTimestamp? suspendedUntil, int? reporting, bool? openDiscussion, bool? privacy, String? photo, bool? isConnected, bool? isAdminWaaa, TemporalDateTime? createdAt, List<Friendship>? friendsSender, List<Friendship>? friendsReceiver, List<Trip>? trips, List<Event>? events, List<EventCoowner>? eventCoowner, List<TripParticipant>? tripParticipation, List<EventParticipant>? eventParticipation, List<OfferParticipants>? offerParticipation}) {
     return User._internal(
       id: id == null ? UUID.getUUID() : id,
       cognitoUserPoolId: cognitoUserPoolId,
@@ -222,6 +227,7 @@ class User extends Model {
       privacy: privacy,
       photo: photo,
       isConnected: isConnected,
+      isAdminWaaa: isAdminWaaa,
       createdAt: createdAt,
       friendsSender: friendsSender != null ? List<Friendship>.unmodifiable(friendsSender) : friendsSender,
       friendsReceiver: friendsReceiver != null ? List<Friendship>.unmodifiable(friendsReceiver) : friendsReceiver,
@@ -261,6 +267,7 @@ class User extends Model {
       _privacy == other._privacy &&
       _photo == other._photo &&
       _isConnected == other._isConnected &&
+      _isAdminWaaa == other._isAdminWaaa &&
       _createdAt == other._createdAt &&
       DeepCollectionEquality().equals(_friendsSender, other._friendsSender) &&
       DeepCollectionEquality().equals(_friendsReceiver, other._friendsReceiver) &&
@@ -299,6 +306,7 @@ class User extends Model {
     buffer.write("privacy=" + (_privacy != null ? _privacy!.toString() : "null") + ", ");
     buffer.write("photo=" + "$_photo" + ", ");
     buffer.write("isConnected=" + (_isConnected != null ? _isConnected!.toString() : "null") + ", ");
+    buffer.write("isAdminWaaa=" + (_isAdminWaaa != null ? _isAdminWaaa!.toString() : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -306,7 +314,7 @@ class User extends Model {
     return buffer.toString();
   }
   
-  User copyWith({String? cognitoUserPoolId, String? username, String? role, Gender? gender, Gender? lookingFor, TemporalDate? birthday, String? country, String? city, String? bio, String? nativeLanguage, List<String>? languagesSpeak, List<HobbyOfUser>? hobbies, bool? suspended, TemporalTimestamp? suspendedUntil, int? reporting, bool? openDiscussion, bool? privacy, String? photo, bool? isConnected, TemporalDateTime? createdAt, List<Friendship>? friendsSender, List<Friendship>? friendsReceiver, List<Trip>? trips, List<Event>? events, List<EventCoowner>? eventCoowner, List<TripParticipant>? tripParticipation, List<EventParticipant>? eventParticipation, List<OfferParticipants>? offerParticipation}) {
+  User copyWith({String? cognitoUserPoolId, String? username, String? role, Gender? gender, Gender? lookingFor, TemporalDate? birthday, String? country, String? city, String? bio, String? nativeLanguage, List<String>? languagesSpeak, List<HobbyOfUser>? hobbies, bool? suspended, TemporalTimestamp? suspendedUntil, int? reporting, bool? openDiscussion, bool? privacy, String? photo, bool? isConnected, bool? isAdminWaaa, TemporalDateTime? createdAt, List<Friendship>? friendsSender, List<Friendship>? friendsReceiver, List<Trip>? trips, List<Event>? events, List<EventCoowner>? eventCoowner, List<TripParticipant>? tripParticipation, List<EventParticipant>? eventParticipation, List<OfferParticipants>? offerParticipation}) {
     return User._internal(
       id: id,
       cognitoUserPoolId: cognitoUserPoolId ?? this.cognitoUserPoolId,
@@ -328,6 +336,7 @@ class User extends Model {
       privacy: privacy ?? this.privacy,
       photo: photo ?? this.photo,
       isConnected: isConnected ?? this.isConnected,
+      isAdminWaaa: isAdminWaaa ?? this.isAdminWaaa,
       createdAt: createdAt ?? this.createdAt,
       friendsSender: friendsSender ?? this.friendsSender,
       friendsReceiver: friendsReceiver ?? this.friendsReceiver,
@@ -365,6 +374,7 @@ class User extends Model {
       _privacy = json['privacy'],
       _photo = json['photo'],
       _isConnected = json['isConnected'],
+      _isAdminWaaa = json['isAdminWaaa'],
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _friendsSender = json['friendsSender'] is List
         ? (json['friendsSender'] as List)
@@ -417,11 +427,11 @@ class User extends Model {
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'cognitoUserPoolId': _cognitoUserPoolId, 'username': _username, 'role': _role, 'gender': enumToString(_gender), 'lookingFor': enumToString(_lookingFor), 'birthday': _birthday?.format(), 'country': _country, 'city': _city, 'bio': _bio, 'nativeLanguage': _nativeLanguage, 'languagesSpeak': _languagesSpeak, 'hobbies': _hobbies?.map((HobbyOfUser? e) => e?.toJson()).toList(), 'suspended': _suspended, 'suspendedUntil': _suspendedUntil?.toSeconds(), 'reporting': _reporting, 'openDiscussion': _openDiscussion, 'privacy': _privacy, 'photo': _photo, 'isConnected': _isConnected, 'createdAt': _createdAt?.format(), 'friendsSender': _friendsSender?.map((Friendship? e) => e?.toJson()).toList(), 'friendsReceiver': _friendsReceiver?.map((Friendship? e) => e?.toJson()).toList(), 'trips': _trips?.map((Trip? e) => e?.toJson()).toList(), 'events': _events?.map((Event? e) => e?.toJson()).toList(), 'eventCoowner': _eventCoowner?.map((EventCoowner? e) => e?.toJson()).toList(), 'tripParticipation': _tripParticipation?.map((TripParticipant? e) => e?.toJson()).toList(), 'eventParticipation': _eventParticipation?.map((EventParticipant? e) => e?.toJson()).toList(), 'offerParticipation': _offerParticipation?.map((OfferParticipants? e) => e?.toJson()).toList(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'cognitoUserPoolId': _cognitoUserPoolId, 'username': _username, 'role': _role, 'gender': enumToString(_gender), 'lookingFor': enumToString(_lookingFor), 'birthday': _birthday?.format(), 'country': _country, 'city': _city, 'bio': _bio, 'nativeLanguage': _nativeLanguage, 'languagesSpeak': _languagesSpeak, 'hobbies': _hobbies?.map((HobbyOfUser? e) => e?.toJson()).toList(), 'suspended': _suspended, 'suspendedUntil': _suspendedUntil?.toSeconds(), 'reporting': _reporting, 'openDiscussion': _openDiscussion, 'privacy': _privacy, 'photo': _photo, 'isConnected': _isConnected, 'isAdminWaaa': _isAdminWaaa, 'createdAt': _createdAt?.format(), 'friendsSender': _friendsSender?.map((Friendship? e) => e?.toJson()).toList(), 'friendsReceiver': _friendsReceiver?.map((Friendship? e) => e?.toJson()).toList(), 'trips': _trips?.map((Trip? e) => e?.toJson()).toList(), 'events': _events?.map((Event? e) => e?.toJson()).toList(), 'eventCoowner': _eventCoowner?.map((EventCoowner? e) => e?.toJson()).toList(), 'tripParticipation': _tripParticipation?.map((TripParticipant? e) => e?.toJson()).toList(), 'eventParticipation': _eventParticipation?.map((EventParticipant? e) => e?.toJson()).toList(), 'offerParticipation': _offerParticipation?.map((OfferParticipants? e) => e?.toJson()).toList(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'cognitoUserPoolId': _cognitoUserPoolId, 'username': _username, 'role': _role, 'gender': _gender, 'lookingFor': _lookingFor, 'birthday': _birthday, 'country': _country, 'city': _city, 'bio': _bio, 'nativeLanguage': _nativeLanguage, 'languagesSpeak': _languagesSpeak, 'hobbies': _hobbies, 'suspended': _suspended, 'suspendedUntil': _suspendedUntil, 'reporting': _reporting, 'openDiscussion': _openDiscussion, 'privacy': _privacy, 'photo': _photo, 'isConnected': _isConnected, 'createdAt': _createdAt, 'friendsSender': _friendsSender, 'friendsReceiver': _friendsReceiver, 'trips': _trips, 'events': _events, 'eventCoowner': _eventCoowner, 'tripParticipation': _tripParticipation, 'eventParticipation': _eventParticipation, 'offerParticipation': _offerParticipation, 'updatedAt': _updatedAt
+    'id': id, 'cognitoUserPoolId': _cognitoUserPoolId, 'username': _username, 'role': _role, 'gender': _gender, 'lookingFor': _lookingFor, 'birthday': _birthday, 'country': _country, 'city': _city, 'bio': _bio, 'nativeLanguage': _nativeLanguage, 'languagesSpeak': _languagesSpeak, 'hobbies': _hobbies, 'suspended': _suspended, 'suspendedUntil': _suspendedUntil, 'reporting': _reporting, 'openDiscussion': _openDiscussion, 'privacy': _privacy, 'photo': _photo, 'isConnected': _isConnected, 'isAdminWaaa': _isAdminWaaa, 'createdAt': _createdAt, 'friendsSender': _friendsSender, 'friendsReceiver': _friendsReceiver, 'trips': _trips, 'events': _events, 'eventCoowner': _eventCoowner, 'tripParticipation': _tripParticipation, 'eventParticipation': _eventParticipation, 'offerParticipation': _offerParticipation, 'updatedAt': _updatedAt
   };
 
   static final QueryModelIdentifier<UserModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<UserModelIdentifier>();
@@ -447,6 +457,7 @@ class User extends Model {
   static final QueryField PRIVACY = QueryField(fieldName: "privacy");
   static final QueryField PHOTO = QueryField(fieldName: "photo");
   static final QueryField ISCONNECTED = QueryField(fieldName: "isConnected");
+  static final QueryField ISADMINWAAA = QueryField(fieldName: "isAdminWaaa");
   static final QueryField CREATEDAT = QueryField(fieldName: "createdAt");
   static final QueryField FRIENDSSENDER = QueryField(
     fieldName: "friendsSender",
@@ -595,6 +606,12 @@ class User extends Model {
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: User.ISCONNECTED,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: User.ISADMINWAAA,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.bool)
     ));

@@ -65,7 +65,7 @@ export 'User.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "2d93694ec6362a4817917f819bdd7736";
+  String version = "6d03977200bdde3fb480e321d5c34503";
   @override
   List<ModelSchema> modelSchemas = [Accommodation.schema, Activity.schema, Event.schema, EventCoowner.schema, EventParticipant.schema, EventTopic.schema, Friendship.schema, Hobby.schema, HobbyOfUser.schema, Offer.schema, OfferParticipants.schema, Step.schema, StepActivities.schema, Transport.schema, Trip.schema, TripCategory.schema, TripParticipant.schema, User.schema];
   static final ModelProvider _instance = ModelProvider();

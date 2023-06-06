@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:aws_common/aws_common.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'package:scroll_date_picker/scroll_date_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waaa/core/constants/constants.dart';
 import 'package:waaa/core/enums/user_enum.dart';
+import 'package:waaa/core/util/functions.dart';
 import 'package:waaa/core/util/input_converter.dart';
+import 'package:waaa/core/util/localized.dart';
+import 'package:waaa/features/users/domain/use_cases/get_friendship_status.dart';
 import 'package:waaa/features/users/domain/use_cases/get_user_by_id.dart';
 
 import 'package:waaa/injection_container.dart' as di;
@@ -49,24 +52,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (currentUser == null) {
         emit(state.copyWith(status: ProfileStatus.failed));
       } else {
-        final userId = di.sl<SharedPreferences>().getString(userIdKey);
+        final userId = di.sl<SharedPreferences>().getString(userCognitoIdKey);
         bool isItMe = userId == currentUser.cognitoUserPoolId ? true : false;
         final userAge = DateConverter().getAge(currentUser.birthday);
-        safePrint("age = $userAge");
-        int userFollowers = 0;
+        int userFollowers = getFollowersFromUser(currentUser);
 
-        if (currentUser.friendsReceiver != null &&
-            currentUser.friendsReceiver!.isNotEmpty) {
-          for (var friend in currentUser.friendsReceiver!) {
-            if (friend.status == DemandStatus.ACCEPTED) userFollowers++;
-          }
-        }
-        if (currentUser.friendsSender != null &&
-            currentUser.friendsSender!.isNotEmpty) {
-          for (var friend in currentUser.friendsSender!) {
-            if (friend.status == DemandStatus.ACCEPTED) userFollowers++;
-          }
-        }
+        final friendStatus = await getFriendStatus(currentUser);
 
         emit(
           state.copyWith(
@@ -76,11 +67,61 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             isTripShowed: true,
             age: userAge,
             followers: userFollowers.toString(),
+            friendStatus: friendStatus,
           ),
         );
       }
     } catch (e) {
       safePrint(e);
     }
+  }
+}
+
+Future<ProfileFriendStatus> getFriendStatus(User user) async {
+  final userId = di.sl<SharedPreferences>().getString(userIdKey);
+
+  final result = await di
+      .sl<GetFriendshipStatus>()
+      .call(GetFriendshipStatusParams(userId: userId!, friendId: user.id));
+
+  if (result != null) {
+    final status = result.status;
+    if (status == DemandStatus.ACCEPTED) {
+      return ProfileFriendStatus.followed;
+    }
+    if (status == DemandStatus.BLOCKED) {
+      return ProfileFriendStatus.blocked;
+    }
+    if (status == DemandStatus.REJECTED) {
+      return ProfileFriendStatus.rejected;
+    }
+    if (status == DemandStatus.REQUESTED) {
+      if (result.sender.id == userId) {
+        return ProfileFriendStatus.waitResponse;
+      } else {
+        return ProfileFriendStatus.waitAction;
+      }
+    }
+  }
+
+  return ProfileFriendStatus.canFollow;
+}
+
+String getNameFromStatus(BuildContext context, ProfileFriendStatus status) {
+  switch (status) {
+    case ProfileFriendStatus.canFollow:
+      return localized(context).follow;
+    case ProfileFriendStatus.blocked:
+      return localized(context).blocked;
+    case ProfileFriendStatus.rejected:
+      return "refusé";
+    case ProfileFriendStatus.unfollow:
+      return localized(context).unfollow;
+    case ProfileFriendStatus.waitResponse:
+      return "en attente";
+    case ProfileFriendStatus.waitAction:
+      return localized(context).accept;
+    case ProfileFriendStatus.followed:
+      return "Suivi";
   }
 }

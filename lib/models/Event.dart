@@ -47,6 +47,7 @@ class Event extends Model {
   final int? _maxParticipants;
   final int? _minAgeRestriction;
   final bool? _isPublic;
+  final bool? _canInviteParticipant;
   final int? _nbShare;
   final Audience? _audience;
   final List<EventParticipant>? _participants;
@@ -163,6 +164,10 @@ class Event extends Model {
     return _isPublic;
   }
   
+  bool? get canInviteParticipant {
+    return _canInviteParticipant;
+  }
+  
   int? get nbShare {
     return _nbShare;
   }
@@ -200,9 +205,9 @@ class Event extends Model {
     return _eventTopicEventsId;
   }
   
-  const Event._internal({required this.id, required name, required topic, required description, country, city, address, begin, end, mainPhoto, photos, hourBegin, hourEnd, owner, coowner, maxParticipants, minAgeRestriction, isPublic, nbShare, audience, participants, createdAt, updatedAt, required eventTopicId, eventTopicEventsId}): _name = name, _topic = topic, _description = description, _country = country, _city = city, _address = address, _begin = begin, _end = end, _mainPhoto = mainPhoto, _photos = photos, _hourBegin = hourBegin, _hourEnd = hourEnd, _owner = owner, _coowner = coowner, _maxParticipants = maxParticipants, _minAgeRestriction = minAgeRestriction, _isPublic = isPublic, _nbShare = nbShare, _audience = audience, _participants = participants, _createdAt = createdAt, _updatedAt = updatedAt, _eventTopicId = eventTopicId, _eventTopicEventsId = eventTopicEventsId;
+  const Event._internal({required this.id, required name, required topic, required description, country, city, address, begin, end, mainPhoto, photos, hourBegin, hourEnd, owner, coowner, maxParticipants, minAgeRestriction, isPublic, canInviteParticipant, nbShare, audience, participants, createdAt, updatedAt, required eventTopicId, eventTopicEventsId}): _name = name, _topic = topic, _description = description, _country = country, _city = city, _address = address, _begin = begin, _end = end, _mainPhoto = mainPhoto, _photos = photos, _hourBegin = hourBegin, _hourEnd = hourEnd, _owner = owner, _coowner = coowner, _maxParticipants = maxParticipants, _minAgeRestriction = minAgeRestriction, _isPublic = isPublic, _canInviteParticipant = canInviteParticipant, _nbShare = nbShare, _audience = audience, _participants = participants, _createdAt = createdAt, _updatedAt = updatedAt, _eventTopicId = eventTopicId, _eventTopicEventsId = eventTopicEventsId;
   
-  factory Event({String? id, required String name, required EventTopic topic, required String description, String? country, String? city, String? address, TemporalDate? begin, TemporalDate? end, String? mainPhoto, List<String>? photos, int? hourBegin, int? hourEnd, User? owner, List<EventCoowner>? coowner, int? maxParticipants, int? minAgeRestriction, bool? isPublic, int? nbShare, Audience? audience, List<EventParticipant>? participants, TemporalDateTime? createdAt, required String eventTopicId, String? eventTopicEventsId}) {
+  factory Event({String? id, required String name, required EventTopic topic, required String description, String? country, String? city, String? address, TemporalDate? begin, TemporalDate? end, String? mainPhoto, List<String>? photos, int? hourBegin, int? hourEnd, User? owner, List<EventCoowner>? coowner, int? maxParticipants, int? minAgeRestriction, bool? isPublic, bool? canInviteParticipant, int? nbShare, Audience? audience, List<EventParticipant>? participants, TemporalDateTime? createdAt, required String eventTopicId, String? eventTopicEventsId}) {
     return Event._internal(
       id: id == null ? UUID.getUUID() : id,
       name: name,
@@ -222,6 +227,7 @@ class Event extends Model {
       maxParticipants: maxParticipants,
       minAgeRestriction: minAgeRestriction,
       isPublic: isPublic,
+      canInviteParticipant: canInviteParticipant,
       nbShare: nbShare,
       audience: audience,
       participants: participants != null ? List<EventParticipant>.unmodifiable(participants) : participants,
@@ -256,6 +262,7 @@ class Event extends Model {
       _maxParticipants == other._maxParticipants &&
       _minAgeRestriction == other._minAgeRestriction &&
       _isPublic == other._isPublic &&
+      _canInviteParticipant == other._canInviteParticipant &&
       _nbShare == other._nbShare &&
       _audience == other._audience &&
       DeepCollectionEquality().equals(_participants, other._participants) &&
@@ -288,6 +295,7 @@ class Event extends Model {
     buffer.write("maxParticipants=" + (_maxParticipants != null ? _maxParticipants!.toString() : "null") + ", ");
     buffer.write("minAgeRestriction=" + (_minAgeRestriction != null ? _minAgeRestriction!.toString() : "null") + ", ");
     buffer.write("isPublic=" + (_isPublic != null ? _isPublic!.toString() : "null") + ", ");
+    buffer.write("canInviteParticipant=" + (_canInviteParticipant != null ? _canInviteParticipant!.toString() : "null") + ", ");
     buffer.write("nbShare=" + (_nbShare != null ? _nbShare!.toString() : "null") + ", ");
     buffer.write("audience=" + (_audience != null ? enumToString(_audience)! : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
@@ -299,7 +307,7 @@ class Event extends Model {
     return buffer.toString();
   }
   
-  Event copyWith({String? name, EventTopic? topic, String? description, String? country, String? city, String? address, TemporalDate? begin, TemporalDate? end, String? mainPhoto, List<String>? photos, int? hourBegin, int? hourEnd, User? owner, List<EventCoowner>? coowner, int? maxParticipants, int? minAgeRestriction, bool? isPublic, int? nbShare, Audience? audience, List<EventParticipant>? participants, TemporalDateTime? createdAt, String? eventTopicId, String? eventTopicEventsId}) {
+  Event copyWith({String? name, EventTopic? topic, String? description, String? country, String? city, String? address, TemporalDate? begin, TemporalDate? end, String? mainPhoto, List<String>? photos, int? hourBegin, int? hourEnd, User? owner, List<EventCoowner>? coowner, int? maxParticipants, int? minAgeRestriction, bool? isPublic, bool? canInviteParticipant, int? nbShare, Audience? audience, List<EventParticipant>? participants, TemporalDateTime? createdAt, String? eventTopicId, String? eventTopicEventsId}) {
     return Event._internal(
       id: id,
       name: name ?? this.name,
@@ -319,6 +327,7 @@ class Event extends Model {
       maxParticipants: maxParticipants ?? this.maxParticipants,
       minAgeRestriction: minAgeRestriction ?? this.minAgeRestriction,
       isPublic: isPublic ?? this.isPublic,
+      canInviteParticipant: canInviteParticipant ?? this.canInviteParticipant,
       nbShare: nbShare ?? this.nbShare,
       audience: audience ?? this.audience,
       participants: participants ?? this.participants,
@@ -355,6 +364,7 @@ class Event extends Model {
       _maxParticipants = (json['maxParticipants'] as num?)?.toInt(),
       _minAgeRestriction = (json['minAgeRestriction'] as num?)?.toInt(),
       _isPublic = json['isPublic'],
+      _canInviteParticipant = json['canInviteParticipant'],
       _nbShare = (json['nbShare'] as num?)?.toInt(),
       _audience = enumFromString<Audience>(json['audience'], Audience.values),
       _participants = json['participants'] is List
@@ -369,11 +379,11 @@ class Event extends Model {
       _eventTopicEventsId = json['eventTopicEventsId'];
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'topic': _topic?.toJson(), 'description': _description, 'country': _country, 'city': _city, 'address': _address, 'begin': _begin?.format(), 'end': _end?.format(), 'mainPhoto': _mainPhoto, 'photos': _photos, 'hourBegin': _hourBegin, 'hourEnd': _hourEnd, 'owner': _owner?.toJson(), 'coowner': _coowner?.map((EventCoowner? e) => e?.toJson()).toList(), 'maxParticipants': _maxParticipants, 'minAgeRestriction': _minAgeRestriction, 'isPublic': _isPublic, 'nbShare': _nbShare, 'audience': enumToString(_audience), 'participants': _participants?.map((EventParticipant? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'eventTopicId': _eventTopicId, 'eventTopicEventsId': _eventTopicEventsId
+    'id': id, 'name': _name, 'topic': _topic?.toJson(), 'description': _description, 'country': _country, 'city': _city, 'address': _address, 'begin': _begin?.format(), 'end': _end?.format(), 'mainPhoto': _mainPhoto, 'photos': _photos, 'hourBegin': _hourBegin, 'hourEnd': _hourEnd, 'owner': _owner?.toJson(), 'coowner': _coowner?.map((EventCoowner? e) => e?.toJson()).toList(), 'maxParticipants': _maxParticipants, 'minAgeRestriction': _minAgeRestriction, 'isPublic': _isPublic, 'canInviteParticipant': _canInviteParticipant, 'nbShare': _nbShare, 'audience': enumToString(_audience), 'participants': _participants?.map((EventParticipant? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'eventTopicId': _eventTopicId, 'eventTopicEventsId': _eventTopicEventsId
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name, 'topic': _topic, 'description': _description, 'country': _country, 'city': _city, 'address': _address, 'begin': _begin, 'end': _end, 'mainPhoto': _mainPhoto, 'photos': _photos, 'hourBegin': _hourBegin, 'hourEnd': _hourEnd, 'owner': _owner, 'coowner': _coowner, 'maxParticipants': _maxParticipants, 'minAgeRestriction': _minAgeRestriction, 'isPublic': _isPublic, 'nbShare': _nbShare, 'audience': _audience, 'participants': _participants, 'createdAt': _createdAt, 'updatedAt': _updatedAt, 'eventTopicId': _eventTopicId, 'eventTopicEventsId': _eventTopicEventsId
+    'id': id, 'name': _name, 'topic': _topic, 'description': _description, 'country': _country, 'city': _city, 'address': _address, 'begin': _begin, 'end': _end, 'mainPhoto': _mainPhoto, 'photos': _photos, 'hourBegin': _hourBegin, 'hourEnd': _hourEnd, 'owner': _owner, 'coowner': _coowner, 'maxParticipants': _maxParticipants, 'minAgeRestriction': _minAgeRestriction, 'isPublic': _isPublic, 'canInviteParticipant': _canInviteParticipant, 'nbShare': _nbShare, 'audience': _audience, 'participants': _participants, 'createdAt': _createdAt, 'updatedAt': _updatedAt, 'eventTopicId': _eventTopicId, 'eventTopicEventsId': _eventTopicEventsId
   };
 
   static final QueryModelIdentifier<EventModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<EventModelIdentifier>();
@@ -401,6 +411,7 @@ class Event extends Model {
   static final QueryField MAXPARTICIPANTS = QueryField(fieldName: "maxParticipants");
   static final QueryField MINAGERESTRICTION = QueryField(fieldName: "minAgeRestriction");
   static final QueryField ISPUBLIC = QueryField(fieldName: "isPublic");
+  static final QueryField CANINVITEPARTICIPANT = QueryField(fieldName: "canInviteParticipant");
   static final QueryField NBSHARE = QueryField(fieldName: "nbShare");
   static final QueryField AUDIENCE = QueryField(fieldName: "audience");
   static final QueryField PARTICIPANTS = QueryField(
@@ -517,6 +528,12 @@ class Event extends Model {
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: Event.ISPUBLIC,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Event.CANINVITEPARTICIPANT,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.bool)
     ));

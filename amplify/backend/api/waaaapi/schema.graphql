@@ -24,6 +24,7 @@ type User @model {
   privacy: Boolean
   photo: String
   isConnected: Boolean
+  isAdminWaaa: Boolean @default(value: "false")
   createdAt: AWSDateTime
   friendsSender: [Friendship] @hasMany(indexName: "byFriendSender", fields: ["id"])
   friendsReceiver: [Friendship] @hasMany(indexName: "byFriendReceiver", fields: ["id"])
@@ -115,6 +116,7 @@ type Event @model {
   maxParticipants: Int
   minAgeRestriction: Int
   isPublic: Boolean
+  canInviteParticipant: Boolean
   nbShare: Int
   audience: Audience
   participants: [EventParticipant] @hasMany

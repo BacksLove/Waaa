@@ -7,6 +7,8 @@ abstract class CreateEventEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class CreateEventLoadData extends CreateEventEvent {}
+
 class OpenEventImagePicker extends CreateEventEvent {
   final ImageSource source;
 

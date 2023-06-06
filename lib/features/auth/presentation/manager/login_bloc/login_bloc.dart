@@ -49,7 +49,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             .call(Params(email: event.email, password: event.password));
         if (login) {
           var id = await di.sl<GetCurrentAuthUser>().call(NoParams());
-          await di.sl<SharedPreferences>().setString(userIdKey, id.userId);
+          await di
+              .sl<SharedPreferences>()
+              .setString(userCognitoIdKey, id.userId);
           emit(
             state.copyWith(
               status: LoginStatus.succeed,

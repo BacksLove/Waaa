@@ -12,9 +12,18 @@ query GetUser(\$id: String!) {
       friendsReceiver {
         items {
           id
-          receiverID
-          senderID
           status
+          sender {
+            id
+            username
+            cognitoUserPoolId
+            
+          }
+          receiver {
+            id
+            username
+            cognitoUserPoolId
+          }
         }
       }
       id
@@ -65,6 +74,7 @@ query GetUser(\$id: String!) {
       events {
         items {
           id
+          name
           mainPhoto
           address
           city
@@ -74,9 +84,18 @@ query GetUser(\$id: String!) {
       friendsSender {
         items {
           id
-          receiverID
-          senderID
           status
+          sender {
+            id
+            username
+            cognitoUserPoolId
+            
+          }
+          receiver {
+            id
+            username
+            cognitoUserPoolId
+          }
         }
       }
     }

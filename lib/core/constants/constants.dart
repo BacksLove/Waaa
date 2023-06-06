@@ -7,6 +7,7 @@ String env = const String.fromEnvironment(
 
 const String localisationDir = "lib/core/i18n";
 
+const String userCognitoIdKey = "userCognitoIdKey";
 const String userIdKey = "userIdKey";
 const String idKey = 'sub';
 

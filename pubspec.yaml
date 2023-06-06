@@ -26,6 +26,7 @@ dependencies:
 
   # Icons
   flutter_feather_icons: ^2.0.0
+  ionicons: ^0.2.2
   cupertino_icons: ^1.0.2
   country_flags: ^1.1.0
 
@@ -38,6 +39,7 @@ dependencies:
   flutter_datetime_picker_bdaya: ^3.0.1
   image_picker: ^0.8.7
   path_provider: ^2.0.13
+  searchfield: ^0.8.3
 
   # Fonts
   google_fonts: ^4.0.3
@@ -52,6 +54,8 @@ dependencies:
 
   get_it: ^7.2.0
   shared_preferences: ^2.0.18
+
+  infinite_carousel: ^1.0.3
 
   # AWS API
   amplify_flutter: ^0.6.4

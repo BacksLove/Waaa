@@ -3,13 +3,11 @@ import 'package:waaa/features/auth/presentation/pages/auth_page.dart';
 import 'package:waaa/features/auth/presentation/pages/signup_page.dart';
 import 'package:waaa/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:waaa/features/chat/presentation/pages/chat_page.dart';
-import 'package:waaa/features/events/presentation/pages/create_event_two_page.dart';
 import 'package:waaa/features/events/presentation/pages/event_detail_page.dart';
 import 'package:waaa/features/users/domain/entities/profile_page_arguments.dart';
 import 'package:waaa/features/users/presentation/pages/profile_page.dart';
 import 'package:waaa/features/users/presentation/pages/register_page.dart';
 import 'package:waaa/features/users/presentation/pages/search_result_page.dart';
-import 'package:waaa/models/Event.dart';
 import 'package:waaa/models/User.dart';
 
 import '../../features/auth/presentation/pages/login_page.dart';
@@ -32,7 +30,6 @@ const String settingsPage = "settings";
 // Event
 const String eventDetailPage = 'eventDetails';
 const String createEventPage = "createEvent";
-const String createEventTwoPage = "createEventPartTwo";
 
 // User
 const String profilePage = "profilePage";
@@ -66,9 +63,6 @@ Route<dynamic> controller(RouteSettings settings) {
       }
     case createEventPage:
       return MaterialPageRoute(builder: (context) => const CreateEventPage());
-    case createEventTwoPage:
-      return MaterialPageRoute(
-          builder: (context) => const CreateEventTwoPage());
     case profilePage:
       {
         final ProfilePageArguments profilePageArguments =

@@ -15,6 +15,7 @@ class CreateEventState extends Equatable {
   final bool guestCanInvite;
   final bool isVisibleOnMyProfile;
   final String description;
+  final List<EventTopic?> eventTopic;
   final XFile? photoFile;
   final String? errorMessage;
 
@@ -33,6 +34,7 @@ class CreateEventState extends Equatable {
     required this.guestCanInvite,
     required this.isVisibleOnMyProfile,
     required this.description,
+    required this.eventTopic,
     this.photoFile,
     this.errorMessage,
   });
@@ -52,6 +54,7 @@ class CreateEventState extends Equatable {
         guestCanInvite: true,
         isVisibleOnMyProfile: true,
         description: "",
+        eventTopic: const [],
       );
 
   @override
@@ -71,6 +74,7 @@ class CreateEventState extends Equatable {
       guestCanInvite,
       isVisibleOnMyProfile,
       description,
+      eventTopic,
     ];
   }
 
@@ -89,6 +93,7 @@ class CreateEventState extends Equatable {
     bool? guestCanInvite,
     bool? isVisibleOnMyProfile,
     String? description,
+    List<EventTopic?>? eventTopic,
     XFile? photoFile,
     String? errorMessage,
   }) {
@@ -107,6 +112,7 @@ class CreateEventState extends Equatable {
       guestCanInvite: guestCanInvite ?? this.guestCanInvite,
       isVisibleOnMyProfile: isVisibleOnMyProfile ?? this.isVisibleOnMyProfile,
       description: description ?? this.description,
+      eventTopic: eventTopic ?? this.eventTopic,
       photoFile: photoFile ?? this.photoFile,
       errorMessage: errorMessage ?? this.errorMessage,
     );

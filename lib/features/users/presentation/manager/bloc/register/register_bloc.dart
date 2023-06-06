@@ -15,7 +15,7 @@ import 'package:waaa/models/User.dart';
 
 import '../../../../../../core/enums/register_enum.dart';
 import '../../../../../../core/usecases/usecase.dart';
-import '../../../../../../core/util/list_from_indices.dart';
+import '../../../../../../core/util/functions.dart';
 
 import 'package:waaa/injection_container.dart' as di;
 
@@ -151,7 +151,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     emit(state.copyWith(status: RegisterStatus.loading));
     var selectedHobbies =
         getListFromIndices(state.selectedHobbiesIndexes, state.hobbies);
-    var userId = di.sl<SharedPreferences>().getString(userIdKey);
+    var userId = di.sl<SharedPreferences>().getString(userCognitoIdKey);
     late String? photoLink;
 
     if (state.photoUrl.isNotEmpty && userId != null) {
