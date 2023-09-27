@@ -1,5 +1,7 @@
+import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
+import 'package:intl/intl.dart';
 import 'package:waaa/core/theme/colors.dart';
 
 class WaaaDatePicker extends StatelessWidget {
@@ -45,5 +47,63 @@ class WaaaDatePicker extends StatelessWidget {
         }, currentTime: DateTime.now(), locale: LocaleType.fr);
       },
     );
+  }
+}
+
+class WaaaDateTimeFieldPicker extends StatelessWidget {
+  WaaaDateTimeFieldPicker(
+      {super.key, required this.label, required this.onSelectedDate});
+
+  final format = DateFormat("yyyy-MM-dd HH:mm");
+  final String label;
+  final Function onSelectedDate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: <Widget>[
+      DateTimeField(
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(
+            color: lightGrayColor,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: lightGrayColor,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(50.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: lightGrayColor,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(50.0),
+          ),
+        ),
+        format: format,
+        onShowPicker: (context, currentValue) async {
+          return await showDatePicker(
+            context: context,
+            firstDate: DateTime(1900),
+            initialDate: currentValue ?? DateTime.now(),
+            lastDate: DateTime(2100),
+          ).then((DateTime? date) async {
+            if (date != null) {
+              final time = await showTimePicker(
+                context: context,
+                initialTime:
+                    TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+              );
+              onSelectedDate(DateTimeField.combine(date, time));
+              return DateTimeField.combine(date, time);
+            } else {
+              return currentValue;
+            }
+          });
+        },
+      ),
+    ]);
   }
 }

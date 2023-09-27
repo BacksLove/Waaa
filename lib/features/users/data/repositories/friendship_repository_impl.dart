@@ -1,6 +1,5 @@
 import 'package:waaa/features/users/data/data_sources/friendship_remote_datasource.dart';
 import 'package:waaa/features/users/domain/repositories/friendship_repository.dart';
-import 'package:waaa/models/DemandStatus.dart';
 import 'package:waaa/models/ModelProvider.dart';
 
 import '../../../../core/platform/network_info.dart';

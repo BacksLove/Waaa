@@ -80,7 +80,7 @@ class _SignUpPageState extends State<SignUpPage> {
 // Screens
 Widget emailScreen(
     BuildContext context, TextEditingController emailController) {
-  bool isChecked = false;
+  bool isChecked = true;
   return Center(
     child: Padding(
       padding: const EdgeInsets.all(30),
@@ -105,12 +105,13 @@ Widget emailScreen(
           ),
           vSpace35,
           ElevatedButton(
-              style: primaryButton,
-              onPressed: () {
-                BlocProvider.of<SignupBloc>(context).add(
-                    ValidateEmailButtonPressed(email: emailController.text));
-              },
-              child: Text(localized(context).next))
+            style: primaryButton,
+            onPressed: () {
+              BlocProvider.of<SignupBloc>(context)
+                  .add(ValidateEmailButtonPressed(email: emailController.text));
+            },
+            child: Text(localized(context).next),
+          )
         ],
       ),
     ),
@@ -134,10 +135,12 @@ Widget passwordScreen(
           ),
           vSpace40,
           SignupTextfieldWidget(
-              controller: emailController,
-              hintText: localized(context).password),
+            controller: emailController,
+            hintText: localized(context).email,
+            isEnabled: false,
+          ),
           vSpace35,
-          SignupTextfieldWidget(
+          SignupPasswordTextfieldWidget(
               controller: passwordController,
               hintText: localized(context).password),
           vSpace80,

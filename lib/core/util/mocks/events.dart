@@ -1,5 +1,3 @@
-import 'package:waaa/features/events/domain/entities/event_entity.dart';
-
 // final List<Event> mockEventsList = [
 //   Event(
 //       name: "Fiesta de RIO",

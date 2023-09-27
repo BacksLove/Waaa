@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:waaa/component/error_screen.dart';
 import 'package:waaa/features/auth/presentation/pages/auth_page.dart';
 import 'package:waaa/features/auth/presentation/pages/signup_page.dart';
 import 'package:waaa/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:waaa/features/chat/presentation/pages/chat_page.dart';
 import 'package:waaa/features/events/presentation/pages/event_detail_page.dart';
+import 'package:waaa/features/lottery/presentation/pages/lottery_main_page.dart';
+import 'package:waaa/features/lottery/presentation/pages/lottery_result_page.dart';
+import 'package:waaa/features/lottery/presentation/pages/subscribe_page.dart';
 import 'package:waaa/features/users/domain/entities/profile_page_arguments.dart';
 import 'package:waaa/features/users/presentation/pages/profile_page.dart';
 import 'package:waaa/features/users/presentation/pages/register_page.dart';
@@ -30,6 +34,14 @@ const String settingsPage = "settings";
 // Event
 const String eventDetailPage = 'eventDetails';
 const String createEventPage = "createEvent";
+
+// Trips
+const String createTripPage = "createTrip";
+
+// Offer
+const String offerMainPage = 'offerMainPage';
+const String offerResultPage = 'offerResultPage';
+const String subscriptionPage = 'subscriptionPage';
 
 // User
 const String profilePage = "profilePage";
@@ -88,7 +100,30 @@ Route<dynamic> controller(RouteSettings settings) {
     case chatListPage:
       return MaterialPageRoute(builder: (context) => const ChatList());
     case chatPage:
-      return MaterialPageRoute(builder: (context) => const ChatPage());
+      {
+        final User user = settings.arguments as User;
+        return MaterialPageRoute(
+          builder: (context) => ChatPage(
+            receiver: user,
+          ),
+        );
+      }
+    case offerMainPage:
+      return MaterialPageRoute(builder: (context) => const LotteryMainPage());
+    case offerResultPage:
+      {
+        final String offerId = settings.arguments as String;
+
+        return MaterialPageRoute(
+          builder: (context) => LotteryResultPage(
+            offerId: offerId,
+          ),
+        );
+      }
+    case subscriptionPage:
+      return MaterialPageRoute(builder: (context) => const SubscriptionPage());
+    case createTripPage:
+      return MaterialPageRoute(builder: (context) => const ErrorScreen());
     default:
       throw ('This route name does not exit');
   }

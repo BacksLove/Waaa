@@ -6,8 +6,8 @@ class RegisterState extends Equatable {
   final DateTime birthdate;
   final String nationality;
   final String residency;
-  final String nativeLanguage;
-  final List<String> spokenLanguages;
+  final Language nativeLanguage;
+  final List<Language> spokenLanguages;
   final List<Hobby?> hobbies;
   final List<int> selectedHobbiesIndexes;
   final String photoUrl;
@@ -35,7 +35,7 @@ class RegisterState extends Equatable {
       birthdate: DateTime.now(),
       nationality: "",
       residency: "",
-      nativeLanguage: "",
+      nativeLanguage: Language("", ""),
       spokenLanguages: const [],
       hobbies: const [],
       selectedHobbiesIndexes: const [],
@@ -68,8 +68,8 @@ class RegisterState extends Equatable {
     DateTime? birthdate,
     String? nationality,
     String? residency,
-    String? nativeLanguage,
-    List<String>? spokenLanguages,
+    Language? nativeLanguage,
+    List<Language>? spokenLanguages,
     List<Hobby?>? hobbies,
     List<int>? selectedHobbiesIndexes,
     String? photoUrl,

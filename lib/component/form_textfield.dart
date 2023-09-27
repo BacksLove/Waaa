@@ -4,14 +4,14 @@ import 'package:waaa/core/theme/colors.dart';
 class WaaaTextField extends StatelessWidget {
   const WaaaTextField({
     super.key,
-    required this.controller,
+    this.controller,
     required this.label,
     this.leadingIcon,
     this.suffixIcon,
     this.isColored = false,
   });
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String label;
   final IconData? leadingIcon;
   final IconData? suffixIcon;

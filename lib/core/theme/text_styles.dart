@@ -13,7 +13,7 @@ final regularTextStyle16 =
 final regularTextStyle18 =
     GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.normal);
 final regularTextStyle20 =
-    GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.normal);
+    GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.normal);
 
 final lightgrayRegularTextStyle8 = GoogleFonts.poppins(
     fontSize: 8, fontWeight: FontWeight.normal, color: lightGrayColor);

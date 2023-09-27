@@ -20,21 +20,19 @@
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
-import 'package:flutter/foundation.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
 /** This is an auto generated class representing the EventParticipant type in your schema. */
-@immutable
-class EventParticipant extends Model {
+class EventParticipant extends amplify_core.Model {
   static const classType = const _EventParticipantModelType();
   final String id;
   final Event? _event;
   final User? _user;
   final DemandStatus? _status;
   final bool? _notified;
-  final TemporalDateTime? _createdAt;
-  final TemporalDateTime? _updatedAt;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -53,10 +51,10 @@ class EventParticipant extends Model {
     try {
       return _event!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -66,10 +64,10 @@ class EventParticipant extends Model {
     try {
       return _user!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -79,10 +77,10 @@ class EventParticipant extends Model {
     try {
       return _status!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -92,11 +90,11 @@ class EventParticipant extends Model {
     return _notified;
   }
   
-  TemporalDateTime? get createdAt {
+  amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
   
-  TemporalDateTime? get updatedAt {
+  amplify_core.TemporalDateTime? get updatedAt {
     return _updatedAt;
   }
   
@@ -104,7 +102,7 @@ class EventParticipant extends Model {
   
   factory EventParticipant({String? id, required Event event, required User user, required DemandStatus status, bool? notified}) {
     return EventParticipant._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       event: event,
       user: user,
       status: status,
@@ -137,7 +135,7 @@ class EventParticipant extends Model {
     buffer.write("id=" + "$id" + ", ");
     buffer.write("event=" + (_event != null ? _event!.toString() : "null") + ", ");
     buffer.write("user=" + (_user != null ? _user!.toString() : "null") + ", ");
-    buffer.write("status=" + (_status != null ? enumToString(_status)! : "null") + ", ");
+    buffer.write("status=" + (_status != null ? amplify_core.enumToString(_status)! : "null") + ", ");
     buffer.write("notified=" + (_notified != null ? _notified!.toString() : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
@@ -155,6 +153,21 @@ class EventParticipant extends Model {
       notified: notified ?? this.notified);
   }
   
+  EventParticipant copyWithModelFieldValues({
+    ModelFieldValue<Event>? event,
+    ModelFieldValue<User>? user,
+    ModelFieldValue<DemandStatus>? status,
+    ModelFieldValue<bool?>? notified
+  }) {
+    return EventParticipant._internal(
+      id: id,
+      event: event == null ? this.event : event.value,
+      user: user == null ? this.user : user.value,
+      status: status == null ? this.status : status.value,
+      notified: notified == null ? this.notified : notified.value
+    );
+  }
+  
   EventParticipant.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _event = json['event']?['serializedData'] != null
@@ -163,78 +176,84 @@ class EventParticipant extends Model {
       _user = json['user']?['serializedData'] != null
         ? User.fromJson(new Map<String, dynamic>.from(json['user']['serializedData']))
         : null,
-      _status = enumFromString<DemandStatus>(json['status'], DemandStatus.values),
+      _status = amplify_core.enumFromString<DemandStatus>(json['status'], DemandStatus.values),
       _notified = json['notified'],
-      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'event': _event?.toJson(), 'user': _user?.toJson(), 'status': enumToString(_status), 'notified': _notified, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'event': _event?.toJson(), 'user': _user?.toJson(), 'status': amplify_core.enumToString(_status), 'notified': _notified, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'event': _event, 'user': _user, 'status': _status, 'notified': _notified, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id,
+    'event': _event,
+    'user': _user,
+    'status': _status,
+    'notified': _notified,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
   };
 
-  static final QueryModelIdentifier<EventParticipantModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<EventParticipantModelIdentifier>();
-  static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField EVENT = QueryField(
+  static final amplify_core.QueryModelIdentifier<EventParticipantModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<EventParticipantModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: "id");
+  static final EVENT = amplify_core.QueryField(
     fieldName: "event",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Event'));
-  static final QueryField USER = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Event'));
+  static final USER = amplify_core.QueryField(
     fieldName: "user",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'User'));
-  static final QueryField STATUS = QueryField(fieldName: "status");
-  static final QueryField NOTIFIED = QueryField(fieldName: "notified");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'User'));
+  static final STATUS = amplify_core.QueryField(fieldName: "status");
+  static final NOTIFIED = amplify_core.QueryField(fieldName: "notified");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "EventParticipant";
     modelSchemaDefinition.pluralName = "EventParticipants";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: EventParticipant.EVENT,
       isRequired: true,
       targetNames: ['eventParticipantsId'],
       ofModelName: 'Event'
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: EventParticipant.USER,
       isRequired: true,
       targetNames: ['userEventParticipationId'],
       ofModelName: 'User'
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: EventParticipant.STATUS,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.enumeration)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: EventParticipant.NOTIFIED,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.bool)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'createdAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'updatedAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
   });
 }
 
-class _EventParticipantModelType extends ModelType<EventParticipant> {
+class _EventParticipantModelType extends amplify_core.ModelType<EventParticipant> {
   const _EventParticipantModelType();
   
   @override
@@ -252,8 +271,7 @@ class _EventParticipantModelType extends ModelType<EventParticipant> {
  * This is an auto generated class representing the model identifier
  * of [EventParticipant] in your schema.
  */
-@immutable
-class EventParticipantModelIdentifier implements ModelIdentifier<EventParticipant> {
+class EventParticipantModelIdentifier implements amplify_core.ModelIdentifier<EventParticipant> {
   final String id;
 
   /** Create an instance of EventParticipantModelIdentifier using [id] the primary key. */

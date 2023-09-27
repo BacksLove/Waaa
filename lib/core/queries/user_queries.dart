@@ -16,12 +16,14 @@ query GetUser(\$id: String!) {
           sender {
             id
             username
+            photo
             cognitoUserPoolId
             
           }
           receiver {
             id
             username
+            photo
             cognitoUserPoolId
           }
         }
@@ -98,6 +100,19 @@ query GetUser(\$id: String!) {
           }
         }
       }
+    }
+  }
+}
+''';
+
+const inviteUserListQuery = '''
+  query MyQuery(\$contains: String!) {
+  listUsers(filter: {username: {contains: \$contains}}) {
+    items {
+      cognitoUserPoolId
+      id
+      photo
+      username
     }
   }
 }

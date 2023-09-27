@@ -11,5 +11,6 @@ Color lightGrayColor = const Color(0XFFACACAC);
 Color blackColor = const Color(0XFF000000);
 Color veryLightGrayColor = const Color(0XFFEEEEEE);
 Color onlineColor = const Color(0XFF2EECAB);
+Color luckyColor = const Color(0XFF35D505);
 Color facebookColor = const Color(0XFF3B5998);
 Color googleColor = const Color(0XFF0057E7);

@@ -54,9 +54,11 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<String?> uploadUserPhoto(XFile file, String userId) async {
+  Future<String?> uploadPhoto(
+      XFile file, String directory, String url, String photoName) async {
     await networkInfo.isConnected;
-    final remote = remoteDataSource.uploadUserPhoto(file, userId);
+    final remote =
+        remoteDataSource.uploadPhoto(file, directory, url, photoName);
 
     return remote;
   }
@@ -65,6 +67,14 @@ class UserRepositoryImpl implements UserRepository {
   Future<List<User?>> searchUser(SearchItem searchItem) async {
     await networkInfo.isConnected;
     final remote = remoteDataSource.searchUser(searchItem);
+
+    return remote;
+  }
+
+  @override
+  Future<List<User?>> inviteUserList(String searchString) async {
+    await networkInfo.isConnected;
+    final remote = remoteDataSource.inviteUserList(searchString);
 
     return remote;
   }

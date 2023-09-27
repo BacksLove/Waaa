@@ -1,6 +1,9 @@
 enum CreateEventStep {
   partOne,
   partTwo,
+  creating,
+  errorCreating,
+  done,
 }
 
 enum EventDetailEnum {
@@ -8,6 +11,12 @@ enum EventDetailEnum {
   showDetail,
   updateDetail,
   failed,
+}
+
+enum EventDetailErrorType {
+  participateError,
+  interessedError,
+  shareError,
 }
 
 // enum EventDetailMoreItem {

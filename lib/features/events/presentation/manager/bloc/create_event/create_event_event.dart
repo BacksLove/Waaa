@@ -18,7 +18,6 @@ class OpenEventImagePicker extends CreateEventEvent {
 class ToNextEventStepPressed extends CreateEventEvent {
   final String title;
   final bool isPublic;
-  final String theme;
   final String address;
   final String beginDateTime;
   final String endDateTime;
@@ -27,7 +26,6 @@ class ToNextEventStepPressed extends CreateEventEvent {
   const ToNextEventStepPressed({
     required this.title,
     required this.isPublic,
-    required this.theme,
     required this.address,
     required this.beginDateTime,
     required this.endDateTime,
@@ -35,8 +33,60 @@ class ToNextEventStepPressed extends CreateEventEvent {
   });
 }
 
-class ValidateEventPressed extends CreateEventEvent {
-  final Event currentEvent;
+class SearchUserEvent extends CreateEventEvent {
+  final String searchString;
 
-  const ValidateEventPressed({required this.currentEvent});
+  const SearchUserEvent({required this.searchString});
+}
+
+class AddUserToCoorganizerEvent extends CreateEventEvent {
+  final User user;
+
+  const AddUserToCoorganizerEvent({required this.user});
+}
+
+class AddUserToInviteEvent extends CreateEventEvent {
+  final User user;
+
+  const AddUserToInviteEvent({required this.user});
+}
+
+class ValidateEventPressed extends CreateEventEvent {
+  final String description;
+
+  const ValidateEventPressed({required this.description});
+}
+
+class DeleteUserFromInviteEvent extends CreateEventEvent {
+  final User user;
+
+  const DeleteUserFromInviteEvent({required this.user});
+}
+
+class DeleteUserFromCoorganizerEvent extends CreateEventEvent {
+  final User user;
+
+  const DeleteUserFromCoorganizerEvent({required this.user});
+}
+
+class GuestCanInviteSwitch extends CreateEventEvent {}
+
+class IsVisibleSwicth extends CreateEventEvent {}
+
+class ChooseThemeEvent extends CreateEventEvent {
+  final String theme;
+
+  const ChooseThemeEvent({required this.theme});
+}
+
+class CountrySelectedEvent extends CreateEventEvent {
+  final String country;
+
+  const CountrySelectedEvent({required this.country});
+}
+
+class CitySelectedEvent extends CreateEventEvent {
+  final String city;
+
+  const CitySelectedEvent({required this.city});
 }

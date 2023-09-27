@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:language_picker/languages.dart';
+import 'package:waaa/component/language_picker.dart';
 import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/features/users/presentation/manager/bloc/register/register_bloc.dart';
@@ -7,7 +9,6 @@ import 'package:waaa/features/users/presentation/widgets/show_country_selected.d
 
 import 'package:waaa/injection_container.dart' as di;
 
-import '../../../../component/country_picker.dart';
 import '../../../../core/theme/common_widget/button.dart';
 import '../../../../core/util/localized.dart';
 
@@ -33,13 +34,13 @@ class LanguageScreenWidget extends StatelessWidget {
                   style: boldTextStyle24,
                 ),
                 vSpace40,
-                if (state.nativeLanguage.isNotEmpty)
-                  ShowCountrySelected(
-                    country: state.nativeLanguage,
+                if (state.nativeLanguage.name.isNotEmpty)
+                  ShowLanguageSelected(
+                    language: state.nativeLanguage.name,
                   ),
-                CountryPicker(
+                LanguagePicker(
                     textButton: localized(context).select_your_native_language,
-                    callback: (value) => {
+                    callback: (Language value) => {
                           registerBloc.add(
                               NativeLanguageSelected(nativeLanguage: value))
                         }),
@@ -51,13 +52,13 @@ class LanguageScreenWidget extends StatelessWidget {
                 ),
                 vSpace40,
                 if (state.spokenLanguages.isNotEmpty)
-                  ShowCountryItemSelected(
+                  ShowLanguageItemSelected(
                       spokenLanguages: state.spokenLanguages),
                 vSpace20,
-                CountryPicker(
+                LanguagePicker(
                     textButton:
                         localized(context).select_other_spoken_languages,
-                    callback: (value) => {
+                    callback: (Language value) => {
                           registerBloc
                               .add(SpeakLanguagesSelected(speakLanguage: value))
                         }),

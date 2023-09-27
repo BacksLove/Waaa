@@ -118,3 +118,15 @@ query GetEventById(\$id: ID!) {
   }
 }
 ''';
+
+const addParticipantQuery = '''
+mutation MyMutation(\$eventParticipantsId: ID!, \$status: DemandStatus!, \$userEventParticipationId: ID!) {
+  createEventParticipant(input: {eventParticipantsId: \$eventParticipantsId, userEventParticipationId: \$userEventParticipationId, status: \$status})
+}
+''';
+
+const addCoownerQuery = '''
+mutation MyMutation(\$eventId: ID!, \$userId: ID!) {
+  createEventCoowner(input: {eventId: \$eventId, userId: \$userId})
+}
+''';

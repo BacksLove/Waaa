@@ -20,14 +20,12 @@
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the User type in your schema. */
-@immutable
-class User extends Model {
+class User extends amplify_core.Model {
   static const classType = const _UserModelType();
   final String id;
   final String? _cognitoUserPoolId;
@@ -35,7 +33,7 @@ class User extends Model {
   final String? _role;
   final Gender? _gender;
   final Gender? _lookingFor;
-  final TemporalDate? _birthday;
+  final amplify_core.TemporalDate? _birthday;
   final String? _country;
   final String? _city;
   final String? _bio;
@@ -43,14 +41,14 @@ class User extends Model {
   final List<String>? _languagesSpeak;
   final List<HobbyOfUser>? _hobbies;
   final bool? _suspended;
-  final TemporalTimestamp? _suspendedUntil;
+  final amplify_core.TemporalTimestamp? _suspendedUntil;
   final int? _reporting;
   final bool? _openDiscussion;
   final bool? _privacy;
   final String? _photo;
   final bool? _isConnected;
   final bool? _isAdminWaaa;
-  final TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _createdAt;
   final List<Friendship>? _friendsSender;
   final List<Friendship>? _friendsReceiver;
   final List<Trip>? _trips;
@@ -59,7 +57,9 @@ class User extends Model {
   final List<TripParticipant>? _tripParticipation;
   final List<EventParticipant>? _eventParticipation;
   final List<OfferParticipants>? _offerParticipation;
-  final TemporalDateTime? _updatedAt;
+  final List<Message>? _messages;
+  final List<UserConversations>? _conversations;
+  final amplify_core.TemporalDateTime? _updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -82,10 +82,10 @@ class User extends Model {
     try {
       return _username!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -103,7 +103,7 @@ class User extends Model {
     return _lookingFor;
   }
   
-  TemporalDate? get birthday {
+  amplify_core.TemporalDate? get birthday {
     return _birthday;
   }
   
@@ -135,7 +135,7 @@ class User extends Model {
     return _suspended;
   }
   
-  TemporalTimestamp? get suspendedUntil {
+  amplify_core.TemporalTimestamp? get suspendedUntil {
     return _suspendedUntil;
   }
   
@@ -163,7 +163,7 @@ class User extends Model {
     return _isAdminWaaa;
   }
   
-  TemporalDateTime? get createdAt {
+  amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
   
@@ -199,15 +199,23 @@ class User extends Model {
     return _offerParticipation;
   }
   
-  TemporalDateTime? get updatedAt {
+  List<Message>? get messages {
+    return _messages;
+  }
+  
+  List<UserConversations>? get conversations {
+    return _conversations;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
     return _updatedAt;
   }
   
-  const User._internal({required this.id, cognitoUserPoolId, required username, role, gender, lookingFor, birthday, country, city, bio, nativeLanguage, languagesSpeak, hobbies, suspended, suspendedUntil, reporting, openDiscussion, privacy, photo, isConnected, isAdminWaaa, createdAt, friendsSender, friendsReceiver, trips, events, eventCoowner, tripParticipation, eventParticipation, offerParticipation, updatedAt}): _cognitoUserPoolId = cognitoUserPoolId, _username = username, _role = role, _gender = gender, _lookingFor = lookingFor, _birthday = birthday, _country = country, _city = city, _bio = bio, _nativeLanguage = nativeLanguage, _languagesSpeak = languagesSpeak, _hobbies = hobbies, _suspended = suspended, _suspendedUntil = suspendedUntil, _reporting = reporting, _openDiscussion = openDiscussion, _privacy = privacy, _photo = photo, _isConnected = isConnected, _isAdminWaaa = isAdminWaaa, _createdAt = createdAt, _friendsSender = friendsSender, _friendsReceiver = friendsReceiver, _trips = trips, _events = events, _eventCoowner = eventCoowner, _tripParticipation = tripParticipation, _eventParticipation = eventParticipation, _offerParticipation = offerParticipation, _updatedAt = updatedAt;
+  const User._internal({required this.id, cognitoUserPoolId, required username, role, gender, lookingFor, birthday, country, city, bio, nativeLanguage, languagesSpeak, hobbies, suspended, suspendedUntil, reporting, openDiscussion, privacy, photo, isConnected, isAdminWaaa, createdAt, friendsSender, friendsReceiver, trips, events, eventCoowner, tripParticipation, eventParticipation, offerParticipation, messages, conversations, updatedAt}): _cognitoUserPoolId = cognitoUserPoolId, _username = username, _role = role, _gender = gender, _lookingFor = lookingFor, _birthday = birthday, _country = country, _city = city, _bio = bio, _nativeLanguage = nativeLanguage, _languagesSpeak = languagesSpeak, _hobbies = hobbies, _suspended = suspended, _suspendedUntil = suspendedUntil, _reporting = reporting, _openDiscussion = openDiscussion, _privacy = privacy, _photo = photo, _isConnected = isConnected, _isAdminWaaa = isAdminWaaa, _createdAt = createdAt, _friendsSender = friendsSender, _friendsReceiver = friendsReceiver, _trips = trips, _events = events, _eventCoowner = eventCoowner, _tripParticipation = tripParticipation, _eventParticipation = eventParticipation, _offerParticipation = offerParticipation, _messages = messages, _conversations = conversations, _updatedAt = updatedAt;
   
-  factory User({String? id, String? cognitoUserPoolId, required String username, String? role, Gender? gender, Gender? lookingFor, TemporalDate? birthday, String? country, String? city, String? bio, String? nativeLanguage, List<String>? languagesSpeak, List<HobbyOfUser>? hobbies, bool? suspended, TemporalTimestamp? suspendedUntil, int? reporting, bool? openDiscussion, bool? privacy, String? photo, bool? isConnected, bool? isAdminWaaa, TemporalDateTime? createdAt, List<Friendship>? friendsSender, List<Friendship>? friendsReceiver, List<Trip>? trips, List<Event>? events, List<EventCoowner>? eventCoowner, List<TripParticipant>? tripParticipation, List<EventParticipant>? eventParticipation, List<OfferParticipants>? offerParticipation}) {
+  factory User({String? id, String? cognitoUserPoolId, required String username, String? role, Gender? gender, Gender? lookingFor, amplify_core.TemporalDate? birthday, String? country, String? city, String? bio, String? nativeLanguage, List<String>? languagesSpeak, List<HobbyOfUser>? hobbies, bool? suspended, amplify_core.TemporalTimestamp? suspendedUntil, int? reporting, bool? openDiscussion, bool? privacy, String? photo, bool? isConnected, bool? isAdminWaaa, amplify_core.TemporalDateTime? createdAt, List<Friendship>? friendsSender, List<Friendship>? friendsReceiver, List<Trip>? trips, List<Event>? events, List<EventCoowner>? eventCoowner, List<TripParticipant>? tripParticipation, List<EventParticipant>? eventParticipation, List<OfferParticipants>? offerParticipation, List<Message>? messages, List<UserConversations>? conversations}) {
     return User._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       cognitoUserPoolId: cognitoUserPoolId,
       username: username,
       role: role,
@@ -236,7 +244,9 @@ class User extends Model {
       eventCoowner: eventCoowner != null ? List<EventCoowner>.unmodifiable(eventCoowner) : eventCoowner,
       tripParticipation: tripParticipation != null ? List<TripParticipant>.unmodifiable(tripParticipation) : tripParticipation,
       eventParticipation: eventParticipation != null ? List<EventParticipant>.unmodifiable(eventParticipation) : eventParticipation,
-      offerParticipation: offerParticipation != null ? List<OfferParticipants>.unmodifiable(offerParticipation) : offerParticipation);
+      offerParticipation: offerParticipation != null ? List<OfferParticipants>.unmodifiable(offerParticipation) : offerParticipation,
+      messages: messages != null ? List<Message>.unmodifiable(messages) : messages,
+      conversations: conversations != null ? List<UserConversations>.unmodifiable(conversations) : conversations);
   }
   
   bool equals(Object other) {
@@ -276,7 +286,9 @@ class User extends Model {
       DeepCollectionEquality().equals(_eventCoowner, other._eventCoowner) &&
       DeepCollectionEquality().equals(_tripParticipation, other._tripParticipation) &&
       DeepCollectionEquality().equals(_eventParticipation, other._eventParticipation) &&
-      DeepCollectionEquality().equals(_offerParticipation, other._offerParticipation);
+      DeepCollectionEquality().equals(_offerParticipation, other._offerParticipation) &&
+      DeepCollectionEquality().equals(_messages, other._messages) &&
+      DeepCollectionEquality().equals(_conversations, other._conversations);
   }
   
   @override
@@ -291,8 +303,8 @@ class User extends Model {
     buffer.write("cognitoUserPoolId=" + "$_cognitoUserPoolId" + ", ");
     buffer.write("username=" + "$_username" + ", ");
     buffer.write("role=" + "$_role" + ", ");
-    buffer.write("gender=" + (_gender != null ? enumToString(_gender)! : "null") + ", ");
-    buffer.write("lookingFor=" + (_lookingFor != null ? enumToString(_lookingFor)! : "null") + ", ");
+    buffer.write("gender=" + (_gender != null ? amplify_core.enumToString(_gender)! : "null") + ", ");
+    buffer.write("lookingFor=" + (_lookingFor != null ? amplify_core.enumToString(_lookingFor)! : "null") + ", ");
     buffer.write("birthday=" + (_birthday != null ? _birthday!.format() : "null") + ", ");
     buffer.write("country=" + "$_country" + ", ");
     buffer.write("city=" + "$_city" + ", ");
@@ -314,7 +326,7 @@ class User extends Model {
     return buffer.toString();
   }
   
-  User copyWith({String? cognitoUserPoolId, String? username, String? role, Gender? gender, Gender? lookingFor, TemporalDate? birthday, String? country, String? city, String? bio, String? nativeLanguage, List<String>? languagesSpeak, List<HobbyOfUser>? hobbies, bool? suspended, TemporalTimestamp? suspendedUntil, int? reporting, bool? openDiscussion, bool? privacy, String? photo, bool? isConnected, bool? isAdminWaaa, TemporalDateTime? createdAt, List<Friendship>? friendsSender, List<Friendship>? friendsReceiver, List<Trip>? trips, List<Event>? events, List<EventCoowner>? eventCoowner, List<TripParticipant>? tripParticipation, List<EventParticipant>? eventParticipation, List<OfferParticipants>? offerParticipation}) {
+  User copyWith({String? cognitoUserPoolId, String? username, String? role, Gender? gender, Gender? lookingFor, amplify_core.TemporalDate? birthday, String? country, String? city, String? bio, String? nativeLanguage, List<String>? languagesSpeak, List<HobbyOfUser>? hobbies, bool? suspended, amplify_core.TemporalTimestamp? suspendedUntil, int? reporting, bool? openDiscussion, bool? privacy, String? photo, bool? isConnected, bool? isAdminWaaa, amplify_core.TemporalDateTime? createdAt, List<Friendship>? friendsSender, List<Friendship>? friendsReceiver, List<Trip>? trips, List<Event>? events, List<EventCoowner>? eventCoowner, List<TripParticipant>? tripParticipation, List<EventParticipant>? eventParticipation, List<OfferParticipants>? offerParticipation, List<Message>? messages, List<UserConversations>? conversations}) {
     return User._internal(
       id: id,
       cognitoUserPoolId: cognitoUserPoolId ?? this.cognitoUserPoolId,
@@ -345,7 +357,78 @@ class User extends Model {
       eventCoowner: eventCoowner ?? this.eventCoowner,
       tripParticipation: tripParticipation ?? this.tripParticipation,
       eventParticipation: eventParticipation ?? this.eventParticipation,
-      offerParticipation: offerParticipation ?? this.offerParticipation);
+      offerParticipation: offerParticipation ?? this.offerParticipation,
+      messages: messages ?? this.messages,
+      conversations: conversations ?? this.conversations);
+  }
+  
+  User copyWithModelFieldValues({
+    ModelFieldValue<String?>? cognitoUserPoolId,
+    ModelFieldValue<String>? username,
+    ModelFieldValue<String?>? role,
+    ModelFieldValue<Gender?>? gender,
+    ModelFieldValue<Gender?>? lookingFor,
+    ModelFieldValue<amplify_core.TemporalDate?>? birthday,
+    ModelFieldValue<String?>? country,
+    ModelFieldValue<String?>? city,
+    ModelFieldValue<String?>? bio,
+    ModelFieldValue<String?>? nativeLanguage,
+    ModelFieldValue<List<String>?>? languagesSpeak,
+    ModelFieldValue<List<HobbyOfUser>?>? hobbies,
+    ModelFieldValue<bool?>? suspended,
+    ModelFieldValue<amplify_core.TemporalTimestamp?>? suspendedUntil,
+    ModelFieldValue<int?>? reporting,
+    ModelFieldValue<bool?>? openDiscussion,
+    ModelFieldValue<bool?>? privacy,
+    ModelFieldValue<String?>? photo,
+    ModelFieldValue<bool?>? isConnected,
+    ModelFieldValue<bool?>? isAdminWaaa,
+    ModelFieldValue<amplify_core.TemporalDateTime?>? createdAt,
+    ModelFieldValue<List<Friendship>?>? friendsSender,
+    ModelFieldValue<List<Friendship>?>? friendsReceiver,
+    ModelFieldValue<List<Trip>?>? trips,
+    ModelFieldValue<List<Event>?>? events,
+    ModelFieldValue<List<EventCoowner>?>? eventCoowner,
+    ModelFieldValue<List<TripParticipant>?>? tripParticipation,
+    ModelFieldValue<List<EventParticipant>?>? eventParticipation,
+    ModelFieldValue<List<OfferParticipants>?>? offerParticipation,
+    ModelFieldValue<List<Message>?>? messages,
+    ModelFieldValue<List<UserConversations>?>? conversations
+  }) {
+    return User._internal(
+      id: id,
+      cognitoUserPoolId: cognitoUserPoolId == null ? this.cognitoUserPoolId : cognitoUserPoolId.value,
+      username: username == null ? this.username : username.value,
+      role: role == null ? this.role : role.value,
+      gender: gender == null ? this.gender : gender.value,
+      lookingFor: lookingFor == null ? this.lookingFor : lookingFor.value,
+      birthday: birthday == null ? this.birthday : birthday.value,
+      country: country == null ? this.country : country.value,
+      city: city == null ? this.city : city.value,
+      bio: bio == null ? this.bio : bio.value,
+      nativeLanguage: nativeLanguage == null ? this.nativeLanguage : nativeLanguage.value,
+      languagesSpeak: languagesSpeak == null ? this.languagesSpeak : languagesSpeak.value,
+      hobbies: hobbies == null ? this.hobbies : hobbies.value,
+      suspended: suspended == null ? this.suspended : suspended.value,
+      suspendedUntil: suspendedUntil == null ? this.suspendedUntil : suspendedUntil.value,
+      reporting: reporting == null ? this.reporting : reporting.value,
+      openDiscussion: openDiscussion == null ? this.openDiscussion : openDiscussion.value,
+      privacy: privacy == null ? this.privacy : privacy.value,
+      photo: photo == null ? this.photo : photo.value,
+      isConnected: isConnected == null ? this.isConnected : isConnected.value,
+      isAdminWaaa: isAdminWaaa == null ? this.isAdminWaaa : isAdminWaaa.value,
+      createdAt: createdAt == null ? this.createdAt : createdAt.value,
+      friendsSender: friendsSender == null ? this.friendsSender : friendsSender.value,
+      friendsReceiver: friendsReceiver == null ? this.friendsReceiver : friendsReceiver.value,
+      trips: trips == null ? this.trips : trips.value,
+      events: events == null ? this.events : events.value,
+      eventCoowner: eventCoowner == null ? this.eventCoowner : eventCoowner.value,
+      tripParticipation: tripParticipation == null ? this.tripParticipation : tripParticipation.value,
+      eventParticipation: eventParticipation == null ? this.eventParticipation : eventParticipation.value,
+      offerParticipation: offerParticipation == null ? this.offerParticipation : offerParticipation.value,
+      messages: messages == null ? this.messages : messages.value,
+      conversations: conversations == null ? this.conversations : conversations.value
+    );
   }
   
   User.fromJson(Map<String, dynamic> json)  
@@ -353,9 +436,9 @@ class User extends Model {
       _cognitoUserPoolId = json['cognitoUserPoolId'],
       _username = json['username'],
       _role = json['role'],
-      _gender = enumFromString<Gender>(json['gender'], Gender.values),
-      _lookingFor = enumFromString<Gender>(json['lookingFor'], Gender.values),
-      _birthday = json['birthday'] != null ? TemporalDate.fromString(json['birthday']) : null,
+      _gender = amplify_core.enumFromString<Gender>(json['gender'], Gender.values),
+      _lookingFor = amplify_core.enumFromString<Gender>(json['lookingFor'], Gender.values),
+      _birthday = json['birthday'] != null ? amplify_core.TemporalDate.fromString(json['birthday']) : null,
       _country = json['country'],
       _city = json['city'],
       _bio = json['bio'],
@@ -368,14 +451,14 @@ class User extends Model {
           .toList()
         : null,
       _suspended = json['suspended'],
-      _suspendedUntil = json['suspendedUntil'] != null ? TemporalTimestamp.fromSeconds(json['suspendedUntil']) : null,
+      _suspendedUntil = json['suspendedUntil'] != null ? amplify_core.TemporalTimestamp.fromSeconds(json['suspendedUntil']) : null,
       _reporting = (json['reporting'] as num?)?.toInt(),
       _openDiscussion = json['openDiscussion'],
       _privacy = json['privacy'],
       _photo = json['photo'],
       _isConnected = json['isConnected'],
       _isAdminWaaa = json['isAdminWaaa'],
-      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _friendsSender = json['friendsSender'] is List
         ? (json['friendsSender'] as List)
           .where((e) => e?['serializedData'] != null)
@@ -424,270 +507,334 @@ class User extends Model {
           .map((e) => OfferParticipants.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null,
-      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+      _messages = json['messages'] is List
+        ? (json['messages'] as List)
+          .where((e) => e?['serializedData'] != null)
+          .map((e) => Message.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .toList()
+        : null,
+      _conversations = json['conversations'] is List
+        ? (json['conversations'] as List)
+          .where((e) => e?['serializedData'] != null)
+          .map((e) => UserConversations.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .toList()
+        : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'cognitoUserPoolId': _cognitoUserPoolId, 'username': _username, 'role': _role, 'gender': enumToString(_gender), 'lookingFor': enumToString(_lookingFor), 'birthday': _birthday?.format(), 'country': _country, 'city': _city, 'bio': _bio, 'nativeLanguage': _nativeLanguage, 'languagesSpeak': _languagesSpeak, 'hobbies': _hobbies?.map((HobbyOfUser? e) => e?.toJson()).toList(), 'suspended': _suspended, 'suspendedUntil': _suspendedUntil?.toSeconds(), 'reporting': _reporting, 'openDiscussion': _openDiscussion, 'privacy': _privacy, 'photo': _photo, 'isConnected': _isConnected, 'isAdminWaaa': _isAdminWaaa, 'createdAt': _createdAt?.format(), 'friendsSender': _friendsSender?.map((Friendship? e) => e?.toJson()).toList(), 'friendsReceiver': _friendsReceiver?.map((Friendship? e) => e?.toJson()).toList(), 'trips': _trips?.map((Trip? e) => e?.toJson()).toList(), 'events': _events?.map((Event? e) => e?.toJson()).toList(), 'eventCoowner': _eventCoowner?.map((EventCoowner? e) => e?.toJson()).toList(), 'tripParticipation': _tripParticipation?.map((TripParticipant? e) => e?.toJson()).toList(), 'eventParticipation': _eventParticipation?.map((EventParticipant? e) => e?.toJson()).toList(), 'offerParticipation': _offerParticipation?.map((OfferParticipants? e) => e?.toJson()).toList(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'cognitoUserPoolId': _cognitoUserPoolId, 'username': _username, 'role': _role, 'gender': amplify_core.enumToString(_gender), 'lookingFor': amplify_core.enumToString(_lookingFor), 'birthday': _birthday?.format(), 'country': _country, 'city': _city, 'bio': _bio, 'nativeLanguage': _nativeLanguage, 'languagesSpeak': _languagesSpeak, 'hobbies': _hobbies?.map((HobbyOfUser? e) => e?.toJson()).toList(), 'suspended': _suspended, 'suspendedUntil': _suspendedUntil?.toSeconds(), 'reporting': _reporting, 'openDiscussion': _openDiscussion, 'privacy': _privacy, 'photo': _photo, 'isConnected': _isConnected, 'isAdminWaaa': _isAdminWaaa, 'createdAt': _createdAt?.format(), 'friendsSender': _friendsSender?.map((Friendship? e) => e?.toJson()).toList(), 'friendsReceiver': _friendsReceiver?.map((Friendship? e) => e?.toJson()).toList(), 'trips': _trips?.map((Trip? e) => e?.toJson()).toList(), 'events': _events?.map((Event? e) => e?.toJson()).toList(), 'eventCoowner': _eventCoowner?.map((EventCoowner? e) => e?.toJson()).toList(), 'tripParticipation': _tripParticipation?.map((TripParticipant? e) => e?.toJson()).toList(), 'eventParticipation': _eventParticipation?.map((EventParticipant? e) => e?.toJson()).toList(), 'offerParticipation': _offerParticipation?.map((OfferParticipants? e) => e?.toJson()).toList(), 'messages': _messages?.map((Message? e) => e?.toJson()).toList(), 'conversations': _conversations?.map((UserConversations? e) => e?.toJson()).toList(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'cognitoUserPoolId': _cognitoUserPoolId, 'username': _username, 'role': _role, 'gender': _gender, 'lookingFor': _lookingFor, 'birthday': _birthday, 'country': _country, 'city': _city, 'bio': _bio, 'nativeLanguage': _nativeLanguage, 'languagesSpeak': _languagesSpeak, 'hobbies': _hobbies, 'suspended': _suspended, 'suspendedUntil': _suspendedUntil, 'reporting': _reporting, 'openDiscussion': _openDiscussion, 'privacy': _privacy, 'photo': _photo, 'isConnected': _isConnected, 'isAdminWaaa': _isAdminWaaa, 'createdAt': _createdAt, 'friendsSender': _friendsSender, 'friendsReceiver': _friendsReceiver, 'trips': _trips, 'events': _events, 'eventCoowner': _eventCoowner, 'tripParticipation': _tripParticipation, 'eventParticipation': _eventParticipation, 'offerParticipation': _offerParticipation, 'updatedAt': _updatedAt
+    'id': id,
+    'cognitoUserPoolId': _cognitoUserPoolId,
+    'username': _username,
+    'role': _role,
+    'gender': _gender,
+    'lookingFor': _lookingFor,
+    'birthday': _birthday,
+    'country': _country,
+    'city': _city,
+    'bio': _bio,
+    'nativeLanguage': _nativeLanguage,
+    'languagesSpeak': _languagesSpeak,
+    'hobbies': _hobbies,
+    'suspended': _suspended,
+    'suspendedUntil': _suspendedUntil,
+    'reporting': _reporting,
+    'openDiscussion': _openDiscussion,
+    'privacy': _privacy,
+    'photo': _photo,
+    'isConnected': _isConnected,
+    'isAdminWaaa': _isAdminWaaa,
+    'createdAt': _createdAt,
+    'friendsSender': _friendsSender,
+    'friendsReceiver': _friendsReceiver,
+    'trips': _trips,
+    'events': _events,
+    'eventCoowner': _eventCoowner,
+    'tripParticipation': _tripParticipation,
+    'eventParticipation': _eventParticipation,
+    'offerParticipation': _offerParticipation,
+    'messages': _messages,
+    'conversations': _conversations,
+    'updatedAt': _updatedAt
   };
 
-  static final QueryModelIdentifier<UserModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<UserModelIdentifier>();
-  static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField COGNITOUSERPOOLID = QueryField(fieldName: "cognitoUserPoolId");
-  static final QueryField USERNAME = QueryField(fieldName: "username");
-  static final QueryField ROLE = QueryField(fieldName: "role");
-  static final QueryField GENDER = QueryField(fieldName: "gender");
-  static final QueryField LOOKINGFOR = QueryField(fieldName: "lookingFor");
-  static final QueryField BIRTHDAY = QueryField(fieldName: "birthday");
-  static final QueryField COUNTRY = QueryField(fieldName: "country");
-  static final QueryField CITY = QueryField(fieldName: "city");
-  static final QueryField BIO = QueryField(fieldName: "bio");
-  static final QueryField NATIVELANGUAGE = QueryField(fieldName: "nativeLanguage");
-  static final QueryField LANGUAGESSPEAK = QueryField(fieldName: "languagesSpeak");
-  static final QueryField HOBBIES = QueryField(
+  static final amplify_core.QueryModelIdentifier<UserModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<UserModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: "id");
+  static final COGNITOUSERPOOLID = amplify_core.QueryField(fieldName: "cognitoUserPoolId");
+  static final USERNAME = amplify_core.QueryField(fieldName: "username");
+  static final ROLE = amplify_core.QueryField(fieldName: "role");
+  static final GENDER = amplify_core.QueryField(fieldName: "gender");
+  static final LOOKINGFOR = amplify_core.QueryField(fieldName: "lookingFor");
+  static final BIRTHDAY = amplify_core.QueryField(fieldName: "birthday");
+  static final COUNTRY = amplify_core.QueryField(fieldName: "country");
+  static final CITY = amplify_core.QueryField(fieldName: "city");
+  static final BIO = amplify_core.QueryField(fieldName: "bio");
+  static final NATIVELANGUAGE = amplify_core.QueryField(fieldName: "nativeLanguage");
+  static final LANGUAGESSPEAK = amplify_core.QueryField(fieldName: "languagesSpeak");
+  static final HOBBIES = amplify_core.QueryField(
     fieldName: "hobbies",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'HobbyOfUser'));
-  static final QueryField SUSPENDED = QueryField(fieldName: "suspended");
-  static final QueryField SUSPENDEDUNTIL = QueryField(fieldName: "suspendedUntil");
-  static final QueryField REPORTING = QueryField(fieldName: "reporting");
-  static final QueryField OPENDISCUSSION = QueryField(fieldName: "openDiscussion");
-  static final QueryField PRIVACY = QueryField(fieldName: "privacy");
-  static final QueryField PHOTO = QueryField(fieldName: "photo");
-  static final QueryField ISCONNECTED = QueryField(fieldName: "isConnected");
-  static final QueryField ISADMINWAAA = QueryField(fieldName: "isAdminWaaa");
-  static final QueryField CREATEDAT = QueryField(fieldName: "createdAt");
-  static final QueryField FRIENDSSENDER = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'HobbyOfUser'));
+  static final SUSPENDED = amplify_core.QueryField(fieldName: "suspended");
+  static final SUSPENDEDUNTIL = amplify_core.QueryField(fieldName: "suspendedUntil");
+  static final REPORTING = amplify_core.QueryField(fieldName: "reporting");
+  static final OPENDISCUSSION = amplify_core.QueryField(fieldName: "openDiscussion");
+  static final PRIVACY = amplify_core.QueryField(fieldName: "privacy");
+  static final PHOTO = amplify_core.QueryField(fieldName: "photo");
+  static final ISCONNECTED = amplify_core.QueryField(fieldName: "isConnected");
+  static final ISADMINWAAA = amplify_core.QueryField(fieldName: "isAdminWaaa");
+  static final CREATEDAT = amplify_core.QueryField(fieldName: "createdAt");
+  static final FRIENDSSENDER = amplify_core.QueryField(
     fieldName: "friendsSender",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Friendship'));
-  static final QueryField FRIENDSRECEIVER = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Friendship'));
+  static final FRIENDSRECEIVER = amplify_core.QueryField(
     fieldName: "friendsReceiver",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Friendship'));
-  static final QueryField TRIPS = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Friendship'));
+  static final TRIPS = amplify_core.QueryField(
     fieldName: "trips",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Trip'));
-  static final QueryField EVENTS = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Trip'));
+  static final EVENTS = amplify_core.QueryField(
     fieldName: "events",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Event'));
-  static final QueryField EVENTCOOWNER = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Event'));
+  static final EVENTCOOWNER = amplify_core.QueryField(
     fieldName: "eventCoowner",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'EventCoowner'));
-  static final QueryField TRIPPARTICIPATION = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'EventCoowner'));
+  static final TRIPPARTICIPATION = amplify_core.QueryField(
     fieldName: "tripParticipation",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'TripParticipant'));
-  static final QueryField EVENTPARTICIPATION = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'TripParticipant'));
+  static final EVENTPARTICIPATION = amplify_core.QueryField(
     fieldName: "eventParticipation",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'EventParticipant'));
-  static final QueryField OFFERPARTICIPATION = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'EventParticipant'));
+  static final OFFERPARTICIPATION = amplify_core.QueryField(
     fieldName: "offerParticipation",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'OfferParticipants'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'OfferParticipants'));
+  static final MESSAGES = amplify_core.QueryField(
+    fieldName: "messages",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Message'));
+  static final CONVERSATIONS = amplify_core.QueryField(
+    fieldName: "conversations",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'UserConversations'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "User";
     modelSchemaDefinition.pluralName = "Users";
     
     modelSchemaDefinition.indexes = [
-      ModelIndex(fields: const ["cognitoUserPoolId"], name: "UsersByCognitoID"),
-      ModelIndex(fields: const ["username"], name: "UsersByUsername")
+      amplify_core.ModelIndex(fields: const ["cognitoUserPoolId"], name: "UsersByCognitoID"),
+      amplify_core.ModelIndex(fields: const ["username"], name: "UsersByUsername")
     ];
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.COGNITOUSERPOOLID,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.USERNAME,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.ROLE,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.GENDER,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.enumeration)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.LOOKINGFOR,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.enumeration)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.BIRTHDAY,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.date)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.date)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.COUNTRY,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.CITY,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.BIO,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.NATIVELANGUAGE,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.LANGUAGESSPEAK,
       isRequired: false,
       isArray: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.string))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.string.name)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: User.HOBBIES,
       isRequired: false,
       ofModelName: 'HobbyOfUser',
       associatedKey: HobbyOfUser.USER
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.SUSPENDED,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.bool)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.SUSPENDEDUNTIL,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.timestamp)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.timestamp)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.REPORTING,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.int)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.int)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.OPENDISCUSSION,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.bool)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.PRIVACY,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.bool)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.PHOTO,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.ISCONNECTED,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.bool)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.ISADMINWAAA,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.bool)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: User.CREATEDAT,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: User.FRIENDSSENDER,
       isRequired: false,
       ofModelName: 'Friendship',
       associatedKey: Friendship.SENDER
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: User.FRIENDSRECEIVER,
       isRequired: false,
       ofModelName: 'Friendship',
       associatedKey: Friendship.RECEIVER
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: User.TRIPS,
       isRequired: false,
       ofModelName: 'Trip',
       associatedKey: Trip.OWNER
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: User.EVENTS,
       isRequired: false,
       ofModelName: 'Event',
       associatedKey: Event.OWNER
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: User.EVENTCOOWNER,
       isRequired: false,
       ofModelName: 'EventCoowner',
       associatedKey: EventCoowner.USER
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: User.TRIPPARTICIPATION,
       isRequired: false,
       ofModelName: 'TripParticipant',
       associatedKey: TripParticipant.USER
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: User.EVENTPARTICIPATION,
       isRequired: false,
       ofModelName: 'EventParticipant',
       associatedKey: EventParticipant.USER
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: User.OFFERPARTICIPATION,
       isRequired: false,
       ofModelName: 'OfferParticipants',
       associatedKey: OfferParticipants.USER
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
+      key: User.MESSAGES,
+      isRequired: false,
+      ofModelName: 'Message',
+      associatedKey: Message.AUTHOR
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
+      key: User.CONVERSATIONS,
+      isRequired: false,
+      ofModelName: 'UserConversations',
+      associatedKey: UserConversations.USER
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'updatedAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
   });
 }
 
-class _UserModelType extends ModelType<User> {
+class _UserModelType extends amplify_core.ModelType<User> {
   const _UserModelType();
   
   @override
@@ -705,8 +852,7 @@ class _UserModelType extends ModelType<User> {
  * This is an auto generated class representing the model identifier
  * of [User] in your schema.
  */
-@immutable
-class UserModelIdentifier implements ModelIdentifier<User> {
+class UserModelIdentifier implements amplify_core.ModelIdentifier<User> {
   final String id;
 
   /** Create an instance of UserModelIdentifier using [id] the primary key. */

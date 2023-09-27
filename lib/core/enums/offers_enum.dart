@@ -1,0 +1,4 @@
+enum OffersResultEnum {
+  undraw,
+  drawed,
+}

@@ -1,8 +1,11 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:waaa/core/constants/image_constants.dart';
 import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/colors.dart';
+import 'package:waaa/core/util/input_converter.dart';
 import 'package:waaa/models/Event.dart';
 
 import '../../../../core/theme/text_styles.dart';
@@ -32,13 +35,15 @@ class EventsUserCarouselWidget extends StatelessWidget {
             child: Card(
               elevation: 0,
               child: Container(
-                height: 250,
+                height: 300,
                 width: MediaQuery.of(context).size.width / 2.5,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
                       image: NetworkImage(
                           _listEvents[index]?.mainPhoto ?? noPhotoImage),
+                      colorFilter: ColorFilter.mode(
+                          blackColor.withOpacity(.5), BlendMode.darken),
                       fit: BoxFit.cover),
                 ),
                 child: Padding(
@@ -53,16 +58,24 @@ class EventsUserCarouselWidget extends StatelessWidget {
                             FeatherIcons.calendar,
                             color: secondaryColor,
                           ),
-                          hSpace5,
+                          hSpace10,
                           Column(
                             children: [
                               vSpace5,
                               Text(
-                                _listEvents[index]?.begin.toString() ?? "",
+                                (_listEvents[index]?.begin != null)
+                                    ? DateConverter().dateToDateString(
+                                        _listEvents[index]!
+                                            .begin!
+                                            .getDateTime())
+                                    : "",
                                 style: boldWhiteTextStyle12,
                               ),
                               Text(
-                                _listEvents[index]?.end.toString() ?? "",
+                                (_listEvents[index]?.begin != null)
+                                    ? DateConverter().dateToDateString(
+                                        _listEvents[index]!.end!.getDateTime())
+                                    : "",
                                 style: boldWhiteTextStyle12,
                               ),
                             ],
@@ -74,16 +87,19 @@ class EventsUserCarouselWidget extends StatelessWidget {
                         "${_listEvents[index]?.country}, ${_listEvents[index]?.city}",
                         style: boldWhiteTextStyle12,
                       ),
+                      vSpace10,
                       Row(
                         children: [
                           Icon(
-                            FeatherIcons.mapPin,
+                            Ionicons.location,
                             color: secondaryColor,
                           ),
-                          hSpace5,
-                          Text(
-                            _listEvents[index]?.address ?? "",
-                            style: boldWhiteTextStyle14,
+                          hSpace10,
+                          Expanded(
+                            child: Text(
+                              _listEvents[index]?.address ?? "",
+                              style: boldWhiteTextStyle14,
+                            ),
                           ),
                         ],
                       )

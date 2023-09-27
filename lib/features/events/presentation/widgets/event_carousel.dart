@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waaa/core/constants/image_constants.dart';
+import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/models/Event.dart';
 
 import '../../../../core/theme/text_styles.dart';
@@ -37,17 +38,19 @@ class EventsCarouselWidget extends StatelessWidget {
                     image: DecorationImage(
                         image: NetworkImage(
                             _listEvents[index]?.mainPhoto ?? noPhotoImage),
+                        colorFilter: ColorFilter.mode(
+                            blackColor.withOpacity(.5), BlendMode.darken),
                         fit: BoxFit.cover),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10, left: 10),
+                    padding: const EdgeInsets.only(bottom: 20, left: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           _listEvents[index]?.name ?? "",
-                          style: boldWhiteTextStyle20,
+                          style: boldWhiteTextStyle18,
                         ),
                       ],
                     ),

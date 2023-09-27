@@ -2,9 +2,9 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:language_picker/languages.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waaa/core/constants/constants.dart';
-import 'package:waaa/core/util/input_converter.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/hobbies/domain/use_cases/add_hobby_to_user.dart';
 import 'package:waaa/features/users/domain/use_cases/create_user.dart';
@@ -94,7 +94,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   void _onValidateLanguagesButtonPressed(
       ValidateLanguagesButtonPressed event, Emitter<RegisterState> emit) async {
     try {
-      if (state.nativeLanguage.isEmpty) {
+      if (state.nativeLanguage.name.isEmpty) {
         emit(state.copyWith(errorType: RegisterErrorType.nationalityEmpty));
       } else if (state.spokenLanguages.isEmpty) {
         emit(state.copyWith(errorType: RegisterErrorType.spokenLanguagesEmpty));
@@ -152,21 +152,32 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     var selectedHobbies =
         getListFromIndices(state.selectedHobbiesIndexes, state.hobbies);
     var userId = di.sl<SharedPreferences>().getString(userCognitoIdKey);
-    late String? photoLink;
+    String? photoLink;
+    List<String> spokenLanguage = [];
 
     if (state.photoUrl.isNotEmpty && userId != null) {
-      photoLink = await di
-          .sl<UploadUserPhoto>()
-          .call(UploadUserPhotoParams(file: state.photoFile!, userId: userId));
+      photoLink = await di.sl<UploadPhoto>().call(
+            UploadUserPhotoParams(
+              file: state.photoFile!,
+              directory: userPhotoDir,
+              url: userPhotoUrl,
+              photoName: userId,
+            ),
+          );
+    }
+
+    for (var langue in state.spokenLanguages) {
+      spokenLanguage.add(langue.isoCode);
     }
 
     User user = User(
-        cognitoUserPoolId: userId,
-        nativeLanguage: state.nativeLanguage,
-        birthday: TemporalDate(state.birthdate),
-        username: state.username,
-        photo: photoLink,
-        languagesSpeak: state.spokenLanguages);
+      cognitoUserPoolId: userId,
+      nativeLanguage: state.nativeLanguage.isoCode,
+      birthday: TemporalDate(state.birthdate),
+      username: state.username,
+      photo: photoLink ?? "",
+      languagesSpeak: spokenLanguage,
+    );
     try {
       final bool creation =
           await di.sl<CreateUser>().call(CreateUserParams(user: user));
@@ -193,6 +204,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             errorType: RegisterErrorType.registerFailed));
       }
     } catch (e) {
+      safePrint(e);
       rethrow;
     }
   }
@@ -223,7 +235,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   void _onNativeLanguageSelected(
       NativeLanguageSelected event, Emitter<RegisterState> emit) {
-    if (event.nativeLanguage.isNotEmpty) {
+    if (event.nativeLanguage.name.isNotEmpty) {
       emit(state.copyWith(
         nativeLanguage: event.nativeLanguage,
         errorType: RegisterErrorType.none,
@@ -238,8 +250,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   void _onSpeakLanguagesSelected(
       SpeakLanguagesSelected event, Emitter<RegisterState> emit) {
     try {
-      if (event.speakLanguage.isNotEmpty) {
-        List<String> speaks = List.from(state.spokenLanguages);
+      if (event.speakLanguage.name.isNotEmpty) {
+        List<Language> speaks = List.from(state.spokenLanguages);
         if (speaks.contains(event.speakLanguage)) {
           emit(state.copyWith(
               errorType: RegisterErrorType.spokenLanguageAlreadySelected));

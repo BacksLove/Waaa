@@ -27,7 +27,9 @@ class EventDetailPage extends StatelessWidget {
             if (state.status == EventDetailEnum.failed) {
               return const ErrorScreen();
             } else if (state.status == EventDetailEnum.loading) {
-              return const LoadingScreen();
+              return const LoadingScreen(
+                text: "chargement en cours",
+              );
             } else if (state.status == EventDetailEnum.showDetail) {
               return CustomScrollView(
                 slivers: [

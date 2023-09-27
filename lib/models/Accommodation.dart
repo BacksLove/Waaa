@@ -20,20 +20,18 @@
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Accommodation type in your schema. */
-@immutable
-class Accommodation extends Model {
+class Accommodation extends amplify_core.Model {
   static const classType = const _AccommodationModelType();
   final String id;
   final String? _name;
   final List<Step>? _steps;
-  final TemporalDateTime? _createdAt;
-  final TemporalDateTime? _updatedAt;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -52,10 +50,10 @@ class Accommodation extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -65,11 +63,11 @@ class Accommodation extends Model {
     return _steps;
   }
   
-  TemporalDateTime? get createdAt {
+  amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
   
-  TemporalDateTime? get updatedAt {
+  amplify_core.TemporalDateTime? get updatedAt {
     return _updatedAt;
   }
   
@@ -77,7 +75,7 @@ class Accommodation extends Model {
   
   factory Accommodation({String? id, required String name, List<Step>? steps}) {
     return Accommodation._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
       steps: steps != null ? List<Step>.unmodifiable(steps) : steps);
   }
@@ -119,6 +117,17 @@ class Accommodation extends Model {
       steps: steps ?? this.steps);
   }
   
+  Accommodation copyWithModelFieldValues({
+    ModelFieldValue<String>? name,
+    ModelFieldValue<List<Step>?>? steps
+  }) {
+    return Accommodation._internal(
+      id: id,
+      name: name == null ? this.name : name.value,
+      steps: steps == null ? this.steps : steps.value
+    );
+  }
+  
   Accommodation.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
@@ -128,59 +137,63 @@ class Accommodation extends Model {
           .map((e) => Step.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null,
-      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'steps': _steps?.map((Step? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name, 'steps': _steps, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id,
+    'name': _name,
+    'steps': _steps,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
   };
 
-  static final QueryModelIdentifier<AccommodationModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<AccommodationModelIdentifier>();
-  static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField NAME = QueryField(fieldName: "name");
-  static final QueryField STEPS = QueryField(
+  static final amplify_core.QueryModelIdentifier<AccommodationModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<AccommodationModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: "id");
+  static final NAME = amplify_core.QueryField(fieldName: "name");
+  static final STEPS = amplify_core.QueryField(
     fieldName: "steps",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Step'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Step'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Accommodation";
     modelSchemaDefinition.pluralName = "Accommodations";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Accommodation.NAME,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: Accommodation.STEPS,
       isRequired: false,
       ofModelName: 'Step',
       associatedKey: Step.ACCOMMODATIONSTEPSID
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'createdAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'updatedAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
   });
 }
 
-class _AccommodationModelType extends ModelType<Accommodation> {
+class _AccommodationModelType extends amplify_core.ModelType<Accommodation> {
   const _AccommodationModelType();
   
   @override
@@ -198,8 +211,7 @@ class _AccommodationModelType extends ModelType<Accommodation> {
  * This is an auto generated class representing the model identifier
  * of [Accommodation] in your schema.
  */
-@immutable
-class AccommodationModelIdentifier implements ModelIdentifier<Accommodation> {
+class AccommodationModelIdentifier implements amplify_core.ModelIdentifier<Accommodation> {
   final String id;
 
   /** Create an instance of AccommodationModelIdentifier using [id] the primary key. */

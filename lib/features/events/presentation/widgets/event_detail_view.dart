@@ -10,8 +10,6 @@ import 'package:waaa/features/home/presentation/widgets/user_carrousel.dart';
 import 'package:waaa/models/Event.dart';
 import '../../../../core/constants/spacer.dart';
 
-import 'package:waaa/injection_container.dart' as di;
-
 class ShowEventDetails extends StatelessWidget {
   const ShowEventDetails({
     super.key,
@@ -91,7 +89,7 @@ class ShowEventDetails extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        "56",
+                        "0",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,

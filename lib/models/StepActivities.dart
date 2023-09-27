@@ -20,19 +20,17 @@
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
-import 'package:flutter/foundation.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
 /** This is an auto generated class representing the StepActivities type in your schema. */
-@immutable
-class StepActivities extends Model {
+class StepActivities extends amplify_core.Model {
   static const classType = const _StepActivitiesModelType();
   final String id;
   final Step? _step;
   final Activity? _activity;
-  final TemporalDateTime? _createdAt;
-  final TemporalDateTime? _updatedAt;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -51,10 +49,10 @@ class StepActivities extends Model {
     try {
       return _step!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -64,20 +62,20 @@ class StepActivities extends Model {
     try {
       return _activity!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
   }
   
-  TemporalDateTime? get createdAt {
+  amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
   
-  TemporalDateTime? get updatedAt {
+  amplify_core.TemporalDateTime? get updatedAt {
     return _updatedAt;
   }
   
@@ -85,7 +83,7 @@ class StepActivities extends Model {
   
   factory StepActivities({String? id, required Step step, required Activity activity}) {
     return StepActivities._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       step: step,
       activity: activity);
   }
@@ -128,6 +126,17 @@ class StepActivities extends Model {
       activity: activity ?? this.activity);
   }
   
+  StepActivities copyWithModelFieldValues({
+    ModelFieldValue<Step>? step,
+    ModelFieldValue<Activity>? activity
+  }) {
+    return StepActivities._internal(
+      id: id,
+      step: step == null ? this.step : step.value,
+      activity: activity == null ? this.activity : activity.value
+    );
+  }
+  
   StepActivities.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _step = json['step']?['serializedData'] != null
@@ -136,67 +145,71 @@ class StepActivities extends Model {
       _activity = json['activity']?['serializedData'] != null
         ? Activity.fromJson(new Map<String, dynamic>.from(json['activity']['serializedData']))
         : null,
-      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'step': _step?.toJson(), 'activity': _activity?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'step': _step, 'activity': _activity, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id,
+    'step': _step,
+    'activity': _activity,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
   };
 
-  static final QueryModelIdentifier<StepActivitiesModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<StepActivitiesModelIdentifier>();
-  static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField STEP = QueryField(
+  static final amplify_core.QueryModelIdentifier<StepActivitiesModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<StepActivitiesModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: "id");
+  static final STEP = amplify_core.QueryField(
     fieldName: "step",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Step'));
-  static final QueryField ACTIVITY = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Step'));
+  static final ACTIVITY = amplify_core.QueryField(
     fieldName: "activity",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Activity'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Activity'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "StepActivities";
     modelSchemaDefinition.pluralName = "StepActivities";
     
     modelSchemaDefinition.indexes = [
-      ModelIndex(fields: const ["stepId"], name: "byStep"),
-      ModelIndex(fields: const ["activityId"], name: "byActivity")
+      amplify_core.ModelIndex(fields: const ["stepId"], name: "byStep"),
+      amplify_core.ModelIndex(fields: const ["activityId"], name: "byActivity")
     ];
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: StepActivities.STEP,
       isRequired: true,
       targetNames: ['stepId'],
       ofModelName: 'Step'
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: StepActivities.ACTIVITY,
       isRequired: true,
       targetNames: ['activityId'],
       ofModelName: 'Activity'
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'createdAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'updatedAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
   });
 }
 
-class _StepActivitiesModelType extends ModelType<StepActivities> {
+class _StepActivitiesModelType extends amplify_core.ModelType<StepActivities> {
   const _StepActivitiesModelType();
   
   @override
@@ -214,8 +227,7 @@ class _StepActivitiesModelType extends ModelType<StepActivities> {
  * This is an auto generated class representing the model identifier
  * of [StepActivities] in your schema.
  */
-@immutable
-class StepActivitiesModelIdentifier implements ModelIdentifier<StepActivities> {
+class StepActivitiesModelIdentifier implements amplify_core.ModelIdentifier<StepActivities> {
   final String id;
 
   /** Create an instance of StepActivitiesModelIdentifier using [id] the primary key. */

@@ -20,25 +20,23 @@
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Trip type in your schema. */
-@immutable
-class Trip extends Model {
+class Trip extends amplify_core.Model {
   static const classType = const _TripModelType();
   final String id;
-  final TripCategory? _category;
   final bool? _visibility;
-  final String? _type;
+  final AudienceTrip? _audience;
   final String? _title;
   final String? _about;
+  final String? _photo;
   final TripState? _state;
   final Status? _status;
-  final TemporalDate? _begin;
-  final TemporalDate? _end;
+  final amplify_core.TemporalDate? _begin;
+  final amplify_core.TemporalDate? _end;
   final String? _reason;
   final int? _duration;
   final bool? _openToJoin;
@@ -46,10 +44,8 @@ class Trip extends Model {
   final List<Step>? _steps;
   final User? _owner;
   final List<TripParticipant>? _participants;
-  final TemporalDateTime? _createdAt;
-  final TemporalDateTime? _updatedAt;
-  final String? _tripCategoryId;
-  final String? _tripCategoryTripsId;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -64,26 +60,22 @@ class Trip extends Model {
       );
   }
   
-  TripCategory? get category {
-    return _category;
-  }
-  
   bool? get visibility {
     return _visibility;
   }
   
-  String? get type {
-    return _type;
+  AudienceTrip? get audience {
+    return _audience;
   }
   
   String get title {
     try {
       return _title!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -91,6 +83,10 @@ class Trip extends Model {
   
   String? get about {
     return _about;
+  }
+  
+  String? get photo {
+    return _photo;
   }
   
   TripState? get state {
@@ -101,11 +97,11 @@ class Trip extends Model {
     return _status;
   }
   
-  TemporalDate? get begin {
+  amplify_core.TemporalDate? get begin {
     return _begin;
   }
   
-  TemporalDate? get end {
+  amplify_core.TemporalDate? get end {
     return _end;
   }
   
@@ -133,10 +129,10 @@ class Trip extends Model {
     try {
       return _owner!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -146,32 +142,24 @@ class Trip extends Model {
     return _participants;
   }
   
-  TemporalDateTime? get createdAt {
+  amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
   
-  TemporalDateTime? get updatedAt {
+  amplify_core.TemporalDateTime? get updatedAt {
     return _updatedAt;
   }
   
-  String? get tripCategoryId {
-    return _tripCategoryId;
-  }
+  const Trip._internal({required this.id, visibility, audience, required title, about, photo, state, status, begin, end, reason, duration, openToJoin, isOfferTrip, steps, required owner, participants, createdAt, updatedAt}): _visibility = visibility, _audience = audience, _title = title, _about = about, _photo = photo, _state = state, _status = status, _begin = begin, _end = end, _reason = reason, _duration = duration, _openToJoin = openToJoin, _isOfferTrip = isOfferTrip, _steps = steps, _owner = owner, _participants = participants, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  String? get tripCategoryTripsId {
-    return _tripCategoryTripsId;
-  }
-  
-  const Trip._internal({required this.id, category, visibility, type, required title, about, state, status, begin, end, reason, duration, openToJoin, isOfferTrip, steps, required owner, participants, createdAt, updatedAt, tripCategoryId, tripCategoryTripsId}): _category = category, _visibility = visibility, _type = type, _title = title, _about = about, _state = state, _status = status, _begin = begin, _end = end, _reason = reason, _duration = duration, _openToJoin = openToJoin, _isOfferTrip = isOfferTrip, _steps = steps, _owner = owner, _participants = participants, _createdAt = createdAt, _updatedAt = updatedAt, _tripCategoryId = tripCategoryId, _tripCategoryTripsId = tripCategoryTripsId;
-  
-  factory Trip({String? id, TripCategory? category, bool? visibility, String? type, required String title, String? about, TripState? state, Status? status, TemporalDate? begin, TemporalDate? end, String? reason, int? duration, bool? openToJoin, bool? isOfferTrip, List<Step>? steps, required User owner, List<TripParticipant>? participants, TemporalDateTime? createdAt, String? tripCategoryId, String? tripCategoryTripsId}) {
+  factory Trip({String? id, bool? visibility, AudienceTrip? audience, required String title, String? about, String? photo, TripState? state, Status? status, amplify_core.TemporalDate? begin, amplify_core.TemporalDate? end, String? reason, int? duration, bool? openToJoin, bool? isOfferTrip, List<Step>? steps, required User owner, List<TripParticipant>? participants, amplify_core.TemporalDateTime? createdAt}) {
     return Trip._internal(
-      id: id == null ? UUID.getUUID() : id,
-      category: category,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       visibility: visibility,
-      type: type,
+      audience: audience,
       title: title,
       about: about,
+      photo: photo,
       state: state,
       status: status,
       begin: begin,
@@ -183,9 +171,7 @@ class Trip extends Model {
       steps: steps != null ? List<Step>.unmodifiable(steps) : steps,
       owner: owner,
       participants: participants != null ? List<TripParticipant>.unmodifiable(participants) : participants,
-      createdAt: createdAt,
-      tripCategoryId: tripCategoryId,
-      tripCategoryTripsId: tripCategoryTripsId);
+      createdAt: createdAt);
   }
   
   bool equals(Object other) {
@@ -197,11 +183,11 @@ class Trip extends Model {
     if (identical(other, this)) return true;
     return other is Trip &&
       id == other.id &&
-      _category == other._category &&
       _visibility == other._visibility &&
-      _type == other._type &&
+      _audience == other._audience &&
       _title == other._title &&
       _about == other._about &&
+      _photo == other._photo &&
       _state == other._state &&
       _status == other._status &&
       _begin == other._begin &&
@@ -213,9 +199,7 @@ class Trip extends Model {
       DeepCollectionEquality().equals(_steps, other._steps) &&
       _owner == other._owner &&
       DeepCollectionEquality().equals(_participants, other._participants) &&
-      _createdAt == other._createdAt &&
-      _tripCategoryId == other._tripCategoryId &&
-      _tripCategoryTripsId == other._tripCategoryTripsId;
+      _createdAt == other._createdAt;
   }
   
   @override
@@ -228,11 +212,12 @@ class Trip extends Model {
     buffer.write("Trip {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("visibility=" + (_visibility != null ? _visibility!.toString() : "null") + ", ");
-    buffer.write("type=" + "$_type" + ", ");
+    buffer.write("audience=" + (_audience != null ? amplify_core.enumToString(_audience)! : "null") + ", ");
     buffer.write("title=" + "$_title" + ", ");
     buffer.write("about=" + "$_about" + ", ");
-    buffer.write("state=" + (_state != null ? enumToString(_state)! : "null") + ", ");
-    buffer.write("status=" + (_status != null ? enumToString(_status)! : "null") + ", ");
+    buffer.write("photo=" + "$_photo" + ", ");
+    buffer.write("state=" + (_state != null ? amplify_core.enumToString(_state)! : "null") + ", ");
+    buffer.write("status=" + (_status != null ? amplify_core.enumToString(_status)! : "null") + ", ");
     buffer.write("begin=" + (_begin != null ? _begin!.format() : "null") + ", ");
     buffer.write("end=" + (_end != null ? _end!.format() : "null") + ", ");
     buffer.write("reason=" + "$_reason" + ", ");
@@ -241,22 +226,20 @@ class Trip extends Model {
     buffer.write("isOfferTrip=" + (_isOfferTrip != null ? _isOfferTrip!.toString() : "null") + ", ");
     buffer.write("owner=" + (_owner != null ? _owner!.toString() : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
-    buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null") + ", ");
-    buffer.write("tripCategoryId=" + "$_tripCategoryId" + ", ");
-    buffer.write("tripCategoryTripsId=" + "$_tripCategoryTripsId");
+    buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
     
     return buffer.toString();
   }
   
-  Trip copyWith({TripCategory? category, bool? visibility, String? type, String? title, String? about, TripState? state, Status? status, TemporalDate? begin, TemporalDate? end, String? reason, int? duration, bool? openToJoin, bool? isOfferTrip, List<Step>? steps, User? owner, List<TripParticipant>? participants, TemporalDateTime? createdAt, String? tripCategoryId, String? tripCategoryTripsId}) {
+  Trip copyWith({bool? visibility, AudienceTrip? audience, String? title, String? about, String? photo, TripState? state, Status? status, amplify_core.TemporalDate? begin, amplify_core.TemporalDate? end, String? reason, int? duration, bool? openToJoin, bool? isOfferTrip, List<Step>? steps, User? owner, List<TripParticipant>? participants, amplify_core.TemporalDateTime? createdAt}) {
     return Trip._internal(
       id: id,
-      category: category ?? this.category,
       visibility: visibility ?? this.visibility,
-      type: type ?? this.type,
+      audience: audience ?? this.audience,
       title: title ?? this.title,
       about: about ?? this.about,
+      photo: photo ?? this.photo,
       state: state ?? this.state,
       status: status ?? this.status,
       begin: begin ?? this.begin,
@@ -268,24 +251,61 @@ class Trip extends Model {
       steps: steps ?? this.steps,
       owner: owner ?? this.owner,
       participants: participants ?? this.participants,
-      createdAt: createdAt ?? this.createdAt,
-      tripCategoryId: tripCategoryId ?? this.tripCategoryId,
-      tripCategoryTripsId: tripCategoryTripsId ?? this.tripCategoryTripsId);
+      createdAt: createdAt ?? this.createdAt);
+  }
+  
+  Trip copyWithModelFieldValues({
+    ModelFieldValue<bool?>? visibility,
+    ModelFieldValue<AudienceTrip?>? audience,
+    ModelFieldValue<String>? title,
+    ModelFieldValue<String?>? about,
+    ModelFieldValue<String?>? photo,
+    ModelFieldValue<TripState?>? state,
+    ModelFieldValue<Status?>? status,
+    ModelFieldValue<amplify_core.TemporalDate?>? begin,
+    ModelFieldValue<amplify_core.TemporalDate?>? end,
+    ModelFieldValue<String?>? reason,
+    ModelFieldValue<int?>? duration,
+    ModelFieldValue<bool?>? openToJoin,
+    ModelFieldValue<bool?>? isOfferTrip,
+    ModelFieldValue<List<Step>?>? steps,
+    ModelFieldValue<User>? owner,
+    ModelFieldValue<List<TripParticipant>?>? participants,
+    ModelFieldValue<amplify_core.TemporalDateTime?>? createdAt
+  }) {
+    return Trip._internal(
+      id: id,
+      visibility: visibility == null ? this.visibility : visibility.value,
+      audience: audience == null ? this.audience : audience.value,
+      title: title == null ? this.title : title.value,
+      about: about == null ? this.about : about.value,
+      photo: photo == null ? this.photo : photo.value,
+      state: state == null ? this.state : state.value,
+      status: status == null ? this.status : status.value,
+      begin: begin == null ? this.begin : begin.value,
+      end: end == null ? this.end : end.value,
+      reason: reason == null ? this.reason : reason.value,
+      duration: duration == null ? this.duration : duration.value,
+      openToJoin: openToJoin == null ? this.openToJoin : openToJoin.value,
+      isOfferTrip: isOfferTrip == null ? this.isOfferTrip : isOfferTrip.value,
+      steps: steps == null ? this.steps : steps.value,
+      owner: owner == null ? this.owner : owner.value,
+      participants: participants == null ? this.participants : participants.value,
+      createdAt: createdAt == null ? this.createdAt : createdAt.value
+    );
   }
   
   Trip.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _category = json['category']?['serializedData'] != null
-        ? TripCategory.fromJson(new Map<String, dynamic>.from(json['category']['serializedData']))
-        : null,
       _visibility = json['visibility'],
-      _type = json['type'],
+      _audience = amplify_core.enumFromString<AudienceTrip>(json['audience'], AudienceTrip.values),
       _title = json['title'],
       _about = json['about'],
-      _state = enumFromString<TripState>(json['state'], TripState.values),
-      _status = enumFromString<Status>(json['status'], Status.values),
-      _begin = json['begin'] != null ? TemporalDate.fromString(json['begin']) : null,
-      _end = json['end'] != null ? TemporalDate.fromString(json['end']) : null,
+      _photo = json['photo'],
+      _state = amplify_core.enumFromString<TripState>(json['state'], TripState.values),
+      _status = amplify_core.enumFromString<Status>(json['status'], Status.values),
+      _begin = json['begin'] != null ? amplify_core.TemporalDate.fromString(json['begin']) : null,
+      _end = json['end'] != null ? amplify_core.TemporalDate.fromString(json['end']) : null,
       _reason = json['reason'],
       _duration = (json['duration'] as num?)?.toInt(),
       _openToJoin = json['openToJoin'],
@@ -305,182 +325,181 @@ class Trip extends Model {
           .map((e) => TripParticipant.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null,
-      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null,
-      _tripCategoryId = json['tripCategoryId'],
-      _tripCategoryTripsId = json['tripCategoryTripsId'];
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'category': _category?.toJson(), 'visibility': _visibility, 'type': _type, 'title': _title, 'about': _about, 'state': enumToString(_state), 'status': enumToString(_status), 'begin': _begin?.format(), 'end': _end?.format(), 'reason': _reason, 'duration': _duration, 'openToJoin': _openToJoin, 'isOfferTrip': _isOfferTrip, 'steps': _steps?.map((Step? e) => e?.toJson()).toList(), 'owner': _owner?.toJson(), 'participants': _participants?.map((TripParticipant? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'tripCategoryId': _tripCategoryId, 'tripCategoryTripsId': _tripCategoryTripsId
+    'id': id, 'visibility': _visibility, 'audience': amplify_core.enumToString(_audience), 'title': _title, 'about': _about, 'photo': _photo, 'state': amplify_core.enumToString(_state), 'status': amplify_core.enumToString(_status), 'begin': _begin?.format(), 'end': _end?.format(), 'reason': _reason, 'duration': _duration, 'openToJoin': _openToJoin, 'isOfferTrip': _isOfferTrip, 'steps': _steps?.map((Step? e) => e?.toJson()).toList(), 'owner': _owner?.toJson(), 'participants': _participants?.map((TripParticipant? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'category': _category, 'visibility': _visibility, 'type': _type, 'title': _title, 'about': _about, 'state': _state, 'status': _status, 'begin': _begin, 'end': _end, 'reason': _reason, 'duration': _duration, 'openToJoin': _openToJoin, 'isOfferTrip': _isOfferTrip, 'steps': _steps, 'owner': _owner, 'participants': _participants, 'createdAt': _createdAt, 'updatedAt': _updatedAt, 'tripCategoryId': _tripCategoryId, 'tripCategoryTripsId': _tripCategoryTripsId
+    'id': id,
+    'visibility': _visibility,
+    'audience': _audience,
+    'title': _title,
+    'about': _about,
+    'photo': _photo,
+    'state': _state,
+    'status': _status,
+    'begin': _begin,
+    'end': _end,
+    'reason': _reason,
+    'duration': _duration,
+    'openToJoin': _openToJoin,
+    'isOfferTrip': _isOfferTrip,
+    'steps': _steps,
+    'owner': _owner,
+    'participants': _participants,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
   };
 
-  static final QueryModelIdentifier<TripModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TripModelIdentifier>();
-  static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField CATEGORY = QueryField(
-    fieldName: "category",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'TripCategory'));
-  static final QueryField VISIBILITY = QueryField(fieldName: "visibility");
-  static final QueryField TYPE = QueryField(fieldName: "type");
-  static final QueryField TITLE = QueryField(fieldName: "title");
-  static final QueryField ABOUT = QueryField(fieldName: "about");
-  static final QueryField STATE = QueryField(fieldName: "state");
-  static final QueryField STATUS = QueryField(fieldName: "status");
-  static final QueryField BEGIN = QueryField(fieldName: "begin");
-  static final QueryField END = QueryField(fieldName: "end");
-  static final QueryField REASON = QueryField(fieldName: "reason");
-  static final QueryField DURATION = QueryField(fieldName: "duration");
-  static final QueryField OPENTOJOIN = QueryField(fieldName: "openToJoin");
-  static final QueryField ISOFFERTRIP = QueryField(fieldName: "isOfferTrip");
-  static final QueryField STEPS = QueryField(
+  static final amplify_core.QueryModelIdentifier<TripModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<TripModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: "id");
+  static final VISIBILITY = amplify_core.QueryField(fieldName: "visibility");
+  static final AUDIENCE = amplify_core.QueryField(fieldName: "audience");
+  static final TITLE = amplify_core.QueryField(fieldName: "title");
+  static final ABOUT = amplify_core.QueryField(fieldName: "about");
+  static final PHOTO = amplify_core.QueryField(fieldName: "photo");
+  static final STATE = amplify_core.QueryField(fieldName: "state");
+  static final STATUS = amplify_core.QueryField(fieldName: "status");
+  static final BEGIN = amplify_core.QueryField(fieldName: "begin");
+  static final END = amplify_core.QueryField(fieldName: "end");
+  static final REASON = amplify_core.QueryField(fieldName: "reason");
+  static final DURATION = amplify_core.QueryField(fieldName: "duration");
+  static final OPENTOJOIN = amplify_core.QueryField(fieldName: "openToJoin");
+  static final ISOFFERTRIP = amplify_core.QueryField(fieldName: "isOfferTrip");
+  static final STEPS = amplify_core.QueryField(
     fieldName: "steps",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Step'));
-  static final QueryField OWNER = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Step'));
+  static final OWNER = amplify_core.QueryField(
     fieldName: "owner",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'User'));
-  static final QueryField PARTICIPANTS = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'User'));
+  static final PARTICIPANTS = amplify_core.QueryField(
     fieldName: "participants",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'TripParticipant'));
-  static final QueryField CREATEDAT = QueryField(fieldName: "createdAt");
-  static final QueryField TRIPCATEGORYID = QueryField(fieldName: "tripCategoryId");
-  static final QueryField TRIPCATEGORYTRIPSID = QueryField(fieldName: "tripCategoryTripsId");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'TripParticipant'));
+  static final CREATEDAT = amplify_core.QueryField(fieldName: "createdAt");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Trip";
     modelSchemaDefinition.pluralName = "Trips";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
-      key: Trip.CATEGORY,
-      isRequired: false,
-      ofModelName: 'TripCategory',
-      associatedKey: TripCategory.ID
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Trip.VISIBILITY,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.bool)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Trip.TYPE,
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Trip.AUDIENCE,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.enumeration)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Trip.TITLE,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Trip.ABOUT,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Trip.PHOTO,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Trip.STATE,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.enumeration)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Trip.STATUS,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.enumeration)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Trip.BEGIN,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.date)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.date)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Trip.END,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.date)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.date)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Trip.REASON,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Trip.DURATION,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.int)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.int)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Trip.OPENTOJOIN,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.bool)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Trip.ISOFFERTRIP,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.bool)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: Trip.STEPS,
       isRequired: false,
       ofModelName: 'Step',
       associatedKey: Step.TRIP
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: Trip.OWNER,
       isRequired: true,
       targetNames: ['ownerId'],
       ofModelName: 'User'
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: Trip.PARTICIPANTS,
       isRequired: false,
       ofModelName: 'TripParticipant',
       associatedKey: TripParticipant.TRIP
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Trip.CREATEDAT,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'updatedAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Trip.TRIPCATEGORYID,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Trip.TRIPCATEGORYTRIPSID,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
   });
 }
 
-class _TripModelType extends ModelType<Trip> {
+class _TripModelType extends amplify_core.ModelType<Trip> {
   const _TripModelType();
   
   @override
@@ -498,8 +517,7 @@ class _TripModelType extends ModelType<Trip> {
  * This is an auto generated class representing the model identifier
  * of [Trip] in your schema.
  */
-@immutable
-class TripModelIdentifier implements ModelIdentifier<Trip> {
+class TripModelIdentifier implements amplify_core.ModelIdentifier<Trip> {
   final String id;
 
   /** Create an instance of TripModelIdentifier using [id] the primary key. */

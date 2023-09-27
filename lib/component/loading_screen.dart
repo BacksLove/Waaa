@@ -3,13 +3,26 @@ import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/text_styles.dart';
 
 class LoadingScreen extends StatelessWidget {
-  const LoadingScreen({super.key});
+  const LoadingScreen({super.key, required this.text});
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(),
+            vSpace30,
+            Text(
+              text,
+              style: boldTextStyle16,
+            ),
+          ],
+        ),
       ),
     );
   }

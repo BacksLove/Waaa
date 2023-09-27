@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:amplify_api/amplify_api.dart';
-import 'package:amplify_api/model_queries.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:waaa/core/constants/constants.dart';
@@ -17,7 +16,10 @@ abstract class UserRemoteDatasource {
   Future<bool> createUser(User user);
   Future<bool> updateUser(User user);
   Future<bool> deleteUser(String id);
-  Future<String?> uploadUserPhoto(XFile file, String userId);
+  Future<String?> uploadPhoto(
+      XFile file, String directory, String url, String photoName);
+  Future<List<User?>> inviteUserList(String searchString);
+  Future<List<User?>> getFriendsList(String userId);
 }
 
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
@@ -91,14 +93,15 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   }
 
   @override
-  Future<String?> uploadUserPhoto(XFile file, String userId) async {
+  Future<String?> uploadPhoto(
+      XFile file, String directory, String url, String photoName) async {
     try {
       final awsFile = File(file.path);
       await Amplify.Storage.uploadFile(
         local: awsFile,
-        key: '$userPhotoDir$userId.png',
+        key: '$directory$photoName.png',
       );
-      final String result = "$userPhotoUrl$userId.png";
+      final String result = "$url$photoName.png";
       return result;
     } on StorageException catch (e) {
       safePrint('Error uploading file: ${e.message}');
@@ -130,5 +133,53 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       return [];
     }*/
     return mockUsersList;
+  }
+
+  @override
+  Future<List<User?>> inviteUserList(String searchString) async {
+    try {
+      const graphQLDocument = inviteUserListQuery;
+      final request = GraphQLRequest<PaginatedResult<User>>(
+        document: graphQLDocument,
+        modelType: const PaginatedModelType(User.classType),
+        variables: <String, String>{'contains': searchString},
+        decodePath: "listUsers",
+      );
+      final response = await Amplify.API.query(request: request).response;
+      final userList = response.data?.items;
+
+      if (userList == null || userList.isEmpty) {
+        safePrint("errors: ${response.errors}");
+        return [];
+      }
+      return userList;
+    } on AuthException catch (e) {
+      safePrint(e.message);
+      return [];
+    }
+  }
+
+  @override
+  Future<List<User?>> getFriendsList(String userId) async {
+    try {
+      const graphQLDocument = inviteUserListQuery;
+      final request = GraphQLRequest<PaginatedResult<User>>(
+        document: graphQLDocument,
+        modelType: const PaginatedModelType(User.classType),
+        variables: <String, String>{'contains': userId},
+        decodePath: "listUsers",
+      );
+      final response = await Amplify.API.query(request: request).response;
+      final userList = response.data?.items;
+
+      if (userList == null || userList.isEmpty) {
+        safePrint("errors: ${response.errors}");
+        return [];
+      }
+      return userList;
+    } on AuthException catch (e) {
+      safePrint(e.message);
+      return [];
+    }
   }
 }

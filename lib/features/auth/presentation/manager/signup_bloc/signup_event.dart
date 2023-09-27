@@ -32,3 +32,5 @@ class ValidateConfirmCodeButtonPressed extends SignupEvent {
   const ValidateConfirmCodeButtonPressed(
       {required this.email, required this.password, required this.code});
 }
+
+class CheckBoxEvent extends SignupEvent {}

@@ -2,7 +2,6 @@ import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:waaa/component/circle_avatar.dart';
-import 'package:waaa/core/constants/image_constants.dart';
 import 'package:waaa/core/constants/spacer.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/common_widget/button.dart';

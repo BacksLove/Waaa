@@ -45,7 +45,7 @@ class CountryPicker extends StatelessWidget {
               ),
             ),
             onSelect: (Country value) {
-              callback(value.countryCode);
+              callback(value.name);
             },
           );
         },

@@ -20,21 +20,19 @@
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
-import 'package:flutter/foundation.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
 /** This is an auto generated class representing the TripParticipant type in your schema. */
-@immutable
-class TripParticipant extends Model {
+class TripParticipant extends amplify_core.Model {
   static const classType = const _TripParticipantModelType();
   final String id;
   final Trip? _trip;
   final User? _user;
   final DemandStatus? _status;
   final bool? _isOwner;
-  final TemporalDateTime? _createdAt;
-  final TemporalDateTime? _updatedAt;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -53,10 +51,10 @@ class TripParticipant extends Model {
     try {
       return _trip!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -66,10 +64,10 @@ class TripParticipant extends Model {
     try {
       return _user!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -79,10 +77,10 @@ class TripParticipant extends Model {
     try {
       return _status!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -92,11 +90,11 @@ class TripParticipant extends Model {
     return _isOwner;
   }
   
-  TemporalDateTime? get createdAt {
+  amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
   
-  TemporalDateTime? get updatedAt {
+  amplify_core.TemporalDateTime? get updatedAt {
     return _updatedAt;
   }
   
@@ -104,7 +102,7 @@ class TripParticipant extends Model {
   
   factory TripParticipant({String? id, required Trip trip, required User user, required DemandStatus status, bool? isOwner}) {
     return TripParticipant._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       trip: trip,
       user: user,
       status: status,
@@ -137,7 +135,7 @@ class TripParticipant extends Model {
     buffer.write("id=" + "$id" + ", ");
     buffer.write("trip=" + (_trip != null ? _trip!.toString() : "null") + ", ");
     buffer.write("user=" + (_user != null ? _user!.toString() : "null") + ", ");
-    buffer.write("status=" + (_status != null ? enumToString(_status)! : "null") + ", ");
+    buffer.write("status=" + (_status != null ? amplify_core.enumToString(_status)! : "null") + ", ");
     buffer.write("isOwner=" + (_isOwner != null ? _isOwner!.toString() : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
@@ -155,6 +153,21 @@ class TripParticipant extends Model {
       isOwner: isOwner ?? this.isOwner);
   }
   
+  TripParticipant copyWithModelFieldValues({
+    ModelFieldValue<Trip>? trip,
+    ModelFieldValue<User>? user,
+    ModelFieldValue<DemandStatus>? status,
+    ModelFieldValue<bool?>? isOwner
+  }) {
+    return TripParticipant._internal(
+      id: id,
+      trip: trip == null ? this.trip : trip.value,
+      user: user == null ? this.user : user.value,
+      status: status == null ? this.status : status.value,
+      isOwner: isOwner == null ? this.isOwner : isOwner.value
+    );
+  }
+  
   TripParticipant.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _trip = json['trip']?['serializedData'] != null
@@ -163,78 +176,84 @@ class TripParticipant extends Model {
       _user = json['user']?['serializedData'] != null
         ? User.fromJson(new Map<String, dynamic>.from(json['user']['serializedData']))
         : null,
-      _status = enumFromString<DemandStatus>(json['status'], DemandStatus.values),
+      _status = amplify_core.enumFromString<DemandStatus>(json['status'], DemandStatus.values),
       _isOwner = json['isOwner'],
-      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'trip': _trip?.toJson(), 'user': _user?.toJson(), 'status': enumToString(_status), 'isOwner': _isOwner, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'trip': _trip?.toJson(), 'user': _user?.toJson(), 'status': amplify_core.enumToString(_status), 'isOwner': _isOwner, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'trip': _trip, 'user': _user, 'status': _status, 'isOwner': _isOwner, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id,
+    'trip': _trip,
+    'user': _user,
+    'status': _status,
+    'isOwner': _isOwner,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
   };
 
-  static final QueryModelIdentifier<TripParticipantModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TripParticipantModelIdentifier>();
-  static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField TRIP = QueryField(
+  static final amplify_core.QueryModelIdentifier<TripParticipantModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<TripParticipantModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: "id");
+  static final TRIP = amplify_core.QueryField(
     fieldName: "trip",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Trip'));
-  static final QueryField USER = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Trip'));
+  static final USER = amplify_core.QueryField(
     fieldName: "user",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'User'));
-  static final QueryField STATUS = QueryField(fieldName: "status");
-  static final QueryField ISOWNER = QueryField(fieldName: "isOwner");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'User'));
+  static final STATUS = amplify_core.QueryField(fieldName: "status");
+  static final ISOWNER = amplify_core.QueryField(fieldName: "isOwner");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "TripParticipant";
     modelSchemaDefinition.pluralName = "TripParticipants";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: TripParticipant.TRIP,
       isRequired: true,
       targetNames: ['tripParticipantsId'],
       ofModelName: 'Trip'
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: TripParticipant.USER,
       isRequired: true,
       targetNames: ['userTripParticipationId'],
       ofModelName: 'User'
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TripParticipant.STATUS,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.enumeration)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TripParticipant.ISOWNER,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.bool)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'createdAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'updatedAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
   });
 }
 
-class _TripParticipantModelType extends ModelType<TripParticipant> {
+class _TripParticipantModelType extends amplify_core.ModelType<TripParticipant> {
   const _TripParticipantModelType();
   
   @override
@@ -252,8 +271,7 @@ class _TripParticipantModelType extends ModelType<TripParticipant> {
  * This is an auto generated class representing the model identifier
  * of [TripParticipant] in your schema.
  */
-@immutable
-class TripParticipantModelIdentifier implements ModelIdentifier<TripParticipant> {
+class TripParticipantModelIdentifier implements amplify_core.ModelIdentifier<TripParticipant> {
   final String id;
 
   /** Create an instance of TripParticipantModelIdentifier using [id] the primary key. */

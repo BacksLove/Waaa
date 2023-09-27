@@ -1,3 +1,4 @@
+import 'package:aws_common/aws_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -7,8 +8,6 @@ import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
 import 'package:waaa/features/events/presentation/manager/bloc/event_detail/event_detail_bloc.dart';
 import '../../../../core/constants/spacer.dart';
-
-import 'package:waaa/injection_container.dart' as di;
 
 class EventButtonRow extends StatelessWidget {
   const EventButtonRow({super.key});
@@ -134,17 +133,25 @@ class EventButtonRow extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: veryLightGrayColor,
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      child: Icon(
-                        Ionicons.checkmark_circle,
-                        color: primaryColor,
+                    InkWell(
+                      onTap: () {
+                        safePrint("attemp to participate");
+                        context.read<EventDetailBloc>().add(EventParticipate());
+                      },
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: veryLightGrayColor,
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: Icon(
+                          (state.participate)
+                              ? Ionicons.checkmark_circle
+                              : Ionicons.checkmark_circle_outline,
+                          color: primaryColor,
+                        ),
                       ),
                     ),
                     vSpace5,

@@ -19,7 +19,31 @@ const String tripPhotoDir = "trips/";
 String get userPhotoUrl {
   switch (env) {
     case Environment.DEV:
-      return "https://waaaapis3bucket211927-dev.s3.eu-west-3.amazonaws.com/public/profile/";
+      return "https://waaaapis3bucket122058-dev.s3.eu-west-3.amazonaws.com/public/profile/";
+    case Environment.STAGING:
+      return "";
+    case Environment.PROD:
+      return "";
+  }
+  return "";
+}
+
+String get eventPhotoUrl {
+  switch (env) {
+    case Environment.DEV:
+      return "https://waaaapis3bucket122058-dev.s3.eu-west-3.amazonaws.com/public/events/";
+    case Environment.STAGING:
+      return "";
+    case Environment.PROD:
+      return "";
+  }
+  return "";
+}
+
+String get tripPhotoUrl {
+  switch (env) {
+    case Environment.DEV:
+      return "https://waaaapis3bucket122058-dev.s3.eu-west-3.amazonaws.com/public/trips/";
     case Environment.STAGING:
       return "";
     case Environment.PROD:

@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
+import 'package:ionicons/ionicons.dart';
 
 import 'package:waaa/component/circle_avatar.dart';
 import 'package:waaa/core/constants/spacer.dart';
@@ -12,125 +14,160 @@ import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/common_widget/button.dart';
 import 'package:waaa/core/theme/text_styles.dart';
 import 'package:waaa/core/util/localized.dart';
-import 'package:waaa/core/util/mocks/chats.dart';
 
 import 'package:waaa/core/route/routes.dart' as route;
+import 'package:waaa/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:waaa/features/users/domain/entities/profile_page_arguments.dart';
+import 'package:waaa/models/ModelProvider.dart';
 
 class ChatPage extends StatelessWidget {
-  const ChatPage({super.key});
+  const ChatPage({super.key, required this.receiver});
+
+  final User receiver;
 
   @override
   Widget build(BuildContext context) {
     TextEditingController messageController = TextEditingController();
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: transparentColor,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            FeatherIcons.chevronLeft,
-            color: blackColor,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          "Jayd Ink",
-          style: appBarTextStyle,
-        ),
-        actions: [
-          PopupMenuButton<ChatMenuItem>(
-            onSelected: (value) {
-              if (value == ChatMenuItem.seeProfile) {
-                Navigator.pushNamed(context, route.profilePage);
-              } else if (value == ChatMenuItem.reportUser) {
-                // add report user
-              } else if (value == ChatMenuItem.blockUser) {
-                // add block user
-              } else if (value == ChatMenuItem.needHelp) {
-                // Go to help page
-              }
-            },
-            icon: Icon(
-              FeatherIcons.moreVertical,
-              color: blackColor,
-            ),
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: ChatMenuItem.seeProfile,
-                child: Text(localized(context).see_profile),
-              ),
-              PopupMenuItem(
-                value: ChatMenuItem.reportUser,
-                child: Text(localized(context).report_the_user),
-              ),
-              PopupMenuItem(
-                value: ChatMenuItem.blockUser,
-                child: Text(localized(context).block_the_user),
-              ),
-              PopupMenuItem(
-                value: ChatMenuItem.needHelp,
-                child: Text(localized(context).need_help),
-              ),
-            ],
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                //const ChatHeader(),
-                Expanded(
-                  child: MessageList(messages: mockMessage),
-                )
-              ],
-            ),
-          ),
-          Container(
-            padding:
-                const EdgeInsets.symmetric(vertical: 25.0, horizontal: 15.0),
-            decoration: BoxDecoration(
-              color: secondaryColor,
-              boxShadow: [
-                BoxShadow(
-                  color: lightGrayColor,
-                  spreadRadius: 1,
-                  blurRadius: 20,
-                  offset: const Offset(0, -4),
-                ),
-              ],
-            ),
-            child: TextFormField(
-              controller: messageController,
-              keyboardType: TextInputType.multiline,
-              minLines: 1,
-              maxLines: 5,
-              onFieldSubmitted: (value) {
-                // TODO: Send a message
-              },
-              decoration: InputDecoration(
-                hintText: localized(context).message,
-                border: InputBorder.none,
-                prefixIcon: IconButton(
-                  icon: Icon(
-                    FeatherIcons.plus,
-                    color: lightPrimaryColor,
+    return BlocProvider(
+      create: (context) => ChatBloc()..add(OnLoadChat(receiver: receiver)),
+      child: BlocBuilder<ChatBloc, ChatState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: state.receiver != null
+                ? AppBar(
+                    backgroundColor: transparentColor,
+                    elevation: 0,
+                    leading: IconButton(
+                      icon: Icon(
+                        FeatherIcons.chevronLeft,
+                        color: blackColor,
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    title: Text(
+                      state.receiver!.username,
+                      style: appBarTextStyle,
+                    ),
+                    actions: [
+                      PopupMenuButton<ChatMenuItem>(
+                        onSelected: (value) {
+                          if (value == ChatMenuItem.seeProfile) {
+                            Navigator.pushNamed(
+                              context,
+                              route.profilePage,
+                              arguments: ProfilePageArguments(
+                                user: state.receiver!,
+                                isFromSearching: true,
+                              ),
+                            );
+                          } else if (value == ChatMenuItem.reportUser) {
+                            // add report user
+                          } else if (value == ChatMenuItem.blockUser) {
+                            // add block user
+                          } else if (value == ChatMenuItem.needHelp) {
+                            // Go to help page
+                          }
+                        },
+                        icon: Icon(
+                          FeatherIcons.moreVertical,
+                          color: blackColor,
+                        ),
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            value: ChatMenuItem.seeProfile,
+                            child: Text(localized(context).see_profile),
+                          ),
+                          PopupMenuItem(
+                            value: ChatMenuItem.reportUser,
+                            child: Text(localized(context).report_the_user),
+                          ),
+                          PopupMenuItem(
+                            value: ChatMenuItem.blockUser,
+                            child: Text(localized(context).block_the_user),
+                          ),
+                          PopupMenuItem(
+                            value: ChatMenuItem.needHelp,
+                            child: Text(localized(context).need_help),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                : AppBar(
+                    backgroundColor: transparentColor,
+                    elevation: 0,
                   ),
-                  onPressed: () {},
-                ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    FeatherIcons.mic,
-                    color: blackColor,
+            body: state.receiver != null
+                ? Column(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            //const ChatHeader(),
+                            Expanded(
+                              child: MessageList(
+                                messages: state.messages,
+                                receiver: state.receiver!,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 15.0),
+                        decoration: BoxDecoration(
+                          color: secondaryColor,
+                          boxShadow: [
+                            BoxShadow(
+                              color: lightGrayColor,
+                              spreadRadius: 1,
+                              blurRadius: 20,
+                              offset: const Offset(0, -4),
+                            ),
+                          ],
+                        ),
+                        child: TextFormField(
+                          controller: messageController,
+                          keyboardType: TextInputType.multiline,
+                          minLines: 1,
+                          maxLines: 5,
+                          onFieldSubmitted: (value) {
+                            context.read<ChatBloc>().add(SendMessageEvent(
+                                content: messageController.text));
+                          },
+                          decoration: InputDecoration(
+                            hintText: localized(context).message,
+                            border: InputBorder.none,
+                            /*prefixIcon: IconButton(
+                          icon: Icon(
+                            Ionicons.add,
+                            color: lightPrimaryColor,
+                          ),
+                          onPressed: () {},
+                        ),*/
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                Ionicons.send,
+                                color: blackColor,
+                              ),
+                              onPressed: () {
+                                context.read<ChatBloc>().add(SendMessageEvent(
+                                    content: messageController.text));
+                                messageController.text = "";
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(),
                   ),
-                  onPressed: () {},
-                ),
-              ),
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -192,9 +229,11 @@ class ChatHeader extends StatelessWidget {
 }
 
 class MessageList extends StatelessWidget {
-  const MessageList({super.key, required this.messages});
+  const MessageList(
+      {super.key, required this.messages, required this.receiver});
 
-  final List<Message> messages;
+  final List<Message?> messages;
+  final User receiver;
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +243,7 @@ class MessageList extends StatelessWidget {
       order: GroupedListOrder.DESC,
       elements: messages,
       groupBy: (element) {
-        final DateTime date = element.dateTime.getDateTimeInUtc();
+        final DateTime date = element!.createdAt!.getDateTimeInUtc();
         return DateTime(
           date.year,
           date.month,
@@ -216,16 +255,18 @@ class MessageList extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              DateFormat.yMMMMd().format(element.dateTime.getDateTimeInUtc()),
+              DateFormat.yMMMMd()
+                  .format(element!.createdAt!.getDateTimeInUtc()),
             ),
           ),
         ),
       ),
       itemBuilder: (context, element) {
         return Align(
-          alignment:
-              element.isMe ? Alignment.centerRight : Alignment.centerLeft,
-          child: MessageItem(msg: element),
+          alignment: element!.author != receiver
+              ? Alignment.centerRight
+              : Alignment.centerLeft,
+          child: MessageItem(msg: element, isMe: element.author != receiver),
         );
       },
     );
@@ -233,23 +274,22 @@ class MessageList extends StatelessWidget {
 }
 
 class MessageItem extends StatelessWidget {
-  const MessageItem({super.key, required this.msg});
+  const MessageItem({super.key, required this.msg, required this.isMe});
 
   final Message msg;
+  final bool isMe;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment:
-          msg.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        if (!msg.isMe) ...{
+        if (!isMe) ...{
           Container(
             padding: const EdgeInsets.only(left: 10),
-            child: const WaaaCircleAvatar(
-              photo:
-                  "https://conversationsabouther.net/wp-content/uploads/2017/09/Jayd-Ink-Press-Photo-1.jpg",
+            child: WaaaCircleAvatar(
+              photo: msg.author?.photo ?? "",
               width: 30,
               height: 30,
             ),
@@ -261,24 +301,23 @@ class MessageItem extends StatelessWidget {
             elevation: 5,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-            color: msg.isMe ? secondaryColor : primaryColor,
+            color: isMe ? secondaryColor : primaryColor,
             child: Container(
               padding: const EdgeInsets.all(10),
               margin: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                msg.message,
-                style: msg.isMe ? boldTextStyle12 : boldWhiteTextStyle12,
+                msg.content ?? "",
+                style: isMe ? boldTextStyle12 : boldWhiteTextStyle12,
               ),
             ),
           ),
         ),
-        if (msg.isMe) ...{
+        if (isMe) ...{
           hSpace10,
           Container(
             padding: const EdgeInsets.only(right: 10),
-            child: const WaaaCircleAvatar(
-              photo:
-                  "https://sportshub.cbsistatic.com/i/2021/10/20/1d426743-26ef-4801-8eb3-8fbdb7d2afc9/demon-slayer.jpg?auto=webp&width=1197&height=629&crop=1.903:1,smart",
+            child: WaaaCircleAvatar(
+              photo: msg.recipient.photo,
               width: 30,
               height: 30,
             ),
@@ -336,12 +375,12 @@ class MessageItem extends StatelessWidget {
   }
 }
 
-class Message {
+class MyMessage {
   final String message;
   final bool isMe;
   final TemporalDateTime dateTime;
 
-  Message({
+  MyMessage({
     required this.message,
     required this.isMe,
     required this.dateTime,

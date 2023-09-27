@@ -10,8 +10,7 @@ import 'package:waaa/core/theme/theme.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
 import 'package:waaa/features/auth/presentation/manager/signup_bloc/signup_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:waaa/features/chat/presentation/pages/chat_list_page.dart';
-import 'package:waaa/features/chat/presentation/pages/chat_page.dart';
+import 'package:waaa/features/trips/presentation/pages/trip_detail_page.dart';
 import 'package:waaa/models/ModelProvider.dart';
 import 'package:waaa/splashpage.dart';
 
@@ -82,7 +81,7 @@ class _MyAppState extends State<MyApp> {
         supportedLocales: AppLocalizations.supportedLocales,
         onGenerateRoute: route.controller,
         home: _amplifyConfigured
-            ? const SplashPage()
+            ? const TripDetailPage() //SplashPage()
             : Scaffold(
                 body: Center(
                   child: Center(

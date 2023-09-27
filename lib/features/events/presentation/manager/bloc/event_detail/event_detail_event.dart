@@ -18,3 +18,5 @@ class EventGoToUpdatePressed extends EventDetailEvent {}
 class EventGoToDetailPressed extends EventDetailEvent {}
 
 class EventUpdateEvent extends EventDetailEvent {}
+
+class EventParticipate extends EventDetailEvent {}

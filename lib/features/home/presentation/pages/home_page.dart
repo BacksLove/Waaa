@@ -137,8 +137,8 @@ class UserItemList extends StatelessWidget {
             if (_withName)
               Text(
                 _currentUser.username,
-                textAlign: TextAlign.left,
-                style: regularTextStyle14,
+                textAlign: TextAlign.center,
+                style: regularTextStyle12,
               ),
           ],
         ),
@@ -178,6 +178,8 @@ class EventsWaaa extends StatelessWidget {
                   image: DecorationImage(
                       image: NetworkImage(
                           _listEvents.first?.mainPhoto ?? noPhotoImage),
+                      colorFilter: ColorFilter.mode(
+                          blackColor.withOpacity(.5), BlendMode.darken),
                       fit: BoxFit.cover),
                 ),
                 child: Padding(
@@ -223,6 +225,8 @@ class EventsWaaa extends StatelessWidget {
                           image: DecorationImage(
                               image: NetworkImage(
                                   _listEvents[1]?.mainPhoto ?? noPhotoImage),
+                              colorFilter: ColorFilter.mode(
+                                  blackColor.withOpacity(.5), BlendMode.darken),
                               fit: BoxFit.cover),
                         ),
                         child: Padding(
@@ -259,6 +263,8 @@ class EventsWaaa extends StatelessWidget {
                           image: DecorationImage(
                               image: NetworkImage(
                                   _listEvents[2]?.mainPhoto ?? noPhotoImage),
+                              colorFilter: ColorFilter.mode(
+                                  blackColor.withOpacity(.5), BlendMode.darken),
                               fit: BoxFit.cover),
                         ),
                         child: Padding(
@@ -285,7 +291,9 @@ class EventsWaaa extends StatelessWidget {
         if (_listEvents.isNotEmpty)
           ElevatedButton(
             style: primaryButton,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, route.offerMainPage);
+            },
             child: Text(
               localized(context).see_all,
               style: regularTextStyle16,

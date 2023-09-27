@@ -1,4 +1,7 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:country_flags/country_flags.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:dash_flags/dash_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -7,6 +10,7 @@ import 'package:waaa/component/error_screen.dart';
 import 'package:waaa/component/loading_screen.dart';
 import 'package:waaa/core/constants/image_constants.dart';
 import 'package:waaa/core/enums/user_enum.dart';
+import 'package:waaa/core/route/routes.dart';
 import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/core/theme/common_widget/button.dart';
 import 'package:waaa/core/theme/text_styles.dart';
@@ -16,7 +20,6 @@ import 'package:waaa/core/util/maps.dart';
 import 'package:waaa/features/events/presentation/widgets/event_carousel.dart';
 import 'package:waaa/features/events/presentation/widgets/event_user_carousel.dart';
 import 'package:waaa/features/hobbies/presentation/widgets/hobbies_gridview.dart';
-import 'package:country_flags/country_flags.dart';
 import 'package:waaa/models/Event.dart';
 import 'package:waaa/models/User.dart';
 
@@ -58,10 +61,10 @@ class _ProfilPageState extends State<ProfilPage> {
               {
                 profileBloc.add(ProfileLoadData(
                     userId: widget.currentUser.cognitoUserPoolId ?? ""));
-                return const LoadingScreen();
+                return const LoadingScreen(text: "");
               }
             case ProfileStatus.loading:
-              return const LoadingScreen();
+              return const LoadingScreen(text: "");
             case ProfileStatus.loaded:
               return Scaffold(
                 body: CustomScrollView(
@@ -77,7 +80,7 @@ class _ProfilPageState extends State<ProfilPage> {
             case ProfileStatus.failed:
               return const ErrorScreen();
             default:
-              return const LoadingScreen();
+              return const LoadingScreen(text: "");
           }
         },
       ),
@@ -191,8 +194,9 @@ class ShowUserDetails extends StatelessWidget {
                     hSpace5,
                     Text(
                       state.currentUser.nativeLanguage != null
-                          ? Country.parse(state.currentUser.nativeLanguage!)
-                              .displayNameNoCountryCode
+                          ? Language.fromCode(state.currentUser.nativeLanguage!
+                                  .toLowerCase())
+                              .name
                           : "",
                       style: regularTextStyle14,
                     )
@@ -319,52 +323,48 @@ class ShowSpokenLanguages extends StatelessWidget {
       return SizedBox(
         height: 25,
         child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: spokenLanguages.length,
-            itemBuilder: (context, index) {
-              return CircleAvatar(
-                child: CountryFlags.flag(
-                  spokenLanguages[index],
-                  height: 50,
-                  width: 50,
-                  borderRadius: 20,
-                ),
-              );
-            }),
+          scrollDirection: Axis.horizontal,
+          itemCount: spokenLanguages.length,
+          itemBuilder: (context, index) {
+            return CircleAvatar(
+              child: LanguageFlag(
+                language: Language.fromCode(
+                    spokenLanguages[index].toLowerCase().toLowerCase()),
+                height: 50,
+              ),
+            );
+          },
+        ),
       );
     } else {
+      safePrint(
+          "0000 = ${Language.fromCode(spokenLanguages[2].toLowerCase())}");
       return SizedBox(
         height: 25,
         child: Row(
           children: [
             CircleAvatar(
-              child: CountryFlags.flag(
-                spokenLanguages[0],
-                height: 30,
-                width: 30,
-                borderRadius: 20,
-              ),
-            ),
-            CircleAvatar(
-              child: CountryFlags.flag(
-                spokenLanguages[1],
-                height: 30,
-                width: 30,
-                borderRadius: 20,
-              ),
-            ),
-            CircleAvatar(
-              child: CountryFlags.flag(
-                spokenLanguages[2],
-                height: 30,
-                width: 30,
-                borderRadius: 20,
+              child: LanguageFlag(
+                language: Language.fromCode(spokenLanguages[0].toLowerCase()),
+                height: 50,
               ),
             ),
             hSpace10,
-            SizedBox(
-              height: 25,
-              width: 55,
+            CircleAvatar(
+              child: LanguageFlag(
+                language: Language.fromCode(spokenLanguages[1].toLowerCase()),
+                height: 50,
+              ),
+            ),
+            hSpace10,
+            CircleAvatar(
+              child: LanguageFlag(
+                language: Language.fromCode(spokenLanguages[2].toLowerCase()),
+                height: 50,
+              ),
+            ),
+            hSpace10,
+            Expanded(
               child: ElevatedButton(
                 style: primaryButton,
                 onPressed: () {},
@@ -431,19 +431,14 @@ class UserProfileAppBar extends StatelessWidget {
       leading: isFromSearching
           ? Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: Colors.white,
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(
-                    FeatherIcons.chevronLeft,
-                    color: Colors.black,
-                  ),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(
+                  Ionicons.arrow_back_circle_sharp,
+                  color: secondaryColor,
+                  size: 30,
                 ),
               ),
             )
@@ -452,17 +447,14 @@ class UserProfileAppBar extends StatelessWidget {
         isFromSearching
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Colors.white,
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      FeatherIcons.messageSquare,
-                      color: Colors.black,
-                    ),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, chatPage,
+                        arguments: currentUser);
+                  },
+                  icon: Icon(
+                    Ionicons.chatbox,
+                    color: secondaryColor,
                   ),
                 ),
               )

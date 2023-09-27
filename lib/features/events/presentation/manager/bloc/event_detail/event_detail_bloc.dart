@@ -1,14 +1,12 @@
-import 'dart:async';
-
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waaa/core/constants/constants.dart';
 import 'package:waaa/features/events/domain/use_cases/get_event_by_id.dart';
-import 'package:waaa/models/Event.dart';
-import 'package:waaa/models/EventTopic.dart';
-import 'package:waaa/models/User.dart';
+import 'package:waaa/features/events/domain/use_cases/participate_to_event.dart';
+import 'package:waaa/features/users/domain/use_cases/get_user_by_id.dart';
+import 'package:waaa/models/ModelProvider.dart';
 
 import '../../../../../../core/enums/event_enum.dart';
 
@@ -22,6 +20,7 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
     on<EventDetailLoadData>(_onLoadData);
     on<EventGoToUpdatePressed>(_onShowUpdate);
     on<EventGoToDetailPressed>(_onShowDetail);
+    on<EventParticipate>(_onParticipate);
   }
 
   void _onLoadData(
@@ -36,10 +35,13 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
         if (finalEvent != null) {
           bool ownerView =
               (userId != null && userId == finalEvent.owner?.cognitoUserPoolId);
+          bool participate = isAParticipant(userId, finalEvent);
+
           emit(state.copyWith(
             status: EventDetailEnum.showDetail,
             currentEvent: finalEvent,
             ownerView: ownerView,
+            participate: participate,
           ));
         } else {
           emit(state.copyWith(status: EventDetailEnum.failed));
@@ -61,4 +63,43 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
       EventGoToDetailPressed event, Emitter<EventDetailState> emit) {
     emit(state.copyWith(status: EventDetailEnum.showDetail));
   }
+
+  void _onParticipate(
+      EventParticipate event, Emitter<EventDetailState> emit) async {
+    final String? userId =
+        di.sl<SharedPreferences>().getString(userCognitoIdKey);
+    final user =
+        await di.sl<GetUserById>().call(GetUserByIdParams(id: userId!));
+    bool isPublicEvent = state.currentEvent.isPublic ?? false;
+    if (!state.participate) {
+      if (user != null) {
+        final EventParticipant participant = EventParticipant(
+            event: state.currentEvent,
+            user: user,
+            status:
+                isPublicEvent ? DemandStatus.ACCEPTED : DemandStatus.REQUESTED);
+
+        await di
+            .sl<ParticipateToEvent>()
+            .call(ParticipateToEventParams(participant: participant));
+
+        emit(state.copyWith(participate: true));
+      }
+    } else {
+      // TODO: Remove Participation
+      emit(state.copyWith(participate: false));
+    }
+
+    // error
+  }
+}
+
+bool isAParticipant(String? userID, Event event) {
+  if (event.participants != null) {
+    for (var participant in event.participants!) {
+      if (userID == participant.user.cognitoUserPoolId) return true;
+    }
+  }
+
+  return false;
 }

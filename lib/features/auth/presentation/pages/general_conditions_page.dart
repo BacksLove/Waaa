@@ -43,7 +43,7 @@ class GeneralConditionPage extends StatelessWidget {
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: 10,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(

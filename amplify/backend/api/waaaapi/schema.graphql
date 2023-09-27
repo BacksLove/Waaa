@@ -2,6 +2,8 @@
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
 input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
 
+ 
+
 
 type User @model {
   id: ID!
@@ -17,13 +19,13 @@ type User @model {
   nativeLanguage: String
   languagesSpeak: [String]
   hobbies: [Hobby] @manyToMany(relationName: "HobbyOfUser")
-  suspended: Boolean
+  suspended: Boolean @default(value: "false")
   suspendedUntil: AWSTimestamp
   reporting: Int
   openDiscussion: Boolean
   privacy: Boolean
   photo: String
-  isConnected: Boolean
+  isConnected: Boolean @default(value: "false")
   isAdminWaaa: Boolean @default(value: "false")
   createdAt: AWSDateTime
   friendsSender: [Friendship] @hasMany(indexName: "byFriendSender", fields: ["id"])
@@ -34,15 +36,18 @@ type User @model {
   tripParticipation: [TripParticipant] @hasMany
   eventParticipation: [EventParticipant] @hasMany
   offerParticipation: [OfferParticipants] @hasMany
+  #  Get a users messages by querying a GSI on the Messages table.
+  messages(after: String, first: Int): [Message] @hasMany
+  conversations(after: String, first: Int): [Conversation] @manyToMany(relationName: "UserConversations")
 }
 
 type Trip @model {
   id: ID!
-  category: TripCategory @hasOne
   visibility: Boolean
-  type: String
+  audience: AudienceTrip
   title: String!
   about: String
+  photo: String
   state: TripState
   status: Status
   begin: AWSDate
@@ -68,7 +73,7 @@ type TripParticipant @model {
 
 type Step @model {
   id: ID!
-  transport: Transport @hasOne
+  transport: [Transport] @manyToMany(relationName: "StepTransport") 
   begin: AWSDate
   end: AWSDate
   nbDays: Int
@@ -78,6 +83,8 @@ type Step @model {
   city: String!
   address: String
   photos: [String]
+  #a deplaer dans step
+  category: TripCategory @hasOne
   activities: [Activity] @manyToMany(relationName: "StepActivities")
   stepPosition: Int
   trip: Trip @belongsTo
@@ -91,10 +98,10 @@ type Activity @model {
   steps: [Step] @manyToMany(relationName: "StepActivities")
 }
 
-
 type Transport @model{
   id: ID!
-  label: String
+  label: String!
+  steps: [Step] @manyToMany(relationName: "StepTransport")
 }
 
 type Event @model {
@@ -122,7 +129,6 @@ type Event @model {
   participants: [EventParticipant] @hasMany
   createdAt: AWSDateTime
 }
-
 
 type EventParticipant @model {
   id: ID!
@@ -154,11 +160,11 @@ hashtag: String
 nbWinners: Int!
 participants: [OfferParticipants] @hasMany
 }
- 
+
 type TripCategory @model {
 id: ID!
 name: String!
-trips: [Trip] @hasMany
+steps: [Step] @hasMany
 }
 
 type EventTopic @model {
@@ -168,11 +174,11 @@ events: [Event] @hasMany
 }
 
 type OfferParticipants @model {
- id: ID!
- offer: Offer! @belongsTo
- user: User! @belongsTo
- isWinner: Boolean
- havePaid: Boolean
+id: ID!
+offer: Offer! @belongsTo
+user: User! @belongsTo
+isWinner: Boolean
+havePaid: Boolean
 }
 
 type Accommodation @model {
@@ -185,6 +191,37 @@ type Hobby @model {
 id: ID!
 name: String!
 users: [User] @manyToMany(relationName: "HobbyOfUser")
+}
+
+type Conversation @model {
+  id: ID!
+  #  The Conversation's timestamp.
+  createdAt: String
+  #  The Conversation's messages.
+  messages(after: String, first: Int): [Message] @hasMany
+  #  The Conversation's name.
+  name: String!
+  user: [User] @manyToMany(relationName: "UserConversations")
+}
+
+type Message @model {
+  id: ID!
+  #  The author object. Note: `authorId` is only available because we list it in `extraAttributes` in `Conversation.messages`
+  author: User @belongsTo(fields: ["authorId"])
+  authorId: ID @index(name: "byMessageSend")
+  #  The message content.
+  content: String
+  #  The id of the Conversation this message belongs to. This is the table primary key.
+  #conversationId: ID
+  conversation: Conversation @belongsTo(fields: ["conversationId"])
+  conversationId: ID @index(name: "MessagebyConversation")
+  #  The message timestamp. This is also the table sort key.
+  createdAt: AWSDateTime 
+  #  Flag denoting if this message has been accepted by the server or not.
+  isSent: Boolean
+  recipient: User! @belongsTo(fields: ["recipientId"])
+  recipientId: ID @index(name: "byMassageReceive")
+  sender: String
 }
 
 enum TripState {
@@ -220,6 +257,32 @@ FRIENDS
 ALL
 }
 
+enum AudienceTrip {
+ME
+FAMILY
+FRIENDS
+ALL
+}
+
 type Mutation {
   selectWinners(offerId: ID!): [User] @function(name: "selectWinnersLambda-${env}")
+   #  Create a Conversation. Use some of the cooked in template functions for UUID and DateTime.
+}
+
+type Query {
+  #  Scan through all values of type 'Message'. Use the 'after' and 'before' arguments with the 'nextToken' returned by the 'Message' result to fetch pages.
+  allMessage(after: String, conversationId: ID!, first: Int): [Message]
+  allMessageFrom(after: String, conversationId: ID!, first: Int, sender: String!): [Message]
+  #  Scan through all values of type 'User'. Use the 'after' and 'before' arguments with the 'nextToken' returned by the 'User' result to fetch pages.
+  allUser(after: String, first: Int): [User]
+  #  Get my user.
+  me: User
+}
+
+type Subscription {
+  #  Subscribes to all new messages in a given Conversation.
+  subscribeToNewMessage(conversationId: ID!): Message
+    @aws_subscribe(mutations:["createMessage"])
+  subscribeToNewUsers: User
+        @aws_subscribe(mutations: ["createUser"])
 }

@@ -9,5 +9,7 @@ abstract class UserRepository {
   Future<bool> createUser(User user);
   Future<bool> updateUser(User user);
   Future<bool> deleteUser(String id);
-  Future<String?> uploadUserPhoto(XFile file, String userId);
+  Future<String?> uploadPhoto(
+      XFile file, String directory, String url, String photoName);
+  Future<List<User?>> inviteUserList(String searchString);
 }

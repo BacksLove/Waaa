@@ -9,13 +9,13 @@ import '../core/theme/common_widget/group_button_style.dart';
 class WaaaGroupButton extends StatelessWidget {
   WaaaGroupButton({
     super.key,
-    required this.groupController,
+    this.groupController,
     required this.list,
     this.title,
     this.isRadio = false,
   });
 
-  final GroupButtonController groupController;
+  final GroupButtonController? groupController;
   final List<String> list;
   String? title;
   bool isRadio;
@@ -39,6 +39,7 @@ class WaaaGroupButton extends StatelessWidget {
             isRadio: isRadio,
             options: groupButtonOptions,
             buttons: list,
+            maxSelected: 5,
             onSelected: (val, i, selected) =>
                 debugPrint('Button: $val index: $i $selected'),
           ),

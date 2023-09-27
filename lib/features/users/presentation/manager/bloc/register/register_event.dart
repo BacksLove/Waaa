@@ -30,13 +30,13 @@ class ResidenceCountrySelected extends RegisterEvent {
 }
 
 class NativeLanguageSelected extends RegisterEvent {
-  final String nativeLanguage;
+  final Language nativeLanguage;
 
   const NativeLanguageSelected({required this.nativeLanguage});
 }
 
 class SpeakLanguagesSelected extends RegisterEvent {
-  final String speakLanguage;
+  final Language speakLanguage;
 
   const SpeakLanguagesSelected({required this.speakLanguage});
 }

@@ -52,3 +52,45 @@ int getFollowersFromUser(User user) {
   }
   return userFollowers;
 }
+
+List<User> getFriendFromUser(User user) {
+  List<User> result = [];
+  if (user.friendsReceiver != null && user.friendsReceiver!.isNotEmpty) {
+    for (var friend in user.friendsReceiver!) {
+      if (friend.status == DemandStatus.ACCEPTED) {
+        result.add(friend.sender);
+      }
+    }
+  }
+  if (user.friendsSender != null && user.friendsSender!.isNotEmpty) {
+    for (var friend in user.friendsSender!) {
+      if (friend.status == DemandStatus.ACCEPTED) {
+        result.add(friend.receiver);
+      }
+    }
+  }
+  return result;
+}
+
+List<EventParticipant> usersToEventParticipant(List<User> users, Event event) {
+  List<EventParticipant> participants = [];
+
+  for (var user in users) {
+    EventParticipant participant = EventParticipant(
+        event: event, user: user, status: DemandStatus.ACCEPTED);
+    participants.add(participant);
+  }
+
+  return participants;
+}
+
+List<EventCoowner> usersToEventCoowner(List<User> users, Event event) {
+  List<EventCoowner> coowner = [];
+
+  for (var user in users) {
+    EventCoowner participant = EventCoowner(event: event, user: user);
+    coowner.add(participant);
+  }
+
+  return coowner;
+}

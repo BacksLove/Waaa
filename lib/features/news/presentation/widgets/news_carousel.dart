@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:waaa/core/constants/image_constants.dart';
+import 'package:waaa/core/theme/colors.dart';
 import 'package:waaa/models/Event.dart';
 
 import '../../../../core/theme/text_styles.dart';
@@ -34,7 +36,10 @@ class NewsCarouselWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
-                      image: NetworkImage(_listEvents[index]?.mainPhoto ?? ""),
+                      image: NetworkImage(
+                          _listEvents[index]?.mainPhoto ?? noPhotoImage),
+                      colorFilter: ColorFilter.mode(
+                          blackColor.withOpacity(.5), BlendMode.darken),
                       fit: BoxFit.cover),
                 ),
                 child: Padding(

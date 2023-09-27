@@ -122,7 +122,7 @@ class EditEvent extends StatelessWidget {
             ),
             Expanded(
               child: SearchUserList(
-                users: [],
+                users: const [],
                 onDelete: (User value) {},
               ),
             ),
@@ -139,11 +139,12 @@ class EditEvent extends StatelessWidget {
               callback: (p0) {
                 safePrint("coté screen = ${p0.username}");
               },
+              onChange: (value) {},
             ),
             vSpace100,
             Expanded(
               child: SearchUserList(
-                users: mockUsersList,
+                users: const [],
                 onDelete: (User value) {
                   safePrint("delete ${value.username}");
                 },
@@ -160,10 +161,12 @@ class EditEvent extends StatelessWidget {
               child: TextField(
                 controller: descriptionController,
                 decoration: InputDecoration(
-                    hintText: localized(context).description__1,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: lightGrayColor),
-                    )),
+                  hintText: localized(context).description__1,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: lightGrayColor),
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
                 maxLines: null,
                 expands: true,
                 keyboardType: TextInputType.multiline,

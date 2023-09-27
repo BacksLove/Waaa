@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:waaa/component/app_bar.dart';
 import 'package:waaa/component/circle_avatar.dart';
 import 'package:waaa/core/theme/colors.dart';
@@ -9,9 +9,11 @@ import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart
 import 'package:waaa/features/home/presentation/manager/navigation_cubit/bottom_navigation_cubit.dart';
 import 'package:waaa/features/home/presentation/pages/home_page.dart';
 import 'package:waaa/features/home/presentation/pages/notifications_page.dart';
+import 'package:waaa/features/trips/presentation/pages/create_trip_page.dart';
 import 'package:waaa/features/users/presentation/pages/search_page.dart';
 
 import 'package:waaa/injection_container.dart' as di;
+import 'package:waaa/core/route/routes.dart' as route;
 
 import '../../../users/presentation/pages/profile_page.dart';
 
@@ -50,7 +52,7 @@ class _MainPageState extends State<MainPage> {
                 case 1:
                   return const SearchPage();
                 case 2:
-                  return Container();
+                  return const CreateTripPage();
                 case 3:
                   return const NotificationsPage();
                 case 4:
@@ -67,32 +69,30 @@ class _MainPageState extends State<MainPage> {
               BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
             builder: (context, state) {
               return BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                selectedIconTheme: IconThemeData(color: primaryColor),
                 items: [
                   BottomNavigationBarItem(
-                    icon: Icon(
-                      FeatherIcons.home,
-                      color: blackColor,
+                    icon: const Icon(
+                      Ionicons.home,
                     ),
                     label: localized(context).home,
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(
-                      FeatherIcons.search,
-                      color: blackColor,
+                    icon: const Icon(
+                      Ionicons.search,
                     ),
                     label: localized(context).search,
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(
-                      FeatherIcons.plusCircle,
-                      color: blackColor,
+                    icon: const Icon(
+                      Ionicons.add_circle,
                     ),
                     label: localized(context).add_trip,
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(
-                      FeatherIcons.bell,
-                      color: blackColor,
+                    icon: const Icon(
+                      Ionicons.notifications,
                     ),
                     label: localized(context).notifications,
                   ),

@@ -1,5 +1,8 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:waaa/core/constants/constants.dart';
 import 'package:waaa/core/usecases/usecase.dart';
 import 'package:waaa/features/auth/domain/use_cases/confirm_sign_up.dart';
 import 'package:waaa/features/auth/domain/use_cases/login_with_email.dart';
@@ -73,6 +76,9 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
               .sl<LoginWithEmail>()
               .call(Params(email: event.email, password: event.password));
           var token = await di.sl<GetCurrentAuthUser>().call(NoParams());
+          await di
+              .sl<SharedPreferences>()
+              .setString(userCognitoIdKey, token.userId);
           emit(SignUpCompletedState());
           authBloc.add(SignedUp(id: token.userId));
         } else {

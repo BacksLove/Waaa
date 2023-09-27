@@ -12,13 +12,22 @@ import 'package:waaa/features/auth/domain/use_cases/log_out.dart';
 import 'package:waaa/features/auth/domain/use_cases/login_with_email.dart';
 import 'package:waaa/features/auth/domain/use_cases/sign_up_with_email.dart';
 import 'package:waaa/features/auth/presentation/manager/auth_bloc/auth_bloc.dart';
+import 'package:waaa/features/chat/data/datasources/chat_remote_datasource.dart';
+import 'package:waaa/features/chat/data/repositories/chat_repository_impl.dart';
+import 'package:waaa/features/chat/domain/repositories/chat_repository.dart';
+import 'package:waaa/features/chat/domain/usecases/get_message_with_user.dart';
+import 'package:waaa/features/chat/domain/usecases/send_message.dart';
+import 'package:waaa/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:waaa/features/events/data/data_sources/event_remote_datasource.dart';
 import 'package:waaa/features/events/data/repositories/event_repository_impl.dart';
 import 'package:waaa/features/events/domain/repositories/event_repository.dart';
+import 'package:waaa/features/events/domain/use_cases/add_coowner.dart';
+import 'package:waaa/features/events/domain/use_cases/create_event.dart';
 import 'package:waaa/features/events/domain/use_cases/get_all_event_topic.dart';
 import 'package:waaa/features/events/domain/use_cases/get_event_by_id.dart';
 import 'package:waaa/features/events/domain/use_cases/get_events_by_user_id.dart';
 import 'package:waaa/features/events/domain/use_cases/get_waaa_events.dart';
+import 'package:waaa/features/events/domain/use_cases/participate_to_event.dart';
 import 'package:waaa/features/events/presentation/manager/bloc/create_event/create_event_bloc.dart';
 import 'package:waaa/features/events/presentation/manager/bloc/event_detail/event_detail_bloc.dart';
 import 'package:waaa/features/hobbies/data/data_sources/hobbies_remote_data_source.dart';
@@ -27,6 +36,19 @@ import 'package:waaa/features/hobbies/domain/repositories/hobbies_repository.dar
 import 'package:waaa/features/hobbies/domain/use_cases/add_hobby_to_user.dart';
 import 'package:waaa/features/hobbies/domain/use_cases/get_hobbies.dart';
 import 'package:waaa/features/home/presentation/manager/home_bloc/home_bloc.dart';
+import 'package:waaa/features/lottery/presentation/bloc/lottery/lottery_bloc.dart';
+import 'package:waaa/features/lottery/presentation/bloc/lottery_result/lottery_result_bloc.dart';
+import 'package:waaa/features/trips/data/datasources/trips_remote_datasource.dart';
+import 'package:waaa/features/trips/data/repositories/trips_repository_impl.dart';
+import 'package:waaa/features/trips/domain/repositories/trips_repository.dart';
+import 'package:waaa/features/trips/domain/usecases/get_all_activities.dart';
+import 'package:waaa/features/trips/domain/usecases/get_all_tripcategories.dart';
+import 'package:waaa/features/trips/domain/usecases/get_trip_by_id.dart';
+import 'package:waaa/features/trips/presentation/bloc/activities_step_bloc.dart';
+import 'package:waaa/features/trips/presentation/bloc/create_trip_bloc.dart';
+import 'package:waaa/features/trips/presentation/bloc/photo_step_bloc.dart';
+import 'package:waaa/features/trips/presentation/bloc/travel_step_bloc.dart';
+import 'package:waaa/features/trips/presentation/bloc/trips_bloc.dart';
 import 'package:waaa/features/users/data/data_sources/friendship_remote_datasource.dart';
 import 'package:waaa/features/users/data/data_sources/user_remote_datasource.dart';
 import 'package:waaa/features/users/domain/repositories/friendship_repository.dart';
@@ -36,6 +58,7 @@ import 'package:waaa/features/users/domain/use_cases/delete_user.dart';
 import 'package:waaa/features/users/domain/use_cases/get_friendship_status.dart';
 import 'package:waaa/features/users/domain/use_cases/get_user_by_city.dart';
 import 'package:waaa/features/users/domain/use_cases/get_user_by_id.dart';
+import 'package:waaa/features/users/domain/use_cases/invite_userlist.dart';
 import 'package:waaa/features/users/domain/use_cases/search_user.dart';
 import 'package:waaa/features/users/domain/use_cases/update_user.dart';
 import 'package:waaa/features/users/domain/use_cases/upload_user_photo.dart';
@@ -88,9 +111,10 @@ Future<void> init() async {
   sl.registerFactory<SearchBloc>(() => SearchBloc());
 
   // Use cases
-  sl.registerLazySingleton<UploadUserPhoto>(() => UploadUserPhoto(sl()));
+  sl.registerLazySingleton<UploadPhoto>(() => UploadPhoto(sl()));
   sl.registerLazySingleton<GetUserByCity>(() => GetUserByCity(sl()));
   sl.registerLazySingleton<SearchUser>(() => SearchUser(sl()));
+  sl.registerLazySingleton<InviteUserList>(() => InviteUserList(sl()));
 
   // Repository
   sl.registerLazySingleton<UserRepository>(
@@ -99,6 +123,22 @@ Future<void> init() async {
   // Data Source
   sl.registerLazySingleton<UserRemoteDatasource>(
       () => UserRemoteDatasourceImpl());
+
+  //! Feature - Chat
+  // Bloc
+  sl.registerFactory<ChatBloc>(() => ChatBloc());
+
+  // Use cases
+  sl.registerLazySingleton<SendMessage>(() => SendMessage(sl()));
+  sl.registerLazySingleton<GetMessageWithUser>(() => GetMessageWithUser(sl()));
+
+  // Repository
+  sl.registerLazySingleton<ChatRepository>(
+      () => ChatRepositoryImpl(sl(), sl()));
+
+  // Data sources
+  sl.registerLazySingleton<ChatRemoteDatasource>(
+      () => ChatRemoteDatasourceImpl());
 
   //! Feature - Home
   // Bloc
@@ -111,10 +151,13 @@ Future<void> init() async {
   sl.registerFactory<EventDetailBloc>(() => EventDetailBloc());
 
   // Use cases
+  sl.registerLazySingleton<CreateEvent>(() => CreateEvent(sl()));
   sl.registerLazySingleton<GetEventsByUserId>(() => GetEventsByUserId(sl()));
   sl.registerLazySingleton<GetEventsById>(() => GetEventsById(sl()));
   sl.registerLazySingleton<GetWaaaEvents>(() => GetWaaaEvents(sl()));
   sl.registerLazySingleton<GetAllEventTopic>(() => GetAllEventTopic(sl()));
+  sl.registerLazySingleton<ParticipateToEvent>(() => ParticipateToEvent(sl()));
+  sl.registerLazySingleton<AddCoowner>(() => AddCoowner(sl()));
 
   // Repository
   sl.registerLazySingleton<EventRepository>(
@@ -123,6 +166,28 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<EventRemoteDatasource>(
       () => EventRemoteDatasourceImpl());
+
+  //! Feature - Trips
+  // Bloc
+  sl.registerLazySingleton<CreateTripBloc>(() => CreateTripBloc());
+  sl.registerFactory<TripsBloc>(() => TripsBloc());
+  sl.registerFactory<TravelStepBloc>(() => TravelStepBloc(sl()));
+  sl.registerFactory<PhotoStepBloc>(() => PhotoStepBloc(sl()));
+  sl.registerFactory<ActivitiesBloc>(() => ActivitiesBloc(sl()));
+
+  // Use cases
+  sl.registerLazySingleton<GetAllTripCategories>(
+      () => GetAllTripCategories(sl()));
+  sl.registerLazySingleton<GetAllActivities>(() => GetAllActivities(sl()));
+  sl.registerLazySingleton<GetTripById>(() => GetTripById(sl()));
+
+  // Repository
+  sl.registerLazySingleton<TripsRepository>(
+      () => TripsRepositoryImpl(sl(), sl()));
+
+  // Data sources
+  sl.registerLazySingleton<TripsRemoteDatasource>(
+      () => TripsRemoteDataSourceImpl());
 
   //! Feature - Hobbies
   // Use cases
@@ -149,6 +214,11 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<FriendshipRemoteDatasource>(
       () => FriendshipRemoteDatasourceImpl());
+
+  //! Feature - Lottery
+  // Bloc
+  sl.registerFactory<LotteryBloc>(() => LotteryBloc());
+  sl.registerFactory<LotteryResultBloc>(() => LotteryResultBloc());
 
   //! Core
   sl.registerLazySingleton<InputConverter>(() => InputConverter());

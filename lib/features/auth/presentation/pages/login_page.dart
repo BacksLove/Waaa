@@ -133,7 +133,6 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       loginBloc.add(LoginButtonPressed(
                           _emailField.text, _passwordField.text));
-                      _passwordField.clear();
                     },
                     child: Text(localized(context).signin),
                   ),

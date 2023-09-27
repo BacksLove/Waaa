@@ -19,18 +19,19 @@
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'package:amplify_core/amplify_core.dart';
-import 'package:flutter/foundation.dart';
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+import 'package:collection/collection.dart';
 
 
 /** This is an auto generated class representing the Transport type in your schema. */
-@immutable
-class Transport extends Model {
+class Transport extends amplify_core.Model {
   static const classType = const _TransportModelType();
   final String id;
   final String? _label;
-  final TemporalDateTime? _createdAt;
-  final TemporalDateTime? _updatedAt;
+  final List<StepTransport>? _steps;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -45,24 +46,38 @@ class Transport extends Model {
       );
   }
   
-  String? get label {
-    return _label;
+  String get label {
+    try {
+      return _label!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
   }
   
-  TemporalDateTime? get createdAt {
+  List<StepTransport>? get steps {
+    return _steps;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
   
-  TemporalDateTime? get updatedAt {
+  amplify_core.TemporalDateTime? get updatedAt {
     return _updatedAt;
   }
   
-  const Transport._internal({required this.id, label, createdAt, updatedAt}): _label = label, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Transport._internal({required this.id, required label, steps, createdAt, updatedAt}): _label = label, _steps = steps, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Transport({String? id, String? label}) {
+  factory Transport({String? id, required String label, List<StepTransport>? steps}) {
     return Transport._internal(
-      id: id == null ? UUID.getUUID() : id,
-      label: label);
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      label: label,
+      steps: steps != null ? List<StepTransport>.unmodifiable(steps) : steps);
   }
   
   bool equals(Object other) {
@@ -74,7 +89,8 @@ class Transport extends Model {
     if (identical(other, this)) return true;
     return other is Transport &&
       id == other.id &&
-      _label == other._label;
+      _label == other._label &&
+      DeepCollectionEquality().equals(_steps, other._steps);
   }
   
   @override
@@ -94,58 +110,90 @@ class Transport extends Model {
     return buffer.toString();
   }
   
-  Transport copyWith({String? label}) {
+  Transport copyWith({String? label, List<StepTransport>? steps}) {
     return Transport._internal(
       id: id,
-      label: label ?? this.label);
+      label: label ?? this.label,
+      steps: steps ?? this.steps);
+  }
+  
+  Transport copyWithModelFieldValues({
+    ModelFieldValue<String>? label,
+    ModelFieldValue<List<StepTransport>?>? steps
+  }) {
+    return Transport._internal(
+      id: id,
+      label: label == null ? this.label : label.value,
+      steps: steps == null ? this.steps : steps.value
+    );
   }
   
   Transport.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _label = json['label'],
-      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+      _steps = json['steps'] is List
+        ? (json['steps'] as List)
+          .where((e) => e?['serializedData'] != null)
+          .map((e) => StepTransport.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .toList()
+        : null,
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'label': _label, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'label': _label, 'steps': _steps?.map((StepTransport? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'label': _label, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id,
+    'label': _label,
+    'steps': _steps,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
   };
 
-  static final QueryModelIdentifier<TransportModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TransportModelIdentifier>();
-  static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField LABEL = QueryField(fieldName: "label");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+  static final amplify_core.QueryModelIdentifier<TransportModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<TransportModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: "id");
+  static final LABEL = amplify_core.QueryField(fieldName: "label");
+  static final STEPS = amplify_core.QueryField(
+    fieldName: "steps",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'StepTransport'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Transport";
     modelSchemaDefinition.pluralName = "Transports";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Transport.LABEL,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
+      key: Transport.STEPS,
+      isRequired: false,
+      ofModelName: 'StepTransport',
+      associatedKey: StepTransport.TRANSPORT
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'createdAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
       fieldName: 'updatedAt',
       isRequired: false,
       isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
     ));
   });
 }
 
-class _TransportModelType extends ModelType<Transport> {
+class _TransportModelType extends amplify_core.ModelType<Transport> {
   const _TransportModelType();
   
   @override
@@ -163,8 +211,7 @@ class _TransportModelType extends ModelType<Transport> {
  * This is an auto generated class representing the model identifier
  * of [Transport] in your schema.
  */
-@immutable
-class TransportModelIdentifier implements ModelIdentifier<Transport> {
+class TransportModelIdentifier implements amplify_core.ModelIdentifier<Transport> {
   final String id;
 
   /** Create an instance of TransportModelIdentifier using [id] the primary key. */

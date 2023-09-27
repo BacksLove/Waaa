@@ -1,14 +1,14 @@
 {
   "dev": {
     "awscloudformation": {
+      "AuthRoleName": "amplify-waaaapi-dev-122058-authRole",
+      "UnauthRoleArn": "arn:aws:iam::781320460873:role/amplify-waaaapi-dev-122058-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::781320460873:role/amplify-waaaapi-dev-122058-authRole",
       "Region": "eu-west-3",
-      "DeploymentBucketName": "amplify-waaaapi-dev-211927-deployment",
-      "UnauthRoleName": "amplify-waaaapi-dev-211927-unauthRole",
-      "StackName": "amplify-waaaapi-dev-211927",
-      "StackId": "arn:aws:cloudformation:eu-west-3:781320460873:stack/amplify-waaaapi-dev-211927/8b327320-afc9-11ed-ae38-0ecd75c8bdf2",
-      "AuthRoleName": "amplify-waaaapi-dev-211927-authRole",
-      "UnauthRoleArn": "arn:aws:iam::781320460873:role/amplify-waaaapi-dev-211927-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::781320460873:role/amplify-waaaapi-dev-211927-authRole",
+      "DeploymentBucketName": "amplify-waaaapi-dev-122058-deployment",
+      "UnauthRoleName": "amplify-waaaapi-dev-122058-unauthRole",
+      "StackName": "amplify-waaaapi-dev-122058",
+      "StackId": "arn:aws:cloudformation:eu-west-3:781320460873:stack/amplify-waaaapi-dev-122058/ecf5fbe0-38f9-11ee-8cf0-06f8d6d13ad0",
       "AmplifyAppId": "d231hsexi8mbba"
     },
     "categories": {
@@ -17,15 +17,15 @@
       },
       "function": {
         "waaaapilayerNodejs12x": {
-          "deploymentBucketName": "amplify-waaaapi-dev-211927-deployment",
-          "s3Key": "amplify-builds/waaaapilayerNodejs12x-LambdaLayerVersiona728645d-build.zip"
+          "deploymentBucketName": "amplify-waaaapi-dev-122058-deployment",
+          "s3Key": "amplify-builds/waaaapilayerNodejs12x-LambdaLayerVersion8467e322-build.zip"
         },
         "selectWinnersLambda": {
-          "deploymentBucketName": "amplify-waaaapi-dev-211927-deployment",
+          "deploymentBucketName": "amplify-waaaapi-dev-122058-deployment",
           "s3Key": "amplify-builds/selectWinnersLambda-776f596349486b495243-build.zip"
         },
         "checkUsername": {
-          "deploymentBucketName": "amplify-waaaapi-dev-211927-deployment",
+          "deploymentBucketName": "amplify-waaaapi-dev-122058-deployment",
           "s3Key": "amplify-builds/checkUsername-31652f685a416e784643-build.zip"
         }
       },

@@ -4,12 +4,13 @@ import 'package:waaa/core/queries/event_queries.dart';
 import 'package:waaa/models/ModelProvider.dart';
 
 abstract class EventRemoteDatasource {
-  Future<bool> createEvent(Event event);
+  Future<Event?> createEvent(Event event);
   Future<bool> updateEvent(Event event);
   Future<bool> deleteEvent(String id);
   Future<List<Event?>> getWaaEvents();
   Future<List<Event?>> getEventsByUserId(String id);
-  Future<bool> participateToEvent(User user, Event event, DemandStatus status);
+  Future<bool> participateToEvent(EventParticipant participant);
+  Future<bool> addCoownerToEvent(EventCoowner coowner);
   Future<Event?> getEventById(String id);
   Future<List<EventTopic?>> getAllEventTopic();
 }
@@ -60,8 +61,20 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
   }
 
   @override
-  Future<bool> createEvent(Event event) {
-    throw UnimplementedError();
+  Future<Event?> createEvent(Event event) async {
+    try {
+      final request = ModelMutations.create(event);
+      final response = await Amplify.API.mutate(request: request).response;
+
+      if (response.data == null) {
+        safePrint("errors: ${response.errors}");
+        return null;
+      }
+      return response.data;
+    } catch (e) {
+      safePrint(e);
+      return null;
+    }
   }
 
   @override
@@ -75,18 +88,59 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
   }
 
   @override
-  Future<bool> participateToEvent(
-      User user, Event event, DemandStatus status) async {
+  Future<bool> participateToEvent(EventParticipant participant) async {
     try {
-      final request = ModelMutations.create(
-          EventParticipant(event: event, user: user, status: status));
+      final request = ModelMutations.create(participant);
       final response = await Amplify.API.mutate(request: request).response;
 
-      if (response.data == null) {
+      if (response.data != null) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      safePrint(e);
+      return false;
+    }
+    /*try {
+      const graphQLDocument = addParticipantQuery;
+      final request = GraphQLRequest<EventParticipant>(
+        document: graphQLDocument,
+        modelType: EventParticipant.classType,
+        variables: <String, dynamic>{
+          'eventParticipantsId': eventId,
+          'userEventParticipationId': userId,
+          'status': status
+        },
+        decodePath: "createEventParticipant",
+      );
+      final response = await Amplify.API.query(request: request).response;
+      final event = response.data;
+
+      safePrint("errors: ${response.errors}");
+
+      if (event == null) {
         safePrint("errors: ${response.errors}");
         return false;
       }
       return true;
+    } catch (e) {
+      safePrint(e);
+      return false;
+    }*/
+  }
+
+  @override
+  Future<bool> addCoownerToEvent(EventCoowner coowner) async {
+    try {
+      final request = ModelMutations.create(coowner);
+      final response = await Amplify.API.mutate(request: request).response;
+
+      if (response.data != null) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       safePrint(e);
       return false;

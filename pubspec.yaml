@@ -29,6 +29,7 @@ dependencies:
   ionicons: ^0.2.2
   cupertino_icons: ^1.0.2
   country_flags: ^1.1.0
+  dash_flags: ^0.1.1
 
   # Forms
   pin_code_fields: ^7.4.0
@@ -56,6 +57,7 @@ dependencies:
   shared_preferences: ^2.0.18
 
   infinite_carousel: ^1.0.3
+  carousel_slider: ^4.2.1
 
   # AWS API
   amplify_flutter: ^0.6.4
@@ -73,6 +75,10 @@ dependencies:
 
   #Style 
   another_flushbar: ^1.12.29
+  country_state_city_picker: ^1.2.8
+  wheel_slider: ^1.1.1
+  datetime_picker_formfield_new: ^2.1.0
+  currency_picker: ^2.0.17
 
 
 dev_dependencies:
